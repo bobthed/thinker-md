@@ -13,3 +13,5 @@
 The MIT License.
 
 Copyright (c) 2015 Oschina.net
+###我们正在用
+Team@OSC , Git@OSC
