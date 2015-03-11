@@ -64,7 +64,7 @@ module.exports = function (grunt) {
                 },
                 banner: '/*! <%= pkg.name %> <%= grunt.template.today("dd-mm-yyyy") %> */',
                 compress: {
-                    drop_console: false,
+                    drop_console: true,
                     "hoist_funs": false,
                     loops: false,
                     unused: false
