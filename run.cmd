@@ -1,2 +1,1 @@
-grunt
-grunt css
+grunt watch
