@@ -596,7 +596,8 @@
                 });
                 localUploadField = $('<input>', {
                     type: 'file',
-                    class: 'md-input-insert-image'
+                    class: 'md-input-insert-image',
+                    formenctype:'multipart/form-data'
                 });
 
                 localUpload.on('click', function (evt) {
@@ -725,9 +726,7 @@
 
                 xhr.open('POST', '', true);
                 xhr.setRequestHeader("Cache-Control", "no-cache");
-                xhr.setRequestHeader("X-File-Name", file.name);
-                xhr.setRequestHeader("X-File-Size", file.size);
-                xhr.setRequestHeader("Content-Type", "multipart/form-data");
+                xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
                 xhr.send(formData);
             }
         }
