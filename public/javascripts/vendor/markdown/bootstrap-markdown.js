@@ -28,7 +28,7 @@
         // @TODO : remove this BC on next major release
         // @see : https://github.com/toopay/bootstrap-markdown/issues/109
         var opts = ['autofocus', 'savable', 'hideable', 'width',
-            'height', 'resize', 'iconlibrary', 'language',
+            'height', 'resize', 'iconlibrary', 'language', 'imgurl', 'base64url',
             'footer', 'fullscreen', 'hiddenButtons', 'disabledButtons'];
         $.each(opts, function (_, opt) {
             if (typeof $(element).data(opt) !== 'undefined') {
@@ -597,7 +597,10 @@
                 localUploadField = $('<input>', {
                     type: 'file',
                     class: 'md-input-insert-image',
-                    formenctype:'multipart/form-data'
+                    formenctype: 'multipart/form-data'
+                });
+                localUploadField.change(function () {
+                    _this.fileUpload();
                 });
 
                 localUpload.on('click', function (evt) {
@@ -606,7 +609,7 @@
                         return;
                     }
                     localUploadField.trigger('click');
-                    _this.fileUpload(localUploadField);
+                    return false;
                 });
 
                 urlInput = $('<input>', {
@@ -661,6 +664,7 @@
         fileUpload: function () {
             //ajax上传文件
             var _this = this,
+                imgUrl = this.$options.imgurl,
                 xhr = null,
                 progress = null,
                 percent = null,
@@ -673,6 +677,9 @@
                 _fileName = '',
                 _suffixReg = /^.*\.(?:jpg|png|gif)$/,
                 formData = new FormData();
+            if (null === imgUrl || '' === imgUrl) {
+                return;
+            }
             if (inputFile.files && inputFile.files.length > 0) {
                 formData.append('img', inputFile.files[0]);
                 file = inputFile.files[0];
@@ -724,7 +731,7 @@
                     }
                 };
 
-                xhr.open('POST', '', true);
+                xhr.open('POST', imgUrl, true);
                 xhr.setRequestHeader("Cache-Control", "no-cache");
                 xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
                 xhr.send(formData);
@@ -1318,7 +1325,8 @@
         iconlibrary: 'glyph',
         language: 'en',
         initialstate: 'editor',
-
+        imgurl: '',
+        base64url: '',
         /* Buttons Properties */
         buttons: [
             [{
@@ -1390,7 +1398,7 @@
                     icon: {glyph: 'glyphicon glyphicon-header', fa: 'fa fa-header', 'fa-3': 'icon-font'},
                     callback: function (e) {
                         // Append/remove ### surround the selection
-                        var chunk, cursor, selected = e.getSelection(), content = e.getContent(), pointer=4, prevChar;
+                        var chunk, cursor, selected = e.getSelection(), content = e.getContent(), pointer = 4, prevChar;
 
                         if (selected.length === 0) {
                             // Give extra word
@@ -1401,7 +1409,7 @@
 
                         // transform selection and set the cursor into chunked text
                         if (content.substr(selected.start - pointer, pointer) === '### '
-                            ||  content.substr(selected.start - (--pointer), pointer) === '###') {
+                            || content.substr(selected.start - (--pointer), pointer) === '###') {
                             e.setSelection(selected.start - pointer, selected.end);
                             e.replaceSelection(chunk);
                             cursor = selected.start - pointer;
@@ -1750,10 +1758,10 @@
         .on('click focusin', function (e) {
             blurNonFocused(e);
         });
-        /*.ready(function () {
-            $('textarea[data-provide="markdown"]').each(function () {
-                initMarkdown($(this));
-            })
-        });*/
+    /*.ready(function () {
+     $('textarea[data-provide="markdown"]').each(function () {
+     initMarkdown($(this));
+     })
+     });*/
 
 }(window.jQuery);
