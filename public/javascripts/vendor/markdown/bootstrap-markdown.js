@@ -1391,7 +1391,7 @@
                     icon: {glyph: 'glyphicon glyphicon-header', fa: 'fa fa-header', 'fa-3': 'icon-font'},
                     callback: function (e) {
                         // Append/remove ### surround the selection
-                        var chunk, cursor, selected = e.getSelection(), content = e.getContent(), pointer, prevChar;
+                        var chunk, cursor, selected = e.getSelection(), content = e.getContent(), pointer=4, prevChar;
 
                         if (selected.length === 0) {
                             // Give extra word
@@ -1401,8 +1401,8 @@
                         }
 
                         // transform selection and set the cursor into chunked text
-                        if ((pointer = 4, content.substr(selected.start - pointer, pointer) === '### ')
-                            || (pointer = 3, content.substr(selected.start - pointer, pointer) === '###')) {
+                        if (content.substr(selected.start - pointer, pointer) === '### '
+                            ||  content.substr(selected.start - (--pointer), pointer) === '###') {
                             e.setSelection(selected.start - pointer, selected.end);
                             e.replaceSelection(chunk);
                             cursor = selected.start - pointer;
