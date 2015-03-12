@@ -52,7 +52,7 @@ module.exports = function (grunt) {
                 // the banner is inserted at the top of the output
                 //不混淆变量名
                 mangle: {
-                    except: ['jquery', 'marked', 'toMarkdown','markdown', 'htmlToText', 'hljs']
+                    except: ['jquery', 'marked', 'toMarkdown', 'markdown', 'htmlToText', 'hljs']
                 },
                 preserveComments: false,
                 sourceMap: true,
@@ -128,10 +128,10 @@ module.exports = function (grunt) {
                     }
                 ]
             },
-            img:{
-                files:[
+            img: {
+                files: [
                     {
-                        expand:true,
+                        expand: true,
                         cwd: '<%= pkg.dir.img%>',
                         src: [
                             '*.*',
