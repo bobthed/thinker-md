@@ -643,7 +643,8 @@
 
                 okButton.bind('click', function () {
                     var link = urlInput.val();
-                    _this.setImageLink(link, e)
+                    _this.setImageLink(link, e);
+                    return false;
                 });
 
                 mdContentFooter.append(cancleButton).append(okButton);
