@@ -643,7 +643,7 @@
 
                 okButton.bind('click', function () {
                     var link = urlInput.val();
-                    _this.setImageLink(link, e);
+                    _this.setImageLink(link);
                     return false;
                 });
 
@@ -736,6 +736,32 @@
                 xhr.setRequestHeader("Cache-Control", "no-cache");
                 xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
                 xhr.send(formData);
+            }
+        }
+        , xhrImageUpload: function (base64) {
+            var _this = this,
+                base64Url = this.$options.base64url;
+            if (null === base64Url || '' === base64Url)
+                return;
+            if (base64.indexOf("data:image/png;base64") !== -1) {
+                var imageFormData = new FormData();
+                imageFormData.append("base64Date", base64);
+                var xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        var link = xhr.responseText;
+                        if ('' !== link) {
+                            _this.setImageLink(link);
+                        }
+                    }
+                };
+                xhr.upload.onerror = function () {
+                    alert(_this.__localize('ImagePasteField'));
+                };
+                xhr.open("POST", base64Url, true);
+                xhr.setRequestHeader("Cache-Control", "no-cache");
+                xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+                xhr.send(imageFormData);
             }
         }
         , setImageLink: function (link) {
@@ -838,7 +864,7 @@
                         img = imgs[0];
                         base64 = img.src;
                         if (base64 && '' !== base64) {
-                            _this.setImageLink(base64);
+                            _this.xhrImageUpload(base64);
                         }
                         imgs.remove();
                     }
@@ -876,7 +902,7 @@
                                     base64 = evt.target.result;
                                     if (base64 && '' !== base64) {
                                         console.log(base64);
-                                        _this.setImageLink(base64);
+                                        _this.xhrImageUpload(base64);
                                     }
                                 };
                                 reader.readAsDataURL(blob);
