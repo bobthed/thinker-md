@@ -5,5 +5,8 @@
 //还原markdown
 
 $("textarea[data-provide='markdown']").markdown({
-    language: 'zh'
+    language: 'zh',
+    fullscreen:{
+        enable:false
+    }
 });
