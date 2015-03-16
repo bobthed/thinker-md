@@ -663,7 +663,7 @@
                 okButton.bind('click', function () {
                     var link = urlInput.val();
                     if(null === link || '' === link){
-                        _this.setState();
+                        _this.setState(_this.__localize('ImageInputTip'));
                         return false;
                     }
                     _this.setImageLink(link);
