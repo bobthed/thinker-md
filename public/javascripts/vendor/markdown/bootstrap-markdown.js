@@ -722,7 +722,7 @@
                 _suffixReg = /^.*\.(?:jpg|png|gif)$/,
                 formData = new FormData();
             if (null === imgUrl || '' === imgUrl) {
-                _this.setState(e.__localize('UploadPathTip'));
+                _this.setState(_this.__localize('UploadPathTip'));
                 return;
             }
             if (inputFile.files && inputFile.files.length > 0) {
