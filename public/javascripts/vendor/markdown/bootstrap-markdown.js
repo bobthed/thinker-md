@@ -28,7 +28,7 @@
         // @TODO : remove this BC on next major release
         // @see : https://github.com/toopay/bootstrap-markdown/issues/109
         var opts = ['autofocus', 'savable', 'hideable', 'width',
-            'height', 'resize', 'iconlibrary', 'language', 'imgurl', 'base64url',
+            'height', 'resize', 'iconlibrary', 'language', 'imgurl', 'base64url', 'localStorage',
             'footer', 'fullscreen', 'hiddenButtons', 'disabledButtons'];
         $.each(opts, function (_, opt) {
             if (typeof $(element).data(opt) !== 'undefined') {
@@ -48,6 +48,9 @@
         this.$isFullscreen = false;
         this.$editor = null;
         //add by wpl show markdown preview
+        //id
+        this.$localStorage = options.localStorage;
+
         this.$uploadMode = false;
         this.$fullPreview = null;
         this.$innerPreview = null;
@@ -272,6 +275,7 @@
                 editable = this.$editable,
                 handler = this.$handler,
                 callback = this.$callback,
+                editorId = this.$editorId,
                 options = this.$options,
                 _fullPreview = this.$fullPreview,
                 innerPreview = this.$fullPreview,
@@ -321,16 +325,12 @@
                 }
 
                 editor.append(editorHeader);
-                var _localCache = '';
-                if (window.localStorage) {
-                    _localCache = localStorage.getItem('text');
-                }
+
                 // Wrap the textarea
                 if (container.is('textarea')) {
                     container.before(editor);
                     textarea = container;
                     textarea.addClass('md-input');
-                    textarea.val(_localCache);
                     editor.append(textarea);
                 } else {
                     var rawContent = (typeof toMarkdown == 'function') ? toMarkdown(container.html()) : container.html(),
@@ -455,7 +455,15 @@
                 this.__setListener();
 
                 // Set editor attributes, data short-hand API and listener
-                this.$editor.attr('id', (new Date()).getTime());
+                this.$editor.attr('id', new Date().getTime().toString());
+
+                var _localCache = '',
+                    _localStorage = this.$localStorage;
+                if (window.localStorage && _localStorage && '' !== _localStorage) {
+                    _localCache = localStorage.getItem(_localStorage);
+                    this.$textarea.val(_localCache);
+                }
+
                 this.$editor.on('click', '[data-provider="bootstrap-markdown"]', $.proxy(this.__handle, this));
 
                 if (this.$element.is(':disabled') || this.$element.is('[readonly]')) {
@@ -799,7 +807,6 @@
                 xhr.onreadystatechange = function () {
                     if (xhr.readyState === 4 && xhr.status === 200) {
                         var link = xhr.responseText;
-                        console.log(link);
                         if ('' !== link) {
                             _this.setImageLink(link);
                         }
@@ -857,10 +864,11 @@
             }
         }
         , localCache: function () {
-            var textarea = this.$textarea;
-            if (window.localStorage) {
+            var _localStorage = this.$localStorage,
+                textarea = this.$textarea;
+            if (window.localStorage && _localStorage && '' !== _localStorage) {
                 setInterval(function () {
-                    localStorage.setItem('text', textarea.val());
+                    localStorage.setItem(_localStorage, textarea.val());
                 }, 1000);
             }
         }
@@ -1253,30 +1261,30 @@
                     break;
 
                 case 9: // tab
-                    var nextTab;
-                    if (nextTab = this.getNextTab(), nextTab !== null) {
-                        // Get the nextTab if exists
-                        var that = this;
-                        setTimeout(function () {
-                            that.setSelection(nextTab.start, nextTab.end);
-                        }, 500);
+                    /*var nextTab;
+                     if (nextTab = this.getNextTab(), nextTab !== null) {
+                     // Get the nextTab if exists
+                     var that = this;
+                     setTimeout(function () {
+                     that.setSelection(nextTab.start, nextTab.end);
+                     }, 500);
 
-                        blocked = true;
-                    } else {
-                        // The next tab memory contains nothing...
-                        // check the cursor position to determine tab action
-                        var cursor = this.getSelection();
+                     blocked = true;
+                     } else {
+                     // The next tab memory contains nothing...
+                     // check the cursor position to determine tab action
+                     var cursor = this.getSelection();
 
-                        if (cursor.start == cursor.end && cursor.end == this.getContent().length) {
-                            // The cursor already reach the end of the content
-                            blocked = false;
-                        } else {
-                            // Put the cursor to the end
-                            this.setSelection(this.getContent().length, this.getContent().length);
+                     if (cursor.start == cursor.end && cursor.end == this.getContent().length) {
+                     // The cursor already reach the end of the content
+                     blocked = false;
+                     } else {
+                     // Put the cursor to the end
+                     this.setSelection(this.getContent().length, this.getContent().length);
 
-                            blocked = true;
-                        }
-                    }
+                     blocked = true;
+                     }
+                     }*/
 
                     break;
 
@@ -1402,6 +1410,7 @@
         initialstate: 'editor',
         imgurl: '',
         base64url: '',
+        localStorage: '',
         /* Buttons Properties */
         buttons: [
             [{
