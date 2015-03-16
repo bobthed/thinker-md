@@ -53,7 +53,13 @@
         this.$innerPreview = null;
         this.$uploadPanel = null;
         this.$inputFile = null;
+        this.$stateBar = null;
         this.$cutPaste = null;
+        //上传进度条
+        this.$progress = null;
+        this.$percent = null;
+        //上传文件限制512kb
+        this.$fileSize = 524288;
         //end
         this.$textarea = null;
         this.$handler = [];
@@ -540,8 +546,12 @@
                 localUpload = null,
                 localUploadField = null,
                 urlInput = null,
+                stateBar = null,
                 cancleButton = null,
-                okButton = null;
+                okButton = null,
+                progressBar = null,
+                progress = null,
+                percent = null;
             if (this.$editor !== null && uploadPanel == null) {
                 mdUpload = $('<div />', {
                     'class': 'md-upload',
@@ -604,7 +614,7 @@
 
                 localUpload.on('click', function (evt) {
                     if (typeof FormData === "undefined") {
-                        alert("你的浏览器不被支持(IE10+)!");
+                        stateBar.html("你的浏览器不被支持(IE10+)!");
                         return;
                     }
                     localUploadField.trigger('click');
@@ -617,14 +627,24 @@
                     placeholder: 'http://example.com/image.jpg'
                 });
 
+                progressBar = $('<div/>', {class: 'md-progress-bar'});
+                progress = $('<progress/>', {max: 100, value: 0});
+                percent = $('<span/>', {
+                    text: '上传进度0%'
+                });
+
+                progressBar.append(percent).append(progress);
+
                 inputGroup.append(localUpload).append(localUploadField).append(urlInput);
 
-                mdContentBody.append(inputGroup);
+                mdContentBody.append(inputGroup).append(progressBar);
 
                 mdContentFooter = $('<div/>', {
                     'class': 'md-content-footer',
                     'data-provide': 'markdown-upload-content-footer'
                 });
+
+                stateBar = $('<span/>', {class: 'md-state-bar'});
 
                 cancleButton = $('<button/>', {
                     class: 'btn btn-default',
@@ -646,7 +666,7 @@
                     return false;
                 });
 
-                mdContentFooter.append(cancleButton).append(okButton);
+                mdContentFooter.append(stateBar).append(cancleButton).append(okButton);
 
                 mdContent.append(mdContentHeader).append(mdContentBody).append(mdContentFooter);
 
@@ -656,20 +676,36 @@
 
                 this.$uploadPanel = mdUpload;
                 this.$inputFile = localUploadField;
+                this.$progress = progress;
+                this.$percent = percent;
+                this.$stateBar = stateBar;
                 return;
             }
 
             uploadPanel.show();
+        },
+        setPercent: function (progress) {
+            if (this.$percent) {
+                this.$percent.html('上传进度' + progress + '%');
+            }
+        },
+        setState: function (text) {
+            var _this = this;
+            if (_this.$stateBar) {
+                _this.$stateBar.html(text);
+                setTimeout(function () {
+                    _this.$stateBar.html('');
+                }, 3000);
+            }
         },
         fileUpload: function () {
             //ajax上传文件
             var _this = this,
                 imgUrl = this.$options.imgurl,
                 xhr = null,
-                progress = null,
-                percent = null,
+                progress = this.$progress,
                 file = null,
-                maxFileSize = 524288,
+                maxFileSize = this.$fileSize,
                 uploadImgURL = "",
                 uploadPanel = this.$uploadPanel,
                 inputFile = this.$inputFile,
@@ -678,6 +714,7 @@
                 _suffixReg = /^.*\.(?:jpg|png|gif)$/,
                 formData = new FormData();
             if (null === imgUrl || '' === imgUrl) {
+                _this.setState("未设置文件上传路径!");
                 return;
             }
             if (inputFile.files && inputFile.files.length > 0) {
@@ -687,39 +724,39 @@
                 _fileName = file.name.toLowerCase();
 
                 if (!_fileName.match(_suffixReg)) {
-                    alert("仅支持JPG、GIF和PNG图片文件!");
+                    _this.setState("仅支持JPG、GIF和PNG图片文件!");
                     return;
                 }
 
                 if (_fileSize > maxFileSize) {
-                    alert("上传文件不能大于512Kb!");
+                    _this.setState("上传文件不能大于512Kb!");
                     return;
                 }
 
                 xhr = new XMLHttpRequest();
                 xhr.upload.onprogress = function (evt) {
-                    percent.html(Math.round(evt.loaded * 100 / evt.total));
+                    _this.setPercent(Math.round(evt.loaded * 100 / evt.total));
                     progress.max = evt.total;
                     progress.value = evt.loaded;
                 };
 
                 xhr.upload.onload = function () {
                     setTimeout(function () {
-                        percent.html(0);
+                        _this.setPercent(0);
                         progress.max = 100;
                         progress.value = 0;
                     }, 1000);
                 };
 
                 xhr.upload.onerror = function () {
-                    percent.html(0);
+                    _this.setPercent(0);
                     progress.max = 100;
                     progress.value = 0;
 
                     uploadPanel.find('input.md-input-insert-image').val('');
                     uploadPanel.find('input.md-input-image-url').val('');
 
-                    alert("上传出错!");
+                    _this.setState("上传出错!");
                 };
 
                 xhr.onreadystatechange = function () {
