@@ -630,7 +630,7 @@
                 progressBar = $('<div/>', {class: 'md-progress-bar'});
                 progress = $('<progress/>', {max: 100, value: 0});
                 percent = $('<span/>', {
-                    text: e.__localize('Progress') + '0%'
+                    text: _this.__localize('Progress') + '0%'
                 });
 
                 progressBar.append(percent).append(progress);
@@ -662,7 +662,15 @@
 
                 okButton.bind('click', function () {
                     var link = urlInput.val();
+                    if(null === link || '' === link){
+                        _this.setState();
+                        return false;
+                    }
                     _this.setImageLink(link);
+                    _this.setPercent(_this.__localize('Progress') + '0%');
+                    if(_this.$isFullscreen){
+                        _this.$innerPreview.html(marked(_this.$textarea.val()));
+                    }
                     return false;
                 });
 
