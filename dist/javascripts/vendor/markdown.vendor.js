@@ -30637,7 +30637,7 @@ marked.setOptions({
         // @TODO : remove this BC on next major release
         // @see : https://github.com/toopay/bootstrap-markdown/issues/109
         var opts = ['autofocus', 'savable', 'hideable', 'width',
-            'height', 'resize', 'iconlibrary', 'language',
+            'height', 'resize', 'iconlibrary', 'language', 'imgurl', 'base64url',
             'footer', 'fullscreen', 'hiddenButtons', 'disabledButtons'];
         $.each(opts, function (_, opt) {
             if (typeof $(element).data(opt) !== 'undefined') {
@@ -30832,7 +30832,6 @@ marked.setOptions({
                 preview = $('div[data-provider="markdown-preview"]'),
             //预览按钮
                 previewButton = $('button[data-handler="bootstrap-markdown-cmdPreview"]');
-            console.log(previewButton);
             if (mode) {
                 $editor.addClass('md-fullscreen-mode');
                 $('body').addClass('md-nooverflow');
@@ -31205,7 +31204,11 @@ marked.setOptions({
                 });
                 localUploadField = $('<input>', {
                     type: 'file',
-                    class: 'md-input-insert-image'
+                    class: 'md-input-insert-image',
+                    formenctype: 'multipart/form-data'
+                });
+                localUploadField.change(function () {
+                    _this.fileUpload();
                 });
 
                 localUpload.on('click', function (evt) {
@@ -31214,7 +31217,7 @@ marked.setOptions({
                         return;
                     }
                     localUploadField.trigger('click');
-                    _this.fileUpload(localUploadField);
+                    return false;
                 });
 
                 urlInput = $('<input>', {
@@ -31248,7 +31251,8 @@ marked.setOptions({
 
                 okButton.bind('click', function () {
                     var link = urlInput.val();
-                    _this.setImageLink(link, e)
+                    _this.setImageLink(link);
+                    return false;
                 });
 
                 mdContentFooter.append(cancleButton).append(okButton);
@@ -31269,6 +31273,7 @@ marked.setOptions({
         fileUpload: function () {
             //ajax上传文件
             var _this = this,
+                imgUrl = this.$options.imgurl,
                 xhr = null,
                 progress = null,
                 percent = null,
@@ -31281,6 +31286,9 @@ marked.setOptions({
                 _fileName = '',
                 _suffixReg = /^.*\.(?:jpg|png|gif)$/,
                 formData = new FormData();
+            if (null === imgUrl || '' === imgUrl) {
+                return;
+            }
             if (inputFile.files && inputFile.files.length > 0) {
                 formData.append('img', inputFile.files[0]);
                 file = inputFile.files[0];
@@ -31332,12 +31340,36 @@ marked.setOptions({
                     }
                 };
 
-                xhr.open('POST', '', true);
+                xhr.open('POST', imgUrl, true);
                 xhr.setRequestHeader("Cache-Control", "no-cache");
-                xhr.setRequestHeader("X-File-Name", file.name);
-                xhr.setRequestHeader("X-File-Size", file.size);
-                xhr.setRequestHeader("Content-Type", "multipart/form-data");
+                xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
                 xhr.send(formData);
+            }
+        }
+        , xhrImageUpload: function (base64) {
+            var _this = this,
+                base64Url = this.$options.base64url;
+            if (null === base64Url || '' === base64Url)
+                return;
+            if (base64.indexOf("data:image/png;base64") !== -1) {
+                var imageFormData = new FormData();
+                imageFormData.append("base64Date", base64);
+                var xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        var link = xhr.responseText;
+                        if ('' !== link) {
+                            _this.setImageLink(link);
+                        }
+                    }
+                };
+                xhr.upload.onerror = function () {
+                    alert(_this.__localize('ImagePasteField'));
+                };
+                xhr.open("POST", base64Url, true);
+                xhr.setRequestHeader("Cache-Control", "no-cache");
+                xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+                xhr.send(imageFormData);
             }
         }
         , setImageLink: function (link) {
@@ -31387,7 +31419,6 @@ marked.setOptions({
             if (window.localStorage) {
                 setInterval(function () {
                     localStorage.setItem('text', textarea.val());
-                    console.log(localStorage["text"]);
                 }, 1000);
             }
         }
@@ -31440,7 +31471,7 @@ marked.setOptions({
                         img = imgs[0];
                         base64 = img.src;
                         if (base64 && '' !== base64) {
-                            _this.setImageLink(base64);
+                            _this.xhrImageUpload(base64);
                         }
                         imgs.remove();
                     }
@@ -31477,8 +31508,7 @@ marked.setOptions({
                                 reader.onload = function (evt) {
                                     base64 = evt.target.result;
                                     if (base64 && '' !== base64) {
-                                        console.log(base64);
-                                        _this.setImageLink(base64);
+                                        _this.xhrImageUpload(base64);
                                     }
                                 };
                                 reader.readAsDataURL(blob);
@@ -31928,7 +31958,8 @@ marked.setOptions({
         iconlibrary: 'glyph',
         language: 'en',
         initialstate: 'editor',
-
+        imgurl: '',
+        base64url: '',
         /* Buttons Properties */
         buttons: [
             [{
@@ -32000,7 +32031,7 @@ marked.setOptions({
                     icon: {glyph: 'glyphicon glyphicon-header', fa: 'fa fa-header', 'fa-3': 'icon-font'},
                     callback: function (e) {
                         // Append/remove ### surround the selection
-                        var chunk, cursor, selected = e.getSelection(), content = e.getContent(), pointer, prevChar;
+                        var chunk, cursor, selected = e.getSelection(), content = e.getContent(), pointer = 4, prevChar;
 
                         if (selected.length === 0) {
                             // Give extra word
@@ -32010,8 +32041,8 @@ marked.setOptions({
                         }
 
                         // transform selection and set the cursor into chunked text
-                        if ((pointer = 4, content.substr(selected.start - pointer, pointer) === '### ')
-                            || (pointer = 3, content.substr(selected.start - pointer, pointer) === '###')) {
+                        if (content.substr(selected.start - pointer, pointer) === '### '
+                            || content.substr(selected.start - (--pointer), pointer) === '###') {
                             e.setSelection(selected.start - pointer, selected.end);
                             e.replaceSelection(chunk);
                             cursor = selected.start - pointer;
@@ -32359,12 +32390,12 @@ marked.setOptions({
         })
         .on('click focusin', function (e) {
             blurNonFocused(e);
-        });
-        /*.ready(function () {
+        })
+        .ready(function () {
             $('textarea[data-provide="markdown"]').each(function () {
                 initMarkdown($(this));
             })
-        });*/
+        });
 
 }(window.jQuery);
 // Source: public/javascripts/vendor/markdown/locale/bootstrap-markdown.ar.js
