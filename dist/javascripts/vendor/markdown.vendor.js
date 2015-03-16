@@ -31239,7 +31239,7 @@ marked.setOptions({
                 progressBar = $('<div/>', {class: 'md-progress-bar'});
                 progress = $('<progress/>', {max: 100, value: 0});
                 percent = $('<span/>', {
-                    text: e.__localize('Progress') + '0%'
+                    text: _this.__localize('Progress') + '0%'
                 });
 
                 progressBar.append(percent).append(progress);
@@ -31271,7 +31271,15 @@ marked.setOptions({
 
                 okButton.bind('click', function () {
                     var link = urlInput.val();
+                    if (null === link || '' === link) {
+                        _this.setState(_this.__localize('ImageInputTip'));
+                        return false;
+                    }
                     _this.setImageLink(link);
+                    _this.setPercent(_this.__localize('Progress') + '0%');
+                    if (_this.$isFullscreen) {
+                        _this.$innerPreview.html(marked(_this.$textarea.val()));
+                    }
                     return false;
                 });
 
@@ -31295,7 +31303,7 @@ marked.setOptions({
         },
         setPercent: function (progress) {
             if (this.$percent) {
-                this.$percent.html(e.__localize('Progress') + progress + '%');
+                this.$percent.html(this.__localize('Progress') + progress + '%');
             }
         },
         setState: function (text) {
@@ -31323,22 +31331,22 @@ marked.setOptions({
                 _suffixReg = /^.*\.(?:jpg|png|gif)$/,
                 formData = new FormData();
             if (null === imgUrl || '' === imgUrl) {
-                _this.setState(e.__localize('UploadPathTip'));
+                _this.setState(_this.__localize('UploadPathTip'));
                 return;
             }
-            if (inputFile.files && inputFile.files.length > 0) {
-                formData.append('img', inputFile.files[0]);
-                file = inputFile.files[0];
-                _fileSize = file.size();
+            if (inputFile.length > 0 && inputFile[0].files && inputFile[0].files.length > 0) {
+                formData.append('img', inputFile[0].files[0]);
+                file = inputFile[0].files[0];
+                _fileSize = file.size;
                 _fileName = file.name.toLowerCase();
 
                 if (!_fileName.match(_suffixReg)) {
-                    _this.setState(e.__localize('SupportTypeTip'));
+                    _this.setState(_this.__localize('SupportTypeTip'));
                     return;
                 }
 
                 if (_fileSize > maxFileSize) {
-                    _this.setState(e.__localize('FileSizeTip'));
+                    _this.setState(_this.__localize('FileSizeTip'));
                     return;
                 }
 
