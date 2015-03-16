@@ -349,12 +349,82 @@ upload*/
     border-top: 1px solid #eee;
 }
 
+.md-upload .md-state-bar {
+    float: left;
+    color: red;
+    display: inline-block;
+    height: 34px;
+    line-height: 34px;
+}
+
 .md-upload .md-content-footer button:last-child {
     margin-left: 15px;
 }
 
-.md-cut-paste{
+.md-cut-paste {
     width: 0;
     height: 0;
     overflow: hidden;
+}
+
+.md-progress-bar {
+    margin-top: 20px;
+    border-radius: 3px;
+}
+
+.md-progress-bar span {
+    width: 100px;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.md-progress-bar progress {
+    display: inline-block;
+    vertical-align: top;
+    /*background-color: rgba(128,128,128,.9);*/
+    border: 0;
+    width: calc(100% - 100px);
+    width: -moz-calc(100% - 100px);
+    width: -webkit-calc(100% - 100px);
+    height: 18px;
+    border-radius: 9px;
+}
+
+.md-progress-bar progress::-webkit-progress-bar {
+    background-color: hsl(0, 0%, 90%);
+    border-radius: 9px;
+}
+
+.md-progress-bar progress::-webkit-progress-value {
+    background: #cdeb8e;
+    background: -moz-linear-gradient(top, #cdeb8e 0%, #a5c956 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #cdeb8e), color-stop(100%, #a5c956));
+    background: -webkit-linear-gradient(top, #cdeb8e 0%, #a5c956 100%);
+    background: -o-linear-gradient(top, #cdeb8e 0%, #a5c956 100%);
+    background: -ms-linear-gradient(top, #cdeb8e 0%, #a5c956 100%);
+    background: linear-gradient(to bottom, #cdeb8e 0%, #a5c956 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#cdeb8e', endColorstr='#a5c956', GradientType=0);
+    border-radius: 9px;
+}
+
+.md-progress-bar progress::-moz-progress-bar {
+    background: #cdeb8e;
+    background: -moz-linear-gradient(top, #cdeb8e 0%, #a5c956 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #cdeb8e), color-stop(100%, #a5c956));
+    background: -webkit-linear-gradient(top, #cdeb8e 0%, #a5c956 100%);
+    background: -o-linear-gradient(top, #cdeb8e 0%, #a5c956 100%);
+    background: -ms-linear-gradient(top, #cdeb8e 0%, #a5c956 100%);
+    background: linear-gradient(to bottom, #cdeb8e 0%, #a5c956 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#cdeb8e', endColorstr='#a5c956', GradientType=0);
+    border-radius: 9px;
+}
+
+.md-progress-bar .progress-value {
+    padding: 0 5px;
+    line-height: 20px;
+    margin-left: 5px;
+    font-size: .8em;
+    color: #555;
+    height: 18px;
+    float: right;
 }
