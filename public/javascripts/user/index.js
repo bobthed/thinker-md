@@ -4,9 +4,9 @@
 
 $("textarea[data-provide='markdown']").markdown({
     language: 'zh',
-    fullscreen:{
-        enable:true
+    fullscreen: {
+        enable: true
     },
-    imgurl:'',
-    base64url:''
+    imgurl: 'http://192.168.1.142:8080/upload',
+    base64url: 'http://192.168.1.142:8080/base64'
 });
