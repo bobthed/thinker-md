@@ -591,9 +591,9 @@
                     'data-provide': 'markdown-upload-content-body'
                 }).append($('<div/>', {
                     class: 'md-content-body-danger',
-                    text: '本地图片仅支持JPG、GIF、PNG格式,并且文件小于512Kb(1kb=1024字节).网络图片地址以http://、https://或ftp://格式开头'
+                    text: e.__localize('ImageTip')
                 })).append($('<p/>', {
-                    text: '请填入网络图片地址或点击按钮上传本地图片到服务器.'
+                    text: e.__localize('ImageInputTip')
                 }));
 
                 inputGroup = $('<div/>', {
@@ -614,7 +614,7 @@
 
                 localUpload.on('click', function (evt) {
                     if (typeof FormData === "undefined") {
-                        stateBar.html("你的浏览器不被支持(IE10+)!");
+                        stateBar.html(e.__localize('BrowerSupportTip'));
                         return;
                     }
                     localUploadField.trigger('click');
@@ -630,7 +630,7 @@
                 progressBar = $('<div/>', {class: 'md-progress-bar'});
                 progress = $('<progress/>', {max: 100, value: 0});
                 percent = $('<span/>', {
-                    text: '上传进度0%'
+                    text: e.__localize('Progress') + '0%'
                 });
 
                 progressBar.append(percent).append(progress);
@@ -648,7 +648,7 @@
 
                 cancleButton = $('<button/>', {
                     class: 'btn btn-default',
-                    text: 'Cancle'
+                    text: e.__localize('Cancle')
                 });
 
                 cancleButton.bind('click', function () {
@@ -657,7 +657,7 @@
 
                 okButton = $('<button/>', {
                     class: 'btn btn-primary',
-                    text: 'OK'
+                    text: e.__localize('Insert')
                 });
 
                 okButton.bind('click', function () {
@@ -686,7 +686,7 @@
         },
         setPercent: function (progress) {
             if (this.$percent) {
-                this.$percent.html('上传进度' + progress + '%');
+                this.$percent.html(e.__localize('Progress') + progress + '%');
             }
         },
         setState: function (text) {
@@ -714,7 +714,7 @@
                 _suffixReg = /^.*\.(?:jpg|png|gif)$/,
                 formData = new FormData();
             if (null === imgUrl || '' === imgUrl) {
-                _this.setState("未设置文件上传路径!");
+                _this.setState(e.__localize('UploadPathTip'));
                 return;
             }
             if (inputFile.files && inputFile.files.length > 0) {
@@ -724,12 +724,12 @@
                 _fileName = file.name.toLowerCase();
 
                 if (!_fileName.match(_suffixReg)) {
-                    _this.setState("仅支持JPG、GIF和PNG图片文件!");
+                    _this.setState(e.__localize('SupportTypeTip'));
                     return;
                 }
 
                 if (_fileSize > maxFileSize) {
-                    _this.setState("上传文件不能大于512Kb!");
+                    _this.setState(e.__localize('FileSizeTip'));
                     return;
                 }
 
@@ -756,7 +756,7 @@
                     uploadPanel.find('input.md-input-insert-image').val('');
                     uploadPanel.find('input.md-input-image-url').val('');
 
-                    _this.setState("上传出错!");
+                    _this.setState(e.__localize('UploadEooroTip'));
                 };
 
                 xhr.onreadystatechange = function () {
