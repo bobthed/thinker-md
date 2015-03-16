@@ -60,6 +60,8 @@
         this.$percent = null;
         //上传文件限制512kb
         this.$fileSize = 524288;
+        //registe
+        this.$registPaste = false;
         //end
         this.$textarea = null;
         this.$handler = [];
@@ -510,7 +512,10 @@
             // Trigger the onShow hook
             options.onShow(this);
 
-            this.registPaste();
+            if (!this.$registPaste) {
+                this.registPaste();
+                this.$registPaste = true;
+            }
             this.localCache();
 
             return this;
@@ -662,13 +667,13 @@
 
                 okButton.bind('click', function () {
                     var link = urlInput.val();
-                    if(null === link || '' === link){
+                    if (null === link || '' === link) {
                         _this.setState(_this.__localize('ImageInputTip'));
                         return false;
                     }
                     _this.setImageLink(link);
                     _this.setPercent(_this.__localize('Progress') + '0%');
-                    if(_this.$isFullscreen){
+                    if (_this.$isFullscreen) {
                         _this.$innerPreview.html(marked(_this.$textarea.val()));
                     }
                     return false;
@@ -694,7 +699,7 @@
         },
         setPercent: function (progress) {
             if (this.$percent) {
-                this.$percent.html(e.__localize('Progress') + progress + '%');
+                this.$percent.html(this.__localize('Progress') + progress + '%');
             }
         },
         setState: function (text) {
@@ -725,19 +730,19 @@
                 _this.setState(_this.__localize('UploadPathTip'));
                 return;
             }
-            if (inputFile.files && inputFile.files.length > 0) {
-                formData.append('img', inputFile.files[0]);
-                file = inputFile.files[0];
-                _fileSize = file.size();
+            if (inputFile.length > 0 && inputFile[0].files && inputFile[0].files.length > 0) {
+                formData.append('img', inputFile[0].files[0]);
+                file = inputFile[0].files[0];
+                _fileSize = file.size;
                 _fileName = file.name.toLowerCase();
 
                 if (!_fileName.match(_suffixReg)) {
-                    _this.setState(e.__localize('SupportTypeTip'));
+                    _this.setState(_this.__localize('SupportTypeTip'));
                     return;
                 }
 
                 if (_fileSize > maxFileSize) {
-                    _this.setState(e.__localize('FileSizeTip'));
+                    _this.setState(_this.__localize('FileSizeTip'));
                     return;
                 }
 
@@ -764,7 +769,7 @@
                     uploadPanel.find('input.md-input-insert-image').val('');
                     uploadPanel.find('input.md-input-image-url').val('');
 
-                    _this.setState(e.__localize('UploadEooroTip'));
+                    _this.setState(_this.__localize('UploadEooroTip'));
                 };
 
                 xhr.onreadystatechange = function () {
@@ -794,6 +799,7 @@
                 xhr.onreadystatechange = function () {
                     if (xhr.readyState === 4 && xhr.status === 200) {
                         var link = xhr.responseText;
+                        console.log(link);
                         if ('' !== link) {
                             _this.setImageLink(link);
                         }
@@ -861,8 +867,8 @@
         , registPaste: function () {
             var _this = this,
                 cutPaste = this.$cutPaste,
-                textarea = this.$textarea,
                 editor = this.$editor,
+                timeStamp = null,
                 browser = navigator.userAgent.toLowerCase();
             if (null === cutPaste)
                 return;
@@ -878,7 +884,7 @@
             } else if (/chrome/i.test(browser) && /webkit/i.test(browser) && /mozilla/i.test(browser)) {
                 chrome = true;
                 editor.on('paste', function (event) {
-                    _this.pasteFunc(event, chrome)
+                    _this.pasteFunc(event, chrome);
                 });
             } else if (/trident/i.test(browser)) {
                 editor.keydown(function (event) {
