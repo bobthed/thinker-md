@@ -223,7 +223,6 @@
                 preview = $('div[data-provider="markdown-preview"]'),
             //预览按钮
                 previewButton = $('button[data-handler="bootstrap-markdown-cmdPreview"]');
-            console.log(previewButton);
             if (mode) {
                 $editor.addClass('md-fullscreen-mode');
                 $('body').addClass('md-nooverflow');
@@ -811,7 +810,6 @@
             if (window.localStorage) {
                 setInterval(function () {
                     localStorage.setItem('text', textarea.val());
-                    console.log(localStorage["text"]);
                 }, 1000);
             }
         }
@@ -901,7 +899,6 @@
                                 reader.onload = function (evt) {
                                     base64 = evt.target.result;
                                     if (base64 && '' !== base64) {
-                                        console.log(base64);
                                         _this.xhrImageUpload(base64);
                                     }
                                 };
@@ -1784,11 +1781,11 @@
         })
         .on('click focusin', function (e) {
             blurNonFocused(e);
+        })
+        .ready(function () {
+            $('textarea[data-provide="markdown"]').each(function () {
+                initMarkdown($(this));
+            })
         });
-    /*.ready(function () {
-     $('textarea[data-provide="markdown"]').each(function () {
-     initMarkdown($(this));
-     })
-     });*/
 
 }(window.jQuery);
