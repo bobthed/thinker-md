@@ -30662,7 +30662,13 @@ marked.setOptions({
         this.$innerPreview = null;
         this.$uploadPanel = null;
         this.$inputFile = null;
+        this.$stateBar = null;
         this.$cutPaste = null;
+        //上传进度条
+        this.$progress = null;
+        this.$percent = null;
+        //上传文件限制512kb
+        this.$fileSize = 524288;
         //end
         this.$textarea = null;
         this.$handler = [];
@@ -31149,8 +31155,12 @@ marked.setOptions({
                 localUpload = null,
                 localUploadField = null,
                 urlInput = null,
+                stateBar = null,
                 cancleButton = null,
-                okButton = null;
+                okButton = null,
+                progressBar = null,
+                progress = null,
+                percent = null;
             if (this.$editor !== null && uploadPanel == null) {
                 mdUpload = $('<div />', {
                     'class': 'md-upload',
@@ -31190,9 +31200,9 @@ marked.setOptions({
                     'data-provide': 'markdown-upload-content-body'
                 }).append($('<div/>', {
                     class: 'md-content-body-danger',
-                    text: '本地图片仅支持JPG、GIF、PNG格式,并且文件小于512Kb(1kb=1024字节).网络图片地址以http://、https://或ftp://格式开头'
+                    text: e.__localize('ImageTip')
                 })).append($('<p/>', {
-                    text: '请填入网络图片地址或点击按钮上传本地图片到服务器.'
+                    text: e.__localize('ImageInputTip')
                 }));
 
                 inputGroup = $('<div/>', {
@@ -31213,7 +31223,7 @@ marked.setOptions({
 
                 localUpload.on('click', function (evt) {
                     if (typeof FormData === "undefined") {
-                        alert("你的浏览器不被支持(IE10+)!");
+                        stateBar.html(e.__localize('BrowerSupportTip'));
                         return;
                     }
                     localUploadField.trigger('click');
@@ -31226,18 +31236,28 @@ marked.setOptions({
                     placeholder: 'http://example.com/image.jpg'
                 });
 
+                progressBar = $('<div/>', {class: 'md-progress-bar'});
+                progress = $('<progress/>', {max: 100, value: 0});
+                percent = $('<span/>', {
+                    text: e.__localize('Progress') + '0%'
+                });
+
+                progressBar.append(percent).append(progress);
+
                 inputGroup.append(localUpload).append(localUploadField).append(urlInput);
 
-                mdContentBody.append(inputGroup);
+                mdContentBody.append(inputGroup).append(progressBar);
 
                 mdContentFooter = $('<div/>', {
                     'class': 'md-content-footer',
                     'data-provide': 'markdown-upload-content-footer'
                 });
 
+                stateBar = $('<span/>', {class: 'md-state-bar'});
+
                 cancleButton = $('<button/>', {
                     class: 'btn btn-default',
-                    text: 'Cancle'
+                    text: e.__localize('Cancle')
                 });
 
                 cancleButton.bind('click', function () {
@@ -31246,7 +31266,7 @@ marked.setOptions({
 
                 okButton = $('<button/>', {
                     class: 'btn btn-primary',
-                    text: 'OK'
+                    text: e.__localize('Insert')
                 });
 
                 okButton.bind('click', function () {
@@ -31255,7 +31275,7 @@ marked.setOptions({
                     return false;
                 });
 
-                mdContentFooter.append(cancleButton).append(okButton);
+                mdContentFooter.append(stateBar).append(cancleButton).append(okButton);
 
                 mdContent.append(mdContentHeader).append(mdContentBody).append(mdContentFooter);
 
@@ -31265,20 +31285,36 @@ marked.setOptions({
 
                 this.$uploadPanel = mdUpload;
                 this.$inputFile = localUploadField;
+                this.$progress = progress;
+                this.$percent = percent;
+                this.$stateBar = stateBar;
                 return;
             }
 
             uploadPanel.show();
+        },
+        setPercent: function (progress) {
+            if (this.$percent) {
+                this.$percent.html(e.__localize('Progress') + progress + '%');
+            }
+        },
+        setState: function (text) {
+            var _this = this;
+            if (_this.$stateBar) {
+                _this.$stateBar.html(text);
+                setTimeout(function () {
+                    _this.$stateBar.html('');
+                }, 3000);
+            }
         },
         fileUpload: function () {
             //ajax上传文件
             var _this = this,
                 imgUrl = this.$options.imgurl,
                 xhr = null,
-                progress = null,
-                percent = null,
+                progress = this.$progress,
                 file = null,
-                maxFileSize = 524288,
+                maxFileSize = this.$fileSize,
                 uploadImgURL = "",
                 uploadPanel = this.$uploadPanel,
                 inputFile = this.$inputFile,
@@ -31287,6 +31323,7 @@ marked.setOptions({
                 _suffixReg = /^.*\.(?:jpg|png|gif)$/,
                 formData = new FormData();
             if (null === imgUrl || '' === imgUrl) {
+                _this.setState(e.__localize('UploadPathTip'));
                 return;
             }
             if (inputFile.files && inputFile.files.length > 0) {
@@ -31296,39 +31333,39 @@ marked.setOptions({
                 _fileName = file.name.toLowerCase();
 
                 if (!_fileName.match(_suffixReg)) {
-                    alert("仅支持JPG、GIF和PNG图片文件!");
+                    _this.setState(e.__localize('SupportTypeTip'));
                     return;
                 }
 
                 if (_fileSize > maxFileSize) {
-                    alert("上传文件不能大于512Kb!");
+                    _this.setState(e.__localize('FileSizeTip'));
                     return;
                 }
 
                 xhr = new XMLHttpRequest();
                 xhr.upload.onprogress = function (evt) {
-                    percent.html(Math.round(evt.loaded * 100 / evt.total));
+                    _this.setPercent(Math.round(evt.loaded * 100 / evt.total));
                     progress.max = evt.total;
                     progress.value = evt.loaded;
                 };
 
                 xhr.upload.onload = function () {
                     setTimeout(function () {
-                        percent.html(0);
+                        _this.setPercent(0);
                         progress.max = 100;
                         progress.value = 0;
                     }, 1000);
                 };
 
                 xhr.upload.onerror = function () {
-                    percent.html(0);
+                    _this.setPercent(0);
                     progress.max = 100;
                     progress.value = 0;
 
                     uploadPanel.find('input.md-input-insert-image').val('');
                     uploadPanel.find('input.md-input-image-url').val('');
 
-                    alert("上传出错!");
+                    _this.setState(e.__localize('UploadEooroTip'));
                 };
 
                 xhr.onreadystatechange = function () {
@@ -32787,6 +32824,16 @@ marked.setOptions({
         'list text here': "这里是列表文本",
         'code text here': "这里输入代码",
         'quote here': "这里输入引用文本",
-        'Cancle': "取消"
+        'Cancle': "取消",
+        'Insert':'插入',
+        'ImageTip':'本地图片仅支持JPG、GIF、PNG格式,并且文件小于512Kb(1kb=1024字节).网络图片地址以http://、https://或ftp://格式开头',
+        'ImageInputTip':'请填入网络图片地址或点击按钮上传本地图片到服务器.',
+        'BrowerSupportTip':'你的浏览器不被支持(IE10+)!',
+        'Progress':'上传进度',
+        'UploadPathTip':'未设置文件上传路径!',
+        'UploadEooroTip':'上传出错',
+        'SupportTypeTip':'仅支持JPG、GIF和PNG图片文件!',
+        'FileSizeTip':'上传文件不能大于512Kb!'
+
     };
 }(jQuery));
