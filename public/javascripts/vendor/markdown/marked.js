@@ -846,7 +846,6 @@
     };
 
     Renderer.prototype.br = function () {
-        console.log('--br--');
         return this.options.xhtml ? '<br/>' : '<br>';
     };
 
@@ -957,7 +956,6 @@
      */
 
     Parser.prototype.tok = function () {
-        console.log(this.token.type);
         switch (this.token.type) {
             case 'space':
             {
