@@ -31,6 +31,7 @@ module.exports = function (grunt) {
                     '<%= pkg.dir.js.vendor %>markdown/marked.js',
                     '<%= pkg.dir.js.vendor %>markdown/to-markdown.js',
                     '<%= pkg.dir.js.vendor %>markdown/jsHtmlToText.js',
+                    '<%= pkg.dir.js.vendor %>markdown/undo.js',
                     '<%= pkg.dir.js.vendor %>markdown/tab.js',
                     '<%= pkg.dir.js.vendor %>markdown/config.js',
                     '<%= pkg.dir.js.vendor %>markdown/bootstrap-markdown.js',
@@ -52,7 +53,7 @@ module.exports = function (grunt) {
                 // the banner is inserted at the top of the output
                 //不混淆变量名
                 mangle: {
-                    except: ['jquery', 'marked', 'toMarkdown', 'markdown', 'htmlToText', 'hljs']
+                    except: ['jquery', 'marked', 'toMarkdown', 'markdown', 'htmlToText', 'hljs', 'Undo']
                 },
                 preserveComments: false,
                 sourceMap: true,
