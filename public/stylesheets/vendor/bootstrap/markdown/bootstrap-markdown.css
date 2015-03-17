@@ -63,6 +63,42 @@
     word-wrap: break-word;
 }
 
+.md-editor > .md-full-preview .md-full-preview-body .md-full-preview-inner h1 {
+    display: block;
+    font-size: 2.6em;
+    font-weight: bold;
+}
+
+.md-editor > .md-full-preview .md-full-preview-body .md-full-preview-inner h2 {
+    display: block;
+    font-size: 2.15em;
+    font-weight: bold;
+}
+
+.md-editor > .md-full-preview .md-full-preview-body .md-full-preview-inner h3 {
+    display: block;
+    font-size: 1.7em;
+    font-weight: bold;
+}
+
+.md-editor > .md-full-preview .md-full-preview-body .md-full-preview-inner h4 {
+    display: block;
+    font-size: 1.25em;
+    font-weight: bold;
+}
+
+.md-editor > .md-full-preview .md-full-preview-body .md-full-preview-inner h5 {
+    display: block;
+    font-size: 1em;
+    font-weight: bold;
+}
+
+.md-editor > .md-full-preview .md-full-preview-body .md-full-preview-inner h6 {
+    display: block;
+    font-size: .85em;
+    font-weight: bold;
+}
+
 .md-editor > .md-full-preview .md-full-preview-body .md-full-preview-inner * {
     font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
     font-size: 20px;
@@ -91,7 +127,7 @@
 
 .md-editor > textarea {
     font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
-    font-size: 16px;
+    font-size: 18px;
     line-height: 22px;
     outline: 0;
     margin: 0;
@@ -131,11 +167,11 @@
     border-radius: 6px;
 }
 
-.md-editor .md-controls:hover{
-    background-color: #3f3f3f;
-}
-
 .md-editor .md-controls .md-control {
+    display: block;
+    width: 35px;
+    height: 30px;
+    line-height: 30px;
     right: 5px;
     color: #ddd;
     padding: 0
@@ -179,7 +215,7 @@
 .md-editor.md-fullscreen-mode .md-input, .md-editor.md-fullscreen-mode .md-preview {
     margin: 0 auto!important;
     height: 100%!important;
-    font-size: 20px!important;
+    font-size: 18px!important;
     padding: 0 10px!important;
     color: #999;
     line-height: 1.6em!important;
