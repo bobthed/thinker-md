@@ -1,16 +1,32 @@
 .md-editor {
     display: block;
+    outline: none;
     border: 1px solid #ddd
 }
 
 .md-editor .md-footer, .md-editor > .md-header {
     display: block;
     padding: 6px 4px;
-    background: #f5f5f5
+    background: #4a4a4a
 }
 
 .md-editor > .md-header {
     margin: 0
+}
+
+.md-editor> .md-header>.btn-group button{
+    width: 35px;
+    height: 30px;
+    outline: none;
+    border: 0;
+    border-radius: 6px;
+    color: #ddd;
+    background-color: rgba(0,0,0,0);
+}
+
+.md-editor> .md-header>.btn-group button:hover{
+    background-color: #3f3f3f;
+    color: #fff;
 }
 
 .md-editor > .md-full-preview {
@@ -33,11 +49,10 @@
 }
 
 .md-editor > .md-full-preview .md-full-preview-body .md-full-preview-inner {
-    padding: 20px !important;
+    padding: 5px 5px 5px 0!important;
     margin-left: 25px;
     height: 100%;
     background-color: #f6f6f6;
-    border: 1px solid #999;
     overflow-y: auto;
 }
 
@@ -97,25 +112,37 @@
 }
 
 .md-editor.active {
-    border-color: #66afe9;
+    /*border-color: #66afe9;
     outline: 0;
     -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6);
-    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6)
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6)*/
 }
 
 .md-editor .md-controls {
     float: right;
-    padding: 3px
+    margin: 0;
+    padding: 0;
+    width: 35px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    outline: none;
+    border: 0;
+    border-radius: 6px;
+}
+
+.md-editor .md-controls:hover{
+    background-color: #3f3f3f;
 }
 
 .md-editor .md-controls .md-control {
     right: 5px;
-    color: #bebebe;
-    padding: 3px 3px 3px 10px
+    color: #ddd;
+    padding: 0
 }
 
 .md-editor .md-controls .md-control:hover {
-    color: #333
+    color: #fff;
 }
 
 .md-editor.md-fullscreen-mode {
@@ -124,23 +151,25 @@
     position: fixed;
     top: 0;
     left: 0;
+    right: 0;
+    bottom: 0;
     z-index: 99999;
-    padding: 60px 30px 15px;
-    background: #fff !important;
-    border: 0 !important
+    padding: 50px 0 0;
+    background: #fff!important;
+    border: 0!important;
 }
 
 .md-editor.md-fullscreen-mode .md-input {
     width: 50%;
     vertical-align: top;
-    display: inline-block !important;
-    border: 1px solid #999 !important;
+    display: inline-block!important;
 }
 
 .md-editor.md-fullscreen-mode .md-full-preview {
     width: 50%;
     height: 100%;
     display: inline-block;
+    background-color: #f6f6f6;
 }
 
 .md-editor.md-fullscreen-mode .md-footer {
@@ -148,15 +177,22 @@
 }
 
 .md-editor.md-fullscreen-mode .md-input, .md-editor.md-fullscreen-mode .md-preview {
-    margin: 0 auto !important;
-    height: 100% !important;
-    font-size: 20px !important;
-    padding: 20px !important;
+    margin: 0 auto!important;
+    height: 100%!important;
+    font-size: 20px!important;
+    padding: 0 10px!important;
     color: #999;
-    line-height: 1.6em !important;
-    resize: none !important;
-    box-shadow: none !important;
-    background: #fff !important;
+    line-height: 1.6em!important;
+    resize: none!important;
+    box-shadow: none!important;
+    background: #fff!important;
+    overflow-y: auto;
+    overflow-x: hidden;
+    border: none!important;
+    white-space: pre;
+    word-break: break-all;
+    -ms-word-wrap: break-word;
+    word-wrap: break-word;
 
 }
 
@@ -171,11 +207,17 @@
 }
 
 .md-editor.md-fullscreen-mode .md-header {
-    background: 0 0;
-    text-align: center;
+    background: #4a4a4a;
+    text-align: left;
     position: fixed;
     width: 100%;
-    top: 20px
+    height: 50px;
+    padding: 10px 4px;
+    top: 0;
+}
+
+.md-editor.md-fullscreen-mode .md-header .md-controls{
+    display: none;
 }
 
 .md-editor.md-fullscreen-mode .btn-group {
@@ -195,24 +237,29 @@
 
 .md-editor.md-fullscreen-mode .md-fullscreen-controls {
     position: absolute;
-    top: 20px;
-    right: 20px;
-    text-align: right;
-    z-index: 1002;
-    display: block
+    width: 35px;
+    height: 30px;
+    line-height: 30px;
+    top: 10px;
+    right: 0;
+    z-index: 1;
+    display: block;
 }
 
+
 .md-editor.md-fullscreen-mode .md-fullscreen-controls a {
-    color: #b3b3b3;
-    clear: right;
-    margin: 10px;
-    width: 30px;
+    display: block;
+    border-radius: 6px;
+    color: #ddd;
+    width: 35px;
     height: 30px;
-    text-align: center
+    line-height: 30px;
+    text-align: center;
 }
 
 .md-editor.md-fullscreen-mode .md-fullscreen-controls a:hover {
-    color: #333;
+    background-color: #3f3f3f;
+    color: #fff;
     text-decoration: none
 }
 
