@@ -48,6 +48,7 @@
         this.$isFullscreen = false;
         this.$editor = null;
         //add by wpl show markdown preview
+        this.$fullscreenControls = false;
         //id
         this.$localStorage = options.localStorage;
 
@@ -118,17 +119,17 @@
                             buttonHandler = ns + '-' + button.name,
                             buttonIcon = this.__getIcon(button.icon),
                             btnText = button.btnText ? button.btnText : '',
-                            btnClass = button.btnClass ? button.btnClass : 'btn',
+                        //btnClass = button.btnClass ? button.btnClass : 'btn',
                             tabIndex = button.tabIndex ? button.tabIndex : '-1',
                             hotkey = typeof button.hotkey !== 'undefined' ? button.hotkey : '',
                             hotkeyCaption = typeof jQuery.hotkeys !== 'undefined' && hotkey !== '' ? ' (' + hotkey + ')' : '';
 
                         // Construct the button object
                         buttonContainer = $('<button></button>');
-                        buttonContainer.text(' ' + this.__localize(btnText)).addClass('btn-default btn-sm').addClass(btnClass);
-                        if (btnClass.match(/btn\-(primary|success|info|warning|danger|link)/)) {
-                            buttonContainer.removeClass('btn-default');
-                        }
+                        /*buttonContainer.text(' ' + this.__localize(btnText)).addClass('btn-default btn-sm').addClass(btnClass);
+                         if (btnClass.match(/btn\-(primary|success|info|warning|danger|link)/)) {
+                         buttonContainer.removeClass('btn-default');
+                         }*/
                         buttonContainer.attr({
                             'type': 'button',
                             'title': this.__localize(button.title) + hotkeyCaption,
@@ -499,12 +500,12 @@
                 this.$editor.addClass('active');
             }
 
-            if (options.fullscreen.enable && options.fullscreen !== false) {
+            if (options.fullscreen.enable && options.fullscreen !== false && !this.$fullscreenControls) {
                 this.$editor.append('\
           <div class="md-fullscreen-controls">\
             <a href="#" class="exit-fullscreen" title="Exit fullscreen"><span class="' + this.__getIcon(options.fullscreen.icons.fullscreenOff) + '"></span></a>\
           </div>');
-
+                this.$fullscreenControls = true;
                 this.$editor.on('click', '.exit-fullscreen', function (e) {
                     e.preventDefault();
                     instance.setFullscreen(false);
@@ -1740,7 +1741,7 @@
                     hotkey: 'Ctrl+P',
                     title: 'Preview',
                     btnText: 'Preview',
-                    btnClass: 'btn btn-primary btn-sm',
+                    //btnClass: 'btn btn-primary btn-sm',
                     icon: {glyph: 'glyphicon glyphicon-search', fa: 'fa fa-search', 'fa-3': 'icon-search'},
                     callback: function (e) {
                         // Check the preview mode and toggle based on this flag
