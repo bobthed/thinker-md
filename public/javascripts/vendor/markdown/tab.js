@@ -63,23 +63,6 @@ String.prototype.countOfTabInCloseTag = function () {
     return (this.match(reg) || []).length;
 };
 
-var textareaMap = {};
-var EditCommand = Undo.Command.extend({
-    constructor: function (textarea, oldValue, newValue) {
-        this.textarea = textarea;
-        this.oldValue = oldValue;
-        this.newValue = newValue;
-    },
-    execute: function () {
-    },
-    undo: function () {
-        this.textarea.value = this.oldValue;
-    },
-    redo: function () {
-        this.textarea.value = this.newValue;
-    }
-});
-
 var tabFunc = function (evt) {
     evt = evt || window.event;
     var keyCode = evt.keyCode,
@@ -88,8 +71,6 @@ var tabFunc = function (evt) {
         key_y = 89,
         key_z = 90;
     var target = evt.target,
-        stack = null,
-        dataStep = null,
         selectionStart = -1,
         selectionEnd = -1,
         tabKey = '\u0020\u0020\u0020\u0020',
@@ -99,16 +80,6 @@ var tabFunc = function (evt) {
         prefix = '',
         suffix = '';
     if (target && target.tagName === 'TEXTAREA') {
-        if (null === target.getAttribute('data-step')) {
-            target.setAttribute('data-step', new Date().getTime().toString());
-        }
-        dataStep = target.getAttribute('data-step');
-        if (undefined === textareaMap[dataStep]) {
-            stack = new Undo.Stack();
-            textareaMap[dataStep] = stack;
-        } else {
-            stack = textareaMap[dataStep];
-        }
         selectionStart = target.selectionStart;
         selectionEnd = target.selectionEnd;
         value = target.value;
@@ -130,7 +101,6 @@ var tabFunc = function (evt) {
         selectionEnd = selectionStart;
         target.value = _value;
         target.setSelectionRange(selectionStart, selectionEnd);
-        stack.execute(new EditCommand(target, value, _value));
         return stopEvent(evt);
     }
 
@@ -173,23 +143,16 @@ var tabFunc = function (evt) {
         selectionEnd = selectionStart;
         target.value = _value;
         target.setSelectionRange(selectionStart, selectionEnd);
-        stack.execute(new EditCommand(target, value, _value));
         return stopEvent(evt);
     }
 
     //Ctrl+Z
     if (evt.ctrlKey === true && keyCode === key_z) {
-        if (stack.canUndo()) {
-            stack.undo();
-        }
         return stopEvent(evt);
     }
 
     //Ctrl+y
     if (evt.ctrlKey === true && keyCode === key_y) {
-        if (stack.canRedo()) {
-            stack.redo();
-        }
         return stopEvent(evt);
     }
 };
