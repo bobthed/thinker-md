@@ -89,6 +89,16 @@ var toMarkdown = function (string) {
                     title = attrs.match(attrRegExp('title'));
                 return src ? '![' + (alt && alt[1] ? alt[1] : '') + ']' + '(' + src[1] + (title && title[1] ? ' "' + title[1] + '"' : '') + ')' : '';
             }
+        }, {
+            patterns: 'emoji',
+            replacement: function (str, attrs, innerHTML) {
+                var _emoji = '',
+                    emoji = attrs.match(/data-name="\S+"/);
+                if (emoji && emoji.length>0) {
+                    _emoji = emoji[0]?emoji[0].substring(emoji[0].indexOf('=') + 2, emoji[0].length - 1):_emoji;
+                }
+                return attrs ? ':emoji[' + _emoji + ']:' : '';
+            }
         }
     ];
 
