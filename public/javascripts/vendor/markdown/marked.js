@@ -452,6 +452,7 @@
         code: /^(`+)\s*([\s\S]*?[^`])\s*\1(?!`)/,
         br: /^ {2,}\n(?!\s*$)/,
         del: noop,
+        emoji: noop,
         text: /^[\s\S]+?(?=[\\<!\[_*`]| {2,}\n|$)/
     };
 
@@ -490,8 +491,11 @@
         escape: replace(inline.escape)('])', '~|])')(),
         url: /^(https?:\/\/[^\s<]+[^<.,:;"')\]\s])/,
         del: /^~~(?=\S)([\s\S]*?\S)~~/,
+        //emoji
+        emoji: /^:emoji\[([A-Za-z0-9_\-\+]+?)]:/,
         text: replace(inline.text)
-        (']|', '~]|')
+            //(']|', '~]|')
+        (']|', ':~]|')
         ('|', '|https?://|')
         ()
     });
@@ -530,6 +534,8 @@
         } else if (this.options.pedantic) {
             this.rules = inline.pedantic;
         }
+        //emoji
+        this.emojiTemplate = getEmojiTemplate(options);
     }
 
     /**
@@ -669,6 +675,13 @@
                 continue;
             }
 
+            // emoji (gfm)
+            if (cap = this.rules.emoji.exec(src)) {
+                src = src.substring(cap[0].length);
+                out += this.emoji(cap[1]);
+                continue;
+            }
+
             // text
             if (cap = this.rules.text.exec(src)) {
                 src = src.substring(cap[0].length);
@@ -696,6 +709,53 @@
         return cap[0].charAt(0) !== '!'
             ? this.renderer.link(href, title, this.output(cap[1]))
             : this.renderer.image(href, title, escape(cap[1]));
+    };
+
+    /**
+     * Emoji Transformations
+     */
+
+    function emojiDefaultTemplate(emoji) {
+        return '<emoji '
+                /* + 'src="'
+                 + '../img/emoji/people/'
+                 + encodeURIComponent(emoji)
+                 + '.png"'
+                 + ' alt=":'
+                 + escape(emoji)
+                 + ':"'
+                 + ' title=":'
+                 + escape(emoji)
+                 + ':"'*/
+            + ' data-name="'
+            + escape(emoji)
+            + '"'
+            + ' data-emoji="emoji '
+            + escape(emoji)
+            + '" align="absmiddle"><\/emoji>';
+    }
+
+    function getEmojiTemplate(options) {
+        if (options.emoji) {
+            if (typeof options.emoji === 'function') {
+                return options.emoji;
+            }
+
+            if (typeof options.emoji === 'string') {
+                var emojiSplit = options.emoji.split(/\{emoji\}/g);
+                return function (emoji) {
+                    return emojiSplit.join(emoji);
+                }
+            }
+        }
+        return emojiDefaultTemplate;
+    }
+
+    InlineLexer.prototype.emojiTemplate = emojiDefaultTemplate;
+    InlineLexer.prototype.emoji = function (name) {
+        if (!this.options.emoji) return ':' + name + ':';
+
+        return this.emojiTemplate(name);
     };
 
     /**
@@ -1236,6 +1296,7 @@
 
     marked.defaults = {
         gfm: true,
+        emoji: false,
         tables: true,
         breaks: false,
         pedantic: false,
