@@ -61,7 +61,7 @@
 }
 
 .md-editor > .md-full-preview .md-full-preview-body .md-full-preview-inner p {
-    white-space: pre;
+    white-space: pre-wrap;
     word-break: break-all;
     -ms-word-wrap: break-word;
     word-wrap: break-word;
@@ -508,6 +508,64 @@ upload*/
     width: 0;
     height: 0;
     overflow: hidden;
+}
+
+.emoji-table{
+    border: 1px solid #CCC;
+}
+
+.emoji-table td{
+    border:1px solid #CCC;
+    width:37px;
+    height: 37px;
+    cursor: pointer;
+}
+
+.md-editor>.md-emoji {
+    position: fixed;
+    width: auto;
+    max-width: 100%;
+    height: auto;
+    max-height: 100%;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 1;
+    background-color: rgba(0,0,0,.25);
+}
+
+.md-editor>.md-emoji>.md-dialog {
+    margin: 30px auto;
+    width: 600px;
+    height: auto;
+    background-color: #f6f6f6;
+    border-radius: 6px;
+}
+
+
+
+.md-emoji .md-content-header {
+    position: relative;
+    padding: 10px 10px 10px 20px;
+    border-bottom: 1px solid #eee;
+    min-height: 16px;
+}
+
+.md-emoji .md-content-header .md-content-header-button {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.md-emoji .md-content-body {
+    position: relative;
+    padding: 20px 20px 30px;
+    background-color: #fcfcfc;
+    height: 400px;
+    overflow: scroll;
 }
 
 .md-progress-bar {
