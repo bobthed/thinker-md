@@ -29502,7 +29502,6 @@ var version = $.fn.jquery.split(' ')[0].split('.')
     };
 
     Renderer.prototype.br = function () {
-        console.log('--br--');
         return this.options.xhtml ? '<br/>' : '<br>';
     };
 
@@ -29613,7 +29612,6 @@ var version = $.fn.jquery.split(' ')[0].split('.')
      */
 
     Parser.prototype.tok = function () {
-        console.log(this.token.type);
         switch (this.token.type) {
             case 'space':
             {
@@ -30428,6 +30426,137 @@ if (typeof exports === 'object') {
         return this || (typeof window !== 'undefined' ? window : global);
     }());
 
+// Source: public/javascripts/vendor/markdown/undo.js
+/*
+ * Undo.js - A undo/redo framework for JavaScript
+ *
+ * http://jzaefferer.github.com/undo
+ *
+ * Copyright (c) 2011 J?rn Zaefferer
+ *
+ * MIT licensed.
+ */
+(function () {
+
+// based on Backbone.js' inherits
+    var ctor = function () {
+    };
+    var inherits = function (parent, protoProps) {
+        var child;
+
+        if (protoProps && protoProps.hasOwnProperty('constructor')) {
+            child = protoProps.constructor;
+        } else {
+            child = function () {
+                return parent.apply(this, arguments);
+            };
+        }
+
+        ctor.prototype = parent.prototype;
+        child.prototype = new ctor();
+
+        if (protoProps) extend(child.prototype, protoProps);
+
+        child.prototype.constructor = child;
+        child.__super__ = parent.prototype;
+        return child;
+    };
+
+    function extend(target, ref) {
+        var name, value;
+        for (name in ref) {
+            value = ref[name];
+            if (value !== undefined) {
+                target[name] = value;
+            }
+        }
+        return target;
+    }
+
+    var Undo = {
+        version: '0.1.15'
+    };
+
+    Undo.Stack = function () {
+        this.commands = [];
+        this.stackPosition = -1;
+        this.savePosition = -1;
+    };
+
+    extend(Undo.Stack.prototype, {
+        execute: function (command) {
+            this._clearRedo();
+            command.execute();
+            this.commands.push(command);
+            this.stackPosition++;
+            this.changed();
+        },
+        undo: function () {
+            this.commands[this.stackPosition].undo();
+            this.stackPosition--;
+            this.changed();
+        },
+        canUndo: function () {
+            return this.stackPosition >= 0;
+        },
+        redo: function () {
+            this.stackPosition++;
+            this.commands[this.stackPosition].redo();
+            this.changed();
+        },
+        canRedo: function () {
+            return this.stackPosition < this.commands.length - 1;
+        },
+        save: function () {
+            this.savePosition = this.stackPosition;
+            this.changed();
+        },
+        dirty: function () {
+            return this.stackPosition != this.savePosition;
+        },
+        _clearRedo: function () {
+            // TODO there's probably a more efficient way for this
+            this.commands = this.commands.slice(0, this.stackPosition + 1);
+        },
+        changed: function () {
+            // do nothing, override
+        }
+    });
+
+    Undo.Command = function (name) {
+        this.name = name;
+    };
+
+    var up = new Error("override me!");
+
+    extend(Undo.Command.prototype, {
+        execute: function () {
+            throw up;
+        },
+        undo: function () {
+            throw up;
+        },
+        redo: function () {
+            this.execute();
+        }
+    });
+
+    Undo.Command.extend = function (protoProps) {
+        var child = inherits(this, protoProps);
+        child.extend = Undo.Command.extend;
+        return child;
+    };
+
+// AMD support
+    if (typeof define === "function" && define.amd) {
+        // Define as an anonymous module
+        define(Undo);
+    } else if (typeof module != "undefined" && module.exports) {
+        module.exports = Undo
+    } else {
+        this.Undo = Undo;
+    }
+}).call(this);
 // Source: public/javascripts/vendor/markdown/tab.js
 /**
  * Created by ling on 2015/1/13.
@@ -30494,13 +30623,13 @@ String.prototype.countOfTabInCloseTag = function () {
     return (this.match(reg) || []).length;
 };
 
-
-window.onkeydown = function (evt) {
+var tabFunc = function (evt) {
     evt = evt || window.event;
     var keyCode = evt.keyCode,
         tab = 9,
-        enter = 13;
-
+        enter = 13,
+        key_y = 89,
+        key_z = 90;
     var target = evt.target,
         selectionStart = -1,
         selectionEnd = -1,
@@ -30515,7 +30644,7 @@ window.onkeydown = function (evt) {
         selectionEnd = target.selectionEnd;
         value = target.value;
         if (selectionStart < 0 || selectionEnd < 0) {
-            return;
+            return stopEvent(evt);
         } else {
             prefix = value.substring(0, selectionStart);
             suffix = value.substring(selectionEnd);
@@ -30524,14 +30653,13 @@ window.onkeydown = function (evt) {
         return;
     }
 
-
     //tab
     if (keyCode === tab) {
-        value = prefix + tabKey + suffix;
+        var _value = prefix + tabKey + suffix;
 
         selectionStart += 4;
         selectionEnd = selectionStart;
-        target.value = value;
+        target.value = _value;
         target.setSelectionRange(selectionStart, selectionEnd);
         return stopEvent(evt);
     }
@@ -30539,47 +30667,57 @@ window.onkeydown = function (evt) {
     //enter
     if (keyCode === enter) {
         //{}
-        var frist = prefix.trim().lastChar(),
+        var _value = '',
+            frist = prefix.trim().lastChar(),
             last = suffix.trim().fristChar(),
             count = prefix.countOf(/\u000a/g);
         if (('\u003b' === frist || '\u0029' === frist || '\u007b' === frist) && '\u007d' === last) {
             if (count === 0) {
-                value = prefix + enterKey + tabKey + enterKey + suffix;
+                _value = prefix + enterKey + tabKey + enterKey + suffix;
                 selectionStart += 5;
             } else if (count > 0) {
                 var tabs = prefix.substring(prefix.lastIndexOf('\u000a'), selectionStart).countOfTab(), i = 0, tabStr = '';
                 for (; i < tabs; ++i) {
                     tabStr += tabKey;
                 }
-                value = '';
-                value += prefix;
-                value += enterKey;
-                value += tabStr;
+                _value += prefix;
+                _value += enterKey;
+                _value += tabStr;
                 if ('\u003b' !== frist) {
-                    value += tabKey;
+                    _value += tabKey;
                     ++tabs;
                 }
                 if (enterKey !== suffix.fristChar()) {
-                    value += enterKey;
-                    value += tabStr;
+                    _value += enterKey;
+                    _value += tabStr;
                 }
-                value += suffix;
+                _value += suffix;
 
                 selectionStart += 1 + (tabs * 4);
             }
         } else {
-            value = prefix + enterKey + suffix;
+            _value = prefix + enterKey + suffix;
             ++selectionStart;
         }
 
         selectionEnd = selectionStart;
-        target.value = value;
+        target.value = _value;
         target.setSelectionRange(selectionStart, selectionEnd);
-
         return stopEvent(evt);
     }
 
+    //Ctrl+Z
+    if (evt.ctrlKey === true && keyCode === key_z) {
+        return stopEvent(evt);
+    }
+
+    //Ctrl+y
+    if (evt.ctrlKey === true && keyCode === key_y) {
+        return stopEvent(evt);
+    }
 };
+
+window.document.addEventListener('keydown', tabFunc, false);
 // Source: public/javascripts/vendor/markdown/config.js
 /**
  * Created by ling on 2015/3/3.
@@ -30637,7 +30775,7 @@ marked.setOptions({
         // @TODO : remove this BC on next major release
         // @see : https://github.com/toopay/bootstrap-markdown/issues/109
         var opts = ['autofocus', 'savable', 'hideable', 'width',
-            'height', 'resize', 'iconlibrary', 'language', 'imgurl', 'base64url',
+            'height', 'resize', 'iconlibrary', 'language', 'imgurl', 'base64url', 'localStorage',
             'footer', 'fullscreen', 'hiddenButtons', 'disabledButtons'];
         $.each(opts, function (_, opt) {
             if (typeof $(element).data(opt) !== 'undefined') {
@@ -30657,6 +30795,10 @@ marked.setOptions({
         this.$isFullscreen = false;
         this.$editor = null;
         //add by wpl show markdown preview
+        this.$fullscreenControls = false;
+        //id
+        this.$localStorage = options.localStorage;
+
         this.$uploadMode = false;
         this.$fullPreview = null;
         this.$innerPreview = null;
@@ -30669,6 +30811,8 @@ marked.setOptions({
         this.$percent = null;
         //上传文件限制512kb
         this.$fileSize = 524288;
+        //registe
+        this.$registPaste = false;
         //end
         this.$textarea = null;
         this.$handler = [];
@@ -30722,17 +30866,17 @@ marked.setOptions({
                             buttonHandler = ns + '-' + button.name,
                             buttonIcon = this.__getIcon(button.icon),
                             btnText = button.btnText ? button.btnText : '',
-                            btnClass = button.btnClass ? button.btnClass : 'btn',
+                        //btnClass = button.btnClass ? button.btnClass : 'btn',
                             tabIndex = button.tabIndex ? button.tabIndex : '-1',
                             hotkey = typeof button.hotkey !== 'undefined' ? button.hotkey : '',
                             hotkeyCaption = typeof jQuery.hotkeys !== 'undefined' && hotkey !== '' ? ' (' + hotkey + ')' : '';
 
                         // Construct the button object
                         buttonContainer = $('<button></button>');
-                        buttonContainer.text(' ' + this.__localize(btnText)).addClass('btn-default btn-sm').addClass(btnClass);
-                        if (btnClass.match(/btn\-(primary|success|info|warning|danger|link)/)) {
-                            buttonContainer.removeClass('btn-default');
-                        }
+                        /*buttonContainer.text(' ' + this.__localize(btnText)).addClass('btn-default btn-sm').addClass(btnClass);
+                         if (btnClass.match(/btn\-(primary|success|info|warning|danger|link)/)) {
+                         buttonContainer.removeClass('btn-default');
+                         }*/
                         buttonContainer.attr({
                             'type': 'button',
                             'title': this.__localize(button.title) + hotkeyCaption,
@@ -30879,6 +31023,7 @@ marked.setOptions({
                 editable = this.$editable,
                 handler = this.$handler,
                 callback = this.$callback,
+                editorId = this.$editorId,
                 options = this.$options,
                 _fullPreview = this.$fullPreview,
                 innerPreview = this.$fullPreview,
@@ -30928,16 +31073,12 @@ marked.setOptions({
                 }
 
                 editor.append(editorHeader);
-                var _localCache = '';
-                if (window.localStorage) {
-                    _localCache = localStorage.getItem('text');
-                }
+
                 // Wrap the textarea
                 if (container.is('textarea')) {
                     container.before(editor);
                     textarea = container;
                     textarea.addClass('md-input');
-                    textarea.val(_localCache);
                     editor.append(textarea);
                 } else {
                     var rawContent = (typeof toMarkdown == 'function') ? toMarkdown(container.html()) : container.html(),
@@ -31062,7 +31203,15 @@ marked.setOptions({
                 this.__setListener();
 
                 // Set editor attributes, data short-hand API and listener
-                this.$editor.attr('id', (new Date()).getTime());
+                this.$editor.attr('id', new Date().getTime().toString());
+
+                var _localCache = '',
+                    _localStorage = this.$localStorage;
+                if (window.localStorage && _localStorage && '' !== _localStorage) {
+                    _localCache = localStorage.getItem(_localStorage);
+                    this.$textarea.val(_localCache);
+                }
+
                 this.$editor.on('click', '[data-provider="bootstrap-markdown"]', $.proxy(this.__handle, this));
 
                 if (this.$element.is(':disabled') || this.$element.is('[readonly]')) {
@@ -31098,12 +31247,12 @@ marked.setOptions({
                 this.$editor.addClass('active');
             }
 
-            if (options.fullscreen.enable && options.fullscreen !== false) {
+            if (options.fullscreen.enable && options.fullscreen !== false && !this.$fullscreenControls) {
                 this.$editor.append('\
           <div class="md-fullscreen-controls">\
             <a href="#" class="exit-fullscreen" title="Exit fullscreen"><span class="' + this.__getIcon(options.fullscreen.icons.fullscreenOff) + '"></span></a>\
           </div>');
-
+                this.$fullscreenControls = true;
                 this.$editor.on('click', '.exit-fullscreen', function (e) {
                     e.preventDefault();
                     instance.setFullscreen(false);
@@ -31119,7 +31268,10 @@ marked.setOptions({
             // Trigger the onShow hook
             options.onShow(this);
 
-            this.registPaste();
+            if (!this.$registPaste) {
+                this.registPaste();
+                this.$registPaste = true;
+            }
             this.localCache();
 
             return this;
@@ -31190,7 +31342,7 @@ marked.setOptions({
                 })).on('click', function (evt) {
                     if ($(evt.target).is('i.md-content-header-button'))
                         _this.hideUpload();
-                }).append($('<h2/>', {
+                }).append($('<h4/>', {
                     class: 'md-content-header-title',
                     text: e.__localize('Image')
                 }));
@@ -31373,7 +31525,7 @@ marked.setOptions({
                     uploadPanel.find('input.md-input-insert-image').val('');
                     uploadPanel.find('input.md-input-image-url').val('');
 
-                    _this.setState(e.__localize('UploadEooroTip'));
+                    _this.setState(_this.__localize('UploadEooroTip'));
                 };
 
                 xhr.onreadystatechange = function () {
@@ -31460,18 +31612,19 @@ marked.setOptions({
             }
         }
         , localCache: function () {
-            var textarea = this.$textarea;
-            if (window.localStorage) {
+            var _localStorage = this.$localStorage,
+                textarea = this.$textarea;
+            if (window.localStorage && _localStorage && '' !== _localStorage) {
                 setInterval(function () {
-                    localStorage.setItem('text', textarea.val());
+                    localStorage.setItem(_localStorage, textarea.val());
                 }, 1000);
             }
         }
         , registPaste: function () {
             var _this = this,
                 cutPaste = this.$cutPaste,
-                textarea = this.$textarea,
                 editor = this.$editor,
+                timeStamp = null,
                 browser = navigator.userAgent.toLowerCase();
             if (null === cutPaste)
                 return;
@@ -31487,7 +31640,7 @@ marked.setOptions({
             } else if (/chrome/i.test(browser) && /webkit/i.test(browser) && /mozilla/i.test(browser)) {
                 chrome = true;
                 editor.on('paste', function (event) {
-                    _this.pasteFunc(event, chrome)
+                    _this.pasteFunc(event, chrome);
                 });
             } else if (/trident/i.test(browser)) {
                 editor.keydown(function (event) {
@@ -31856,30 +32009,30 @@ marked.setOptions({
                     break;
 
                 case 9: // tab
-                    var nextTab;
-                    if (nextTab = this.getNextTab(), nextTab !== null) {
-                        // Get the nextTab if exists
-                        var that = this;
-                        setTimeout(function () {
-                            that.setSelection(nextTab.start, nextTab.end);
-                        }, 500);
+                    /*var nextTab;
+                     if (nextTab = this.getNextTab(), nextTab !== null) {
+                     // Get the nextTab if exists
+                     var that = this;
+                     setTimeout(function () {
+                     that.setSelection(nextTab.start, nextTab.end);
+                     }, 500);
 
-                        blocked = true;
-                    } else {
-                        // The next tab memory contains nothing...
-                        // check the cursor position to determine tab action
-                        var cursor = this.getSelection();
+                     blocked = true;
+                     } else {
+                     // The next tab memory contains nothing...
+                     // check the cursor position to determine tab action
+                     var cursor = this.getSelection();
 
-                        if (cursor.start == cursor.end && cursor.end == this.getContent().length) {
-                            // The cursor already reach the end of the content
-                            blocked = false;
-                        } else {
-                            // Put the cursor to the end
-                            this.setSelection(this.getContent().length, this.getContent().length);
+                     if (cursor.start == cursor.end && cursor.end == this.getContent().length) {
+                     // The cursor already reach the end of the content
+                     blocked = false;
+                     } else {
+                     // Put the cursor to the end
+                     this.setSelection(this.getContent().length, this.getContent().length);
 
-                            blocked = true;
-                        }
-                    }
+                     blocked = true;
+                     }
+                     }*/
 
                     break;
 
@@ -32005,6 +32158,7 @@ marked.setOptions({
         initialstate: 'editor',
         imgurl: '',
         base64url: '',
+        localStorage: '',
         /* Buttons Properties */
         buttons: [
             [{
@@ -32334,7 +32488,7 @@ marked.setOptions({
                     hotkey: 'Ctrl+P',
                     title: 'Preview',
                     btnText: 'Preview',
-                    btnClass: 'btn btn-primary btn-sm',
+                    //btnClass: 'btn btn-primary btn-sm',
                     icon: {glyph: 'glyphicon glyphicon-search', fa: 'fa fa-search', 'fa-3': 'icon-search'},
                     callback: function (e) {
                         // Check the preview mode and toggle based on this flag
