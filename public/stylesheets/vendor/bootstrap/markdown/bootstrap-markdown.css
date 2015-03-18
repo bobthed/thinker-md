@@ -14,17 +14,17 @@
     margin: 0
 }
 
-.md-editor> .md-header>.btn-group button{
+.md-editor > .md-header > .btn-group button {
     width: 35px;
     height: 30px;
     outline: none;
     border: 0;
     border-radius: 6px;
     color: #ddd;
-    background-color: rgba(0,0,0,0);
+    background-color: rgba(0, 0, 0, 0);
 }
 
-.md-editor> .md-header>.btn-group button:hover{
+.md-editor > .md-header > .btn-group button:hover {
     background-color: #3f3f3f;
     color: #fff;
 }
@@ -49,7 +49,7 @@
 }
 
 .md-editor > .md-full-preview .md-full-preview-body .md-full-preview-inner {
-    padding: 5px 5px 5px 0!important;
+    padding: 5px 5px 5px 0 !important;
     margin-left: 25px;
     height: 100%;
     background-color: #f6f6f6;
@@ -103,8 +103,8 @@
     font-weight: bold;
 }
 
-.md-editor > .md-full-preview .md-full-preview-body .md-full-preview-inner blockquote{
-    border-left: 5px solid rgba(0,0,0,.4);
+.md-editor > .md-full-preview .md-full-preview-body .md-full-preview-inner blockquote {
+    border-left: 5px solid rgba(0, 0, 0, .4);
 }
 
 .md-editor > .md-full-preview .md-full-preview-body .md-full-preview-inner * {
@@ -180,8 +180,8 @@
     font-weight: bold;
 }
 
-.md-editor> .md-preview blockquote{
-    border-left: 5px solid rgba(0,0,0,.4);
+.md-editor > .md-preview blockquote {
+    border-left: 5px solid rgba(0, 0, 0, .4);
 }
 
 .md-editor > textarea {
@@ -250,14 +250,14 @@
     bottom: 0;
     z-index: 99999;
     padding: 50px 0 0;
-    background: #fff!important;
-    border: 0!important;
+    background: #fff !important;
+    border: 0 !important;
 }
 
 .md-editor.md-fullscreen-mode .md-input {
     width: 50%;
     vertical-align: top;
-    display: inline-block!important;
+    display: inline-block !important;
 }
 
 .md-editor.md-fullscreen-mode .md-full-preview {
@@ -272,18 +272,18 @@
 }
 
 .md-editor.md-fullscreen-mode .md-input, .md-editor.md-fullscreen-mode .md-preview {
-    margin: 0 auto!important;
-    height: 100%!important;
-    font-size: 18px!important;
-    padding: 0 10px!important;
+    margin: 0 auto !important;
+    height: 100% !important;
+    font-size: 18px !important;
+    padding: 0 10px !important;
     color: #999;
-    line-height: 1.6em!important;
-    resize: none!important;
-    box-shadow: none!important;
-    background: #fff!important;
+    line-height: 1.6em !important;
+    resize: none !important;
+    box-shadow: none !important;
+    background: #fff !important;
     overflow-y: auto;
     overflow-x: hidden;
-    border: none!important;
+    border: none !important;
     white-space: pre;
     word-break: break-all;
     -ms-word-wrap: break-word;
@@ -311,7 +311,7 @@
     top: 0;
 }
 
-.md-editor.md-fullscreen-mode .md-header .md-controls{
+.md-editor.md-fullscreen-mode .md-header .md-controls {
     display: none;
 }
 
@@ -340,7 +340,6 @@
     z-index: 1;
     display: block;
 }
-
 
 .md-editor.md-fullscreen-mode .md-fullscreen-controls a {
     display: block;
@@ -510,18 +509,18 @@ upload*/
     overflow: hidden;
 }
 
-.emoji-table{
+.emoji-table {
     border: 1px solid #CCC;
 }
 
-.emoji-table td{
-    border:1px solid #CCC;
-    width:37px;
-    height: 37px;
+.emoji-table td {
+    border: 1px solid #CCC;
+    width: 38px;
+    height: 36px;
     cursor: pointer;
 }
 
-.md-editor>.md-emoji {
+.md-editor > .md-emoji {
     position: fixed;
     width: auto;
     max-width: 100%;
@@ -532,18 +531,16 @@ upload*/
     top: 0;
     bottom: 0;
     z-index: 1;
-    background-color: rgba(0,0,0,.25);
+    background-color: rgba(0, 0, 0, .25);
 }
 
-.md-editor>.md-emoji>.md-dialog {
+.md-editor > .md-emoji > .md-dialog {
     margin: 30px auto;
     width: 600px;
     height: auto;
     background-color: #f6f6f6;
     border-radius: 6px;
 }
-
-
 
 .md-emoji .md-content-header {
     position: relative;
