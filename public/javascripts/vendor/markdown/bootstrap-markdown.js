@@ -595,7 +595,7 @@
                 })).on('click', function (evt) {
                     if ($(evt.target).is('i.md-content-header-button'))
                         _this.hideUpload();
-                }).append($('<h2/>', {
+                }).append($('<h4/>', {
                     class: 'md-content-header-title',
                     text: e.__localize('Image')
                 }));
