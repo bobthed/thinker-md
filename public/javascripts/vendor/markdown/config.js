@@ -7,6 +7,7 @@ hljs.initHighlightingOnLoad();
 marked.setOptions({
     renderer: new marked.Renderer(),
     gfm: true,
+    emoji: true,
     tables: true,
     breaks: false,
     pedantic: false,
