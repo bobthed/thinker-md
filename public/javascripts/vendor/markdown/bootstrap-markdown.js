@@ -1379,6 +1379,100 @@
 
             return this;
         }
+        , showEmojiPanel: function (e) {
+            var _this = this,
+                emojiPanel = this.$emojiPanel,
+                editor = this.$editor,
+            //emojiPanel panel
+                mdEmoji = null,
+                mdDialog = null,
+                mdContent = null,
+                mdContentHeader = null,
+                mdContentBody = null,
+                mdContentFooter = null;
+
+            if (_this.$emojiHtml == null) {
+                _this.$emojiHtml = _this.getEmojiHtml();
+            }
+
+            if (this.$editor !== null && emojiPanel == null) {
+                mdEmoji = $('<div />', {
+                    'class': 'md-emoji',
+                    'data-provide': 'markdown-emoji'
+                }).on('click', function (evt) {
+                    if ($(evt.target).is('div .md-emoji'))
+                        _this.hideEmoji();
+                });
+
+                mdDialog = $('<div/>', {
+                    'class': 'md-dialog',
+                    'data-provide': 'markdown-emoji-dialog'
+                });
+
+                mdContent = $('<div/>', {
+                    'class': 'md-content',
+                    'data-provide': 'markdown-upload-content'
+                });
+
+                mdContentHeader = $('<div/>', {
+                    'class': 'md-content-header',
+                    'data-provide': 'markdown-upload-content-header'
+                }).append($('<i/>', {
+                    type: 'button',
+                    class: 'md-content-header-button glyphicon glyphicon-remove'
+                })).on('click', function (evt) {
+                    if ($(evt.target).is('i.md-content-header-button'))
+                        _this.hideEmoji();
+                }).append($('<h2/>', {
+                    class: 'md-content-header-title',
+                    text: e.__localize('Emoji')
+                }));
+
+                mdContentBody = $('<div/>', {
+                    'class': 'md-content-body md-emoji',
+                    'data-provide': 'markdown-upload-content-body'
+                }).append(_this.$emojiHtml);
+
+                mdContent.append(mdContentHeader).append(mdContentBody).append(mdContentFooter);
+                mdDialog.append(mdContent);
+                editor.append(mdEmoji.append(mdDialog));
+
+
+                //bind td click
+                mdEmoji.find('td').bind('click',function(evt){
+                    var _target = evt.target;
+                    var emojiKeyWord = $(_target).attr("data-emoji");
+                    var cursor, instance = _this, selected = instance.getSelection();
+                    instance.replaceSelection(":emoji[" + emojiKeyWord + "]:");
+                    _this.hideEmoji();
+                });
+
+                this.$emojiPanel = mdEmoji;
+                return;
+            }
+            emojiPanel.show();
+        }
+        , hideEmoji: function () {
+            var textarea = this.$textarea,
+                emojiPanel = this.$emojiPanel;
+            if (null != emojiPanel) {
+                emojiPanel.hide();
+            }
+            textarea.focus();
+        }
+        , getEmojiHtml: function () {
+            var data = ["bowtie", "smile", "laughing", "blush", "smiley", "relaxed", "smirk", "heart_eyes", "kissing_heart", "kissing_closed_eyes", "flushed", "relieved", "satisfied", "grin", "wink", "stuck_out_tongue_winking_eye", "stuck_out_tongue_closed_eyes", "grinning", "kissing", "kissing_smiling_eyes", "stuck_out_tongue", "sleeping", "worried", "frowning", "anguished", "open_mouth", "grimacing", "confused", "hushed", "expressionless", "unamused", "sweat_smile", "sweat", "disappointed_relieved", "weary", "pensive", "disappointed", "confounded", "fearful", "cold_sweat", "persevere", "cry", "sob", "joy", "astonished", "scream", "neckbeard", "tired_face", "angry", "rage", "triumph", "sleepy", "yum", "mask", "sunglasses", "dizzy_face", "imp", "smiling_imp", "neutral_face", "no_mouth", "innocent", "alien", "yellow_heart", "blue_heart", "purple_heart", "heart", "green_heart", "broken_heart", "heartbeat", "heartpulse", "two_hearts", "revolving_hearts", "cupid", "sparkling_heart", "sparkles", "star", "star2", "dizzy", "boom", "collision", "anger", "exclamation", "question", "grey_exclamation", "grey_question", "zzz", "dash", "sweat_drops", "notes", "musical_note", "fire", "hankey", "poop", "shit", "+1", "thumbsup", "-1", "thumbsdown", "ok_hand", "punch", "facepunch", "fist", "v", "wave", "hand", "raised_hand", "open_hands", "point_up", "point_down", "point_left", "point_right", "raised_hands", "pray", "point_up_2", "clap", "muscle", "metal", "fu", "walking", "runner", "running", "couple", "family", "two_men_holding_hands", "two_women_holding_hands", "dancer", "dancers", "ok_woman", "no_good", "information_desk_person", "raising_hand", "bride_with_veil", "person_with_pouting_face", "person_frowning", "bow", "couplekiss", "couple_with_heart", "massage", "haircut", "nail_care", "boy", "girl", "woman", "man", "baby", "older_woman", "older_man", "person_with_blond_hair", "man_with_gua_pi_mao", "man_with_turban", "construction_worker", "cop", "angel", "princess", "smiley_cat", "smile_cat", "heart_eyes_cat", "kissing_cat", "smirk_cat", "scream_cat", "crying_cat_face", "joy_cat", "pouting_cat", "japanese_ogre", "japanese_goblin", "see_no_evil", "hear_no_evil", "speak_no_evil", "guardsman", "skull", "feet", "lips", "kiss", "droplet", "ear", "eyes", "nose", "tongue", "love_letter", "bust_in_silhouette", "busts_in_silhouette", "speech_balloon", "thought_balloon", "feelsgood", "finnadie", "goberserk", "godmode", "hurtrealbad", "rage1", "rage2", "rage3", "rage4", "suspect", "trollface"];
+
+            var eHtml = "<table id='emoji-table' class='emoji-table'><tr>";
+            for (var i = 0; i < 195; i++) {
+                eHtml += "<td title='" + data[i] + "' data-emoji='" + data[i] + "'></td>";
+                if ((i + 1) % 15 == 0) {
+                    eHtml += "</tr><tr>";
+                }
+            }
+            eHtml += "</tr></table>";
+            return eHtml;
+        }
 
     };
 
@@ -1406,7 +1500,7 @@
         width: 'inherit',
         height: 'inherit',
         resize: 'none',
-        iconlibrary: 'glyph',
+        iconlibrary: 'fa',
         language: 'en',
         initialstate: 'editor',
         imgurl: '',
@@ -1550,6 +1644,16 @@
                     callback: function (e) {
                         e.$uploadMode = true;
                         e.showUpload(e);
+
+                    }
+                },{
+                    name: 'cmdEmoji',
+                    title: 'Emoji',
+                    hotkey: 'Ctrl+E',
+                    icon: {glyph: 'glyphicon glyphicon-user', fa: 'fa fa-smile-o', 'fa-3': 'icon-picture'},
+                    callback: function (e) {
+                        //e.$uploadMode = true;
+                        e.showEmojiPanel(e);
 
                     }
                 }]
