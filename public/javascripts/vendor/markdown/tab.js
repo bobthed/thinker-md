@@ -136,8 +136,10 @@ var tabFunc = function (evt) {
                 selectionStart += 1 + (tabs * 4);
             }
         } else {
-            _value = prefix + enterKey + suffix;
-            ++selectionStart;
+            //fix Ctrl+z and Ctrl+y bug
+            return;
+            /*_value = prefix + enterKey + suffix;
+            ++selectionStart;*/
         }
 
         selectionEnd = selectionStart;
@@ -146,15 +148,6 @@ var tabFunc = function (evt) {
         return stopEvent(evt);
     }
 
-    //Ctrl+Z
-    if (evt.ctrlKey === true && keyCode === key_z) {
-        return stopEvent(evt);
-    }
-
-    //Ctrl+y
-    if (evt.ctrlKey === true && keyCode === key_y) {
-        return stopEvent(evt);
-    }
 };
 
 window.document.addEventListener('keydown', tabFunc, false);
