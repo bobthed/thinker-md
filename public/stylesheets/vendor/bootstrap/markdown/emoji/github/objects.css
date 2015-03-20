@@ -135,7 +135,7 @@
 *[data-emoji~=soccer] {background: rgba(0, 0, 0, 0) url("../img/emoji/object/soccer.png") no-repeat center;}
 *[data-emoji~=baseball] {background: rgba(0, 0, 0, 0) url("../img/emoji/object/baseball.png") no-repeat center;}
 *[data-emoji~=tennis] {background: rgba(0, 0, 0, 0) url("../img/emoji/object/tennis.png") no-repeat center;}
-*[data-emoji~=8ball] {background: rgba(0, 0, 0, 0) url("../img/emoji/object/8ball.png") no-repeat center;}
+*[data-emoji~='8ball'] {background: rgba(0, 0, 0, 0) url("../img/emoji/object/8ball.png") no-repeat center;}
 *[data-emoji~=rugby_football] {background: rgba(0, 0, 0, 0) url("../img/emoji/object/rugby_football.png") no-repeat center;}
 *[data-emoji~=bowling] {background: rgba(0, 0, 0, 0) url("../img/emoji/object/bowling.png") no-repeat center;}
 *[data-emoji~=golf] {background: rgba(0, 0, 0, 0) url("../img/emoji/object/golf.png") no-repeat center;}
