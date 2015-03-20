@@ -1487,8 +1487,12 @@
 
                         var emojiKeyword = _target.getAttribute('data-emoji');
                         if (tagName === 'DIV' && emojiKeyword) {
-                            _this.replaceSelection(":" + emojiKeyword + ":");
-                            _this.hideEmoji();
+                            // Give/remove ** surround the selection
+                            var  selected = e.getSelection(),
+                                keywordLength = emojiKeyword.length+2;
+                            e.replaceSelection(":" + emojiKeyword + ":");
+                            e.setSelection(selected.start+keywordLength,selected.end+keywordLength);
+                            e.hideEmoji();
                             if(fullScreen){
                                 innerPreview.html(marked(textarea.val()));
                             }
