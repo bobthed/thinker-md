@@ -32238,7 +32238,7 @@ marked.setOptions({
                     'class': 'md-emoji',
                     'data-provide': 'markdown-emoji'
                 }).on('click', function (evt) {
-                    if ($(evt.target).is('div .md-emoji'))
+                    if ($(evt.target).is('div.md-emoji'))
                         _this.hideEmoji();
                 });
 

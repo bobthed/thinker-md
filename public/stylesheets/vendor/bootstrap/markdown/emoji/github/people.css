@@ -475,8 +475,7 @@ emoji[data-emoji~=emoji]{
     background: rgba(0, 0, 0, 0) url("../img/emoji/people/shit.png") no-repeat center;
 }
 
-*[data-emoji~=plus1] {
-
+*[data-emoji~='+1'] {
     background: rgba(0, 0, 0, 0) url("../img/emoji/people/plus1.png") no-repeat center;
 }
 
@@ -485,9 +484,9 @@ emoji[data-emoji~=emoji]{
     background: rgba(0, 0, 0, 0) url("../img/emoji/people/thumbsup.png") no-repeat center;
 }
 
-*[data-emoji~=minus1] {
+*[data-emoji~='-1'] {
 
-    background: rgba(0, 0, 0, 0) url("../img/emoji/people/minus1.png") no-repeat center;
+    background: rgba(0, 0, 0, 0) url("../img/emoji/people/-1.png") no-repeat center;
 }
 
 *[data-emoji~=thumbsdown] {
