@@ -18946,6 +18946,9 @@ marked.setOptions({
             //预览按钮
                 previewButton = $('button[data-handler="bootstrap-markdown-cmdPreview"]');
             if (mode) {
+                if (this.$isPreview) {
+                    this.hidePreview();
+                }
                 $editor.addClass('md-fullscreen-mode');
                 $('body').addClass('md-nooverflow');
                 this.$options.onFullscreen(this);
