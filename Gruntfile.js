@@ -17,11 +17,6 @@ module.exports = function (grunt) {
                 src: [
                     /* jquery, jquery ui*/
                     '<%= pkg.dir.js.vendor %>jquery/*.js',
-                    '<%= pkg.dir.js.vendor %>jquery/plugin/*.js',
-                    '<%= pkg.dir.js.vendor %>jquery/plugin/fancybox/jquery.fancybox.js',
-                    '<%= pkg.dir.js.vendor %>jquery/plugin/fancybox/jquery.fancybox-buttons.js',
-                    '<%= pkg.dir.js.vendor %>jquery/plugin/fancybox/jquery.fancybox-media.js',
-                    '<%= pkg.dir.js.vendor %>jquery/plugin/fancybox/jquery.fancybox-thumbs.js',
                     /*highlight*/
                     '<%= pkg.dir.js.vendor %>highlight/highlight.js',
                     /*bootstrap*/
