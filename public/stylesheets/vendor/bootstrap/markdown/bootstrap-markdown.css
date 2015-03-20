@@ -509,17 +509,6 @@ upload*/
     overflow: hidden;
 }
 
-.emoji-table {
-    border: 1px solid #CCC;
-}
-
-.emoji-table td {
-    border: 1px solid #CCC;
-    width: 38px;
-    height: 36px;
-    cursor: pointer;
-}
-
 .md-editor > .md-emoji {
     position: fixed;
     width: auto;
@@ -536,7 +525,7 @@ upload*/
 
 .md-editor > .md-emoji > .md-dialog {
     margin: 30px auto;
-    width: 600px;
+    width: 830px;
     height: auto;
     background-color: #f6f6f6;
     border-radius: 6px;
@@ -562,8 +551,95 @@ upload*/
     padding: 20px 20px 30px;
     background-color: #fcfcfc;
     height: 400px;
-    overflow: scroll;
+    overflow: hidden;
 }
+
+.md-emoji .md-content-body .md-emoji-panel {
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.md-emoji .md-content-body .md-emoji-panel .md-emoji-nav {
+    list-style: none;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 25px;
+}
+
+.md-emoji .md-content-body .md-emoji-panel .md-emoji-nav li {
+    color: #999;
+    font-size: 18px;
+    padding: 5px 15px;
+    display: inline-block;
+    border: 1px solid #ddd;
+    border-bottom: none;
+    margin-left: 5px;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    background-color: #f6f6f6;
+    cursor: pointer;
+}
+
+.md-emoji .md-content-body .md-emoji-panel .md-emoji-nav li.active {
+    background-color: #fff !important;
+}
+
+.md-emoji .md-content-body .md-emoji-panel .md-emoji-nav li:hover {
+    background-color: #eee;
+}
+
+.md-emoji .md-content-body .md-emoji-panel div[data-group-title=emoji-group-title] {
+    color: #666;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 0 0 10px 0;
+}
+
+.md-emoji .md-content-body .md-emoji-panel>div{
+    height: 300px;
+    padding-bottom: 40px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+
+.md-emoji .md-content-body .md-emoji-panel div[data-group-title=emoji-group-title]+.emoji-row{
+    border-top: 1px solid #ddd;
+}
+
+
+.md-emoji .md-content-body .md-emoji-panel div[data-group] .emoji-row:first-child{
+    border-top: 1px solid #ddd;
+}
+
+.md-emoji .md-content-body .md-emoji-panel  .emoji-row{
+    display: inline-block;
+    border: 1px solid #ddd;
+    border-top: none;
+    background-color: #fff;
+}
+
+.md-emoji .md-content-body .md-emoji-panel  .emoji-row .emoji-block:first-child{
+    border-left: none;
+}
+
+.md-emoji .md-content-body .md-emoji-panel .emoji-block{
+    display: inline-block;
+    font-size: 0;
+    vertical-align: top;
+    margin: 0;
+    padding: 0;
+    width: 38px;
+    height: 36px;
+    background-size: 24px 24px!important;
+    border-left: 1px solid #ddd;
+    cursor: pointer;
+}
+
+.md-emoji .md-content-body .md-emoji-panel .emoji-block:hover{
+    background-color: #f6f6f6;
+}
+
+
 
 .md-progress-bar {
     margin-top: 20px;

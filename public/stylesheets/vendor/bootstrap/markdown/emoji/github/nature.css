@@ -1,0 +1,459 @@
+*[data-emoji~=sunny] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/sunny.png") no-repeat center;
+}
+
+*[data-emoji~=umbrella] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/umbrella.png") no-repeat center;
+}
+
+*[data-emoji~=cloud] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/cloud.png") no-repeat center;
+}
+
+*[data-emoji~=snowflake] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/snowflake.png") no-repeat center;
+}
+
+*[data-emoji~=snowman] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/snowman.png") no-repeat center;
+}
+
+*[data-emoji~=zap] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/zap.png") no-repeat center;
+}
+
+*[data-emoji~=cyclone] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/cyclone.png") no-repeat center;
+}
+
+*[data-emoji~=foggy] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/foggy.png") no-repeat center;
+}
+
+*[data-emoji~=ocean] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/ocean.png") no-repeat center;
+}
+
+*[data-emoji~=cat] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/cat.png") no-repeat center;
+}
+
+*[data-emoji~=dog] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/dog.png") no-repeat center;
+}
+
+*[data-emoji~=mouse] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/mouse.png") no-repeat center;
+}
+
+*[data-emoji~=hamster] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/hamster.png") no-repeat center;
+}
+
+*[data-emoji~=rabbit] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/rabbit.png") no-repeat center;
+}
+
+*[data-emoji~=wolf] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/wolf.png") no-repeat center;
+}
+
+*[data-emoji~=frog] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/frog.png") no-repeat center;
+}
+
+*[data-emoji~=tiger] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/tiger.png") no-repeat center;
+}
+
+*[data-emoji~=koala] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/koala.png") no-repeat center;
+}
+
+*[data-emoji~=bear] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/bear.png") no-repeat center;
+}
+
+*[data-emoji~=pig] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/pig.png") no-repeat center;
+}
+
+*[data-emoji~=pig_nose] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/pig_nose.png") no-repeat center;
+}
+
+*[data-emoji~=cow] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/cow.png") no-repeat center;
+}
+
+*[data-emoji~=boar] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/boar.png") no-repeat center;
+}
+
+*[data-emoji~=monkey_face] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/monkey_face.png") no-repeat center;
+}
+
+*[data-emoji~=monkey] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/monkey.png") no-repeat center;
+}
+
+*[data-emoji~=horse] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/horse.png") no-repeat center;
+}
+
+*[data-emoji~=racehorse] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/racehorse.png") no-repeat center;
+}
+
+*[data-emoji~=camel] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/camel.png") no-repeat center;
+}
+
+*[data-emoji~=sheep] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/sheep.png") no-repeat center;
+}
+
+*[data-emoji~=elephant] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/elephant.png") no-repeat center;
+}
+
+*[data-emoji~=panda_face] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/panda_face.png") no-repeat center;
+}
+
+*[data-emoji~=snake] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/snake.png") no-repeat center;
+}
+
+*[data-emoji~=bird] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/bird.png") no-repeat center;
+}
+
+*[data-emoji~=baby_chick] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/baby_chick.png") no-repeat center;
+}
+
+*[data-emoji~=hatched_chick] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/hatched_chick.png") no-repeat center;
+}
+
+*[data-emoji~=hatching_chick] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/hatching_chick.png") no-repeat center;
+}
+
+*[data-emoji~=chicken] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/chicken.png") no-repeat center;
+}
+
+*[data-emoji~=penguin] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/penguin.png") no-repeat center;
+}
+
+*[data-emoji~=turtle] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/turtle.png") no-repeat center;
+}
+
+*[data-emoji~=bug] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/bug.png") no-repeat center;
+}
+
+*[data-emoji~=honeybee] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/honeybee.png") no-repeat center;
+}
+
+*[data-emoji~=ant] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/ant.png") no-repeat center;
+}
+
+*[data-emoji~=beetle] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/beetle.png") no-repeat center;
+}
+
+*[data-emoji~=snail] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/snail.png") no-repeat center;
+}
+
+*[data-emoji~=octopus] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/octopus.png") no-repeat center;
+}
+
+*[data-emoji~=tropical_fish] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/tropical_fish.png") no-repeat center;
+}
+
+*[data-emoji~=fish] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/fish.png") no-repeat center;
+}
+
+*[data-emoji~=whale] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/whale.png") no-repeat center;
+}
+
+*[data-emoji~=whale2] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/whale2.png") no-repeat center;
+}
+
+*[data-emoji~=dolphin] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/dolphin.png") no-repeat center;
+}
+
+*[data-emoji~=cow2] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/cow2.png") no-repeat center;
+}
+
+*[data-emoji~=ram] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/ram.png") no-repeat center;
+}
+
+*[data-emoji~=rat] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/rat.png") no-repeat center;
+}
+
+*[data-emoji~=water_buffalo] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/water_buffalo.png") no-repeat center;
+}
+
+*[data-emoji~=tiger2] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/tiger2.png") no-repeat center;
+}
+
+*[data-emoji~=rabbit2] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/rabbit2.png") no-repeat center;
+}
+
+*[data-emoji~=dragon] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/dragon.png") no-repeat center;
+}
+
+*[data-emoji~=goat] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/goat.png") no-repeat center;
+}
+
+*[data-emoji~=rooster] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/rooster.png") no-repeat center;
+}
+
+*[data-emoji~=dog2] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/dog2.png") no-repeat center;
+}
+
+*[data-emoji~=pig2] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/pig2.png") no-repeat center;
+}
+
+*[data-emoji~=mouse2] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/mouse2.png") no-repeat center;
+}
+
+*[data-emoji~=ox] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/ox.png") no-repeat center;
+}
+
+*[data-emoji~=dragon_face] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/dragon_face.png") no-repeat center;
+}
+
+*[data-emoji~=blowfish] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/blowfish.png") no-repeat center;
+}
+
+*[data-emoji~=crocodile] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/crocodile.png") no-repeat center;
+}
+
+*[data-emoji~=dromedary_camel] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/dromedary_camel.png") no-repeat center;
+}
+
+*[data-emoji~=leopard] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/leopard.png") no-repeat center;
+}
+
+*[data-emoji~=cat2] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/cat2.png") no-repeat center;
+}
+
+*[data-emoji~=poodle] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/poodle.png") no-repeat center;
+}
+
+*[data-emoji~=paw_prints] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/paw_prints.png") no-repeat center;
+}
+
+*[data-emoji~=bouquet] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/bouquet.png") no-repeat center;
+}
+
+*[data-emoji~=cherry_blossom] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/cherry_blossom.png") no-repeat center;
+}
+
+*[data-emoji~=tulip] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/tulip.png") no-repeat center;
+}
+
+*[data-emoji~=four_leaf_clover] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/four_leaf_clover.png") no-repeat center;
+}
+
+*[data-emoji~=rose] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/rose.png") no-repeat center;
+}
+
+*[data-emoji~=sunflower] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/sunflower.png") no-repeat center;
+}
+
+*[data-emoji~=hibiscus] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/hibiscus.png") no-repeat center;
+}
+
+*[data-emoji~=maple_leaf] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/maple_leaf.png") no-repeat center;
+}
+
+*[data-emoji~=leaves] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/leaves.png") no-repeat center;
+}
+
+*[data-emoji~=fallen_leaf] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/fallen_leaf.png") no-repeat center;
+}
+
+*[data-emoji~=herb] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/herb.png") no-repeat center;
+}
+
+*[data-emoji~=mushroom] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/mushroom.png") no-repeat center;
+}
+
+*[data-emoji~=cactus] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/cactus.png") no-repeat center;
+}
+
+*[data-emoji~=palm_tree] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/palm_tree.png") no-repeat center;
+}
+
+*[data-emoji~=evergreen_tree] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/evergreen_tree.png") no-repeat center;
+}
+
+*[data-emoji~=deciduous_tree] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/deciduous_tree.png") no-repeat center;
+}
+
+*[data-emoji~=chestnut] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/chestnut.png") no-repeat center;
+}
+
+*[data-emoji~=seedling] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/seedling.png") no-repeat center;
+}
+
+*[data-emoji~=blossom] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/blossom.png") no-repeat center;
+}
+
+*[data-emoji~=ear_of_rice] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/ear_of_rice.png") no-repeat center;
+}
+
+*[data-emoji~=shell] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/shell.png") no-repeat center;
+}
+
+*[data-emoji~=globe_with_meridians] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/globe_with_meridians.png") no-repeat center;
+}
+
+*[data-emoji~=sun_with_face] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/sun_with_face.png") no-repeat center;
+}
+
+*[data-emoji~=full_moon_with_face] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/full_moon_with_face.png") no-repeat center;
+}
+
+*[data-emoji~=new_moon_with_face] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/new_moon_with_face.png") no-repeat center;
+}
+
+*[data-emoji~=new_moon] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/new_moon.png") no-repeat center;
+}
+
+*[data-emoji~=waxing_crescent_moon] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/waxing_crescent_moon.png") no-repeat center;
+}
+
+*[data-emoji~=first_quarter_moon] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/first_quarter_moon.png") no-repeat center;
+}
+
+*[data-emoji~=waxing_gibbous_moon] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/waxing_gibbous_moon.png") no-repeat center;
+}
+
+*[data-emoji~=full_moon] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/full_moon.png") no-repeat center;
+}
+
+*[data-emoji~=waning_gibbous_moon] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/waning_gibbous_moon.png") no-repeat center;
+}
+
+*[data-emoji~=last_quarter_moon] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/last_quarter_moon.png") no-repeat center;
+}
+
+*[data-emoji~=waning_crescent_moon] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/waning_crescent_moon.png") no-repeat center;
+}
+
+*[data-emoji~=last_quarter_moon_with_face] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/last_quarter_moon_with_face.png") no-repeat center;
+}
+
+*[data-emoji~=first_quarter_moon_with_face] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/first_quarter_moon_with_face.png") no-repeat center;
+}
+
+*[data-emoji~=moon] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/moon.png") no-repeat center;
+}
+
+*[data-emoji~=earth_africa] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/earth_africa.png") no-repeat center;
+}
+
+*[data-emoji~=earth_americas] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/earth_americas.png") no-repeat center;
+}
+
+*[data-emoji~=earth_asia] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/earth_asia.png") no-repeat center;
+}
+
+*[data-emoji~=volcano] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/volcano.png") no-repeat center;
+}
+
+*[data-emoji~=milky_way] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/milky_way.png") no-repeat center;
+}
+
+*[data-emoji~=partly_sunny] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/partly_sunny.png") no-repeat center;
+}
+
+*[data-emoji~=octocat] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/octocat.png") no-repeat center;
+}
+
+*[data-emoji~=squirrel] {
+    background: rgba(0, 0, 0, 0) url("../img/emoji/nature/squirrel.png") no-repeat center;
+}
