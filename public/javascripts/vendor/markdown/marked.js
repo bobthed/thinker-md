@@ -716,6 +716,7 @@
      */
 
     function emojiDefaultTemplate(emoji) {
+        var _class = emoji.match(/fa-\S+/) === null ? '' : 'fa ' + emoji;
         return '<emoji '
                 /* + 'src="'
                  + '../img/emoji/people/'
@@ -727,6 +728,9 @@
                  + ' title=":'
                  + escape(emoji)
                  + ':"'*/
+            + ' class="'
+            + _class
+            + '"'
             + ' data-name="'
             + escape(emoji)
             + '"'
