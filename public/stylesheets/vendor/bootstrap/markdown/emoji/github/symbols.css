@@ -8,7 +8,7 @@
 *[data-emoji~=eight] {background: rgba(0, 0, 0, 0) url("../img/emoji/Sysmbols/eight.png") no-repeat center;}
 *[data-emoji~=nine] {background: rgba(0, 0, 0, 0) url("../img/emoji/Sysmbols/nine.png") no-repeat center;}
 *[data-emoji~=keycap_ten] {background: rgba(0, 0, 0, 0) url("../img/emoji/Sysmbols/keycap_ten.png") no-repeat center;}
-*[data-emoji~=1234] {background: rgba(0, 0, 0, 0) url("../img/emoji/Sysmbols/1234.png") no-repeat center;}
+*[data-emoji~='1234'] {background: rgba(0, 0, 0, 0) url("../img/emoji/Sysmbols/1234.png") no-repeat center;}
 *[data-emoji~=zero] {background: rgba(0, 0, 0, 0) url("../img/emoji/Sysmbols/zero.png") no-repeat center;}
 *[data-emoji~=hash] {background: rgba(0, 0, 0, 0) url("../img/emoji/Sysmbols/hash.png") no-repeat center;}
 *[data-emoji~=symbols] {background: rgba(0, 0, 0, 0) url("../img/emoji/Sysmbols/symbols.png") no-repeat center;}
@@ -169,7 +169,7 @@
 *[data-emoji~=heavy_minus_sign] {background: rgba(0, 0, 0, 0) url("../img/emoji/Sysmbols/heavy_minus_sign.png") no-repeat center;}
 *[data-emoji~=heavy_division_sign] {background: rgba(0, 0, 0, 0) url("../img/emoji/Sysmbols/heavy_division_sign.png") no-repeat center;}
 *[data-emoji~=white_flower] {background: rgba(0, 0, 0, 0) url("../img/emoji/Sysmbols/white_flower.png") no-repeat center;}
-*[data-emoji~=100] {background: rgba(0, 0, 0, 0) url("../img/emoji/Sysmbols/100.png") no-repeat center;}
+*[data-emoji~='100'] {background: rgba(0, 0, 0, 0) url("../img/emoji/Sysmbols/100.png") no-repeat center;}
 *[data-emoji~=heavy_check_mark] {background: rgba(0, 0, 0, 0) url("../img/emoji/Sysmbols/heavy_check_mark.png") no-repeat center;}
 *[data-emoji~=ballot_box_with_check] {background: rgba(0, 0, 0, 0) url("../img/emoji/Sysmbols/ballot_box_with_check.png") no-repeat center;}
 *[data-emoji~=radio_button] {background: rgba(0, 0, 0, 0) url("../img/emoji/Sysmbols/radio_button.png") no-repeat center;}
