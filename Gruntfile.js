@@ -15,8 +15,6 @@ module.exports = function (grunt) {
             dist: {
                 // the files to concatenate
                 src: [
-                    /* jquery, jquery ui*/
-                    '<%= pkg.dir.js.vendor %>jquery/*.js',
                     /*highlight*/
                     '<%= pkg.dir.js.vendor %>highlight/highlight.js',
                     /*bootstrap*/
@@ -34,7 +32,7 @@ module.exports = function (grunt) {
 
                 ],
                 // the location of the resulting JS file
-                dest: 'dist/javascripts/vendor/<%= pkg.name %>.vendor.js'
+                dest: 'dist/javascripts/vendor/<%= pkg.name %>.js'
             },
             user: {
                 // the files to concatenate
@@ -68,10 +66,10 @@ module.exports = function (grunt) {
             },
             dist: {
                 options: {
-                    sourceMapName: "dist/javascripts/vendor/<%= pkg.name %>.vendor.min.map"
+                    sourceMapName: "dist/javascripts/vendor/<%= pkg.name %>.min.map"
                 },
                 files: {
-                    'dist/javascripts/vendor/<%= pkg.name %>.vendor.min.js': ['<%= concat.dist.dest %>']
+                    'dist/javascripts/vendor/<%= pkg.name %>.min.js': ['<%= concat.dist.dest %>']
                 }
             },
             user: {
@@ -90,7 +88,7 @@ module.exports = function (grunt) {
             },
             dist: {
                 files: {
-                    'dist/stylesheets/vendor/<%= pkg.name %>.vendor.min.css': [
+                    'dist/stylesheets/vendor/<%= pkg.name %>.min.css': [
                         '<%= pkg.dir.css.vendor %>*.css',
                         '<%= pkg.dir.css.vendor %>**/*.css',
                         '<%= pkg.dir.css.vendor %>**/**/*.css'
@@ -108,6 +106,13 @@ module.exports = function (grunt) {
             }
         },
         copy: {
+            lib: {
+                expand: true,
+                cwd: '<%= pkg.dir.js.vendor %>jquery/',
+                src: [
+                    '*.js'
+                ], dest: 'dist/javascripts/vendor/'
+            },
             fonts: {
                 files: [
                     {
