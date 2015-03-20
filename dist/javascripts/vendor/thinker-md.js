@@ -20100,7 +20100,10 @@ marked.setOptions({
                 mdContent = null,
                 mdContentHeader = null,
                 mdContentBody = null,
-                mdContentFooter = null;
+                mdContentFooter = null,
+                textarea = this.$textarea,
+                fullScreen=this.$isFullscreen,
+                innerPreview = this.$innerPreview;
 
             if (emojiElements === null) {
                 emojiElements = _this.initEmoji();
@@ -20175,6 +20178,9 @@ marked.setOptions({
                         if (tagName === 'DIV' && emojiKeyword) {
                             _this.replaceSelection(":" + emojiKeyword + ":");
                             _this.hideEmoji();
+                            if(fullScreen){
+                                innerPreview.html(marked(textarea.val()));
+                            }
                         }
                     }
                 });
