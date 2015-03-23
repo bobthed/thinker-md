@@ -119,12 +119,17 @@
     background-color: rgba(128, 128, 128, 0.05);
 }
 
+.md-editor > .md-full-preview .md-full-preview-body .md-full-preview-inner blockquote p{
+    margin: 0;
+}
+
 .md-editor > .md-full-preview .md-full-preview-body .md-full-preview-inner emoji {
+    display: inline-block;
     font-family: FontAwesome;
-    vertical-align: top;
-    line-height: 24px !important;
+    vertical-align: middle;
+    line-height: 24px!important;
     text-align: center;
-    margin: 0 3px 5px 3px;
+    margin: 0 3px 5px;
 }
 
 .md-editor > .md-full-preview .md-full-preview-body .md-full-preview-inner pre {
