@@ -112,6 +112,8 @@
 
 .md-editor > .md-full-preview .md-full-preview-body .md-full-preview-inner img {
     margin: 5px 0;
+    width: auto;
+    max-width: 100%;
 }
 
 .md-editor > .md-full-preview .md-full-preview-body .md-full-preview-inner blockquote {
