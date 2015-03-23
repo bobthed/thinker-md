@@ -50,13 +50,13 @@ grunt watch
 编译后会生成如下目录
 
 > dist
-----javascript
-----|----user
-----|----|----thinker-md-user.js
-----|----|----thinker-md-user.min.js
-----|----|----thinker-md-user.min.map
-----|----vendor
-----|----|----jquery-2.1.3.js
+>----javascript
+>----|----user
+>----|----|----thinker-md-user.js
+>----|----|----thinker-md-user.min.js
+>----|----|----thinker-md-user.min.map
+>----|----vendor
+>----|----|----jquery-2.1.3.js
 ----|----|----thinker-md.js
 ----|----|----thinker-md.min.js
 ----|----|----thinker-md.min.map
