@@ -48,27 +48,28 @@ npm install
 grunt watch
 ```
 编译后会生成如下目录
-|dist
-|----javascript
-|--------user
-|------------thinker-md-user.js
-|------------thinker-md-user.min.js
-|------------thinker-md-user.min.map
-|--------vendor
-|------------jquery-2.1.3.js
-|------------thinker-md.js
-|------------thinker-md.min.js
-|------------thinker-md.min.map
-|----stylesheets
-|--------fonts
-|------------fontawesome-webfont.eot
-|------------glyphicons-halflings-regular.eot
-|------------...
-|--------img
-|--------user
-|------------thinker-md.user.min.css
-|--------vendor
-|------------thinker-md.min.css
+
+|dist\n
+|----javascript\n
+|--------user\n
+|------------thinker-md-user.js\n
+|------------thinker-md-user.min.js\n
+|------------thinker-md-user.min.map\n
+|--------vendor\n
+|------------jquery-2.1.3.js\n
+|------------thinker-md.js\n
+|------------thinker-md.min.js\n
+|------------thinker-md.min.map\n
+|----stylesheets\n
+|--------fonts\n
+|------------fontawesome-webfont.eot\n
+|------------glyphicons-halflings-regular.eot\n
+|------------...\n
+|--------img\n
+|--------user\n
+|------------thinker-md.user.min.css\n
+|--------vendor\n
+|------------thinker-md.min.css\n
 
 
 # 2. 用户指南
