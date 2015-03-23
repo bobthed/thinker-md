@@ -1422,6 +1422,10 @@ ol li:before{
   counter-increment:section;
 }
 
+li ol,ul{
+  margin-left: 20px;
+}
+
 li p{
   display: inline;
 }
