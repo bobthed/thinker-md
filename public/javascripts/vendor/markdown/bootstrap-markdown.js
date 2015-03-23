@@ -268,6 +268,16 @@
                 $textarea.keyup(function (evt) {
                     $innerPreview.html(marked($textarea.val()));
                 });
+
+                $textarea.scroll(function () {
+                    var __this = $(this).get(0),
+                        scrollHeight = __this.scrollHeight,
+                        scrollTop = __this.scrollTop;
+                    var __inner = $innerPreview.get(0),
+                        innerHeight = __inner.scrollHeight;
+                    var top = scrollTop * innerHeight / scrollHeight;
+                    $innerPreview.scrollTop(top);
+                });
                 //up by wpl
                 if (preview) {
                     preview.remove();
@@ -1416,7 +1426,7 @@
                 mdContentBody = null,
                 mdContentFooter = null,
                 textarea = this.$textarea,
-                fullScreen=this.$isFullscreen,
+                fullScreen = this.$isFullscreen,
                 innerPreview = this.$innerPreview;
 
             if (emojiElements === null) {
@@ -1491,12 +1501,12 @@
                         var emojiKeyword = _target.getAttribute('data-emoji');
                         if (tagName === 'DIV' && emojiKeyword) {
                             // Give/remove ** surround the selection
-                            var  selected = e.getSelection(),
-                                keywordLength = emojiKeyword.length+2;
+                            var selected = e.getSelection(),
+                                keywordLength = emojiKeyword.length + 2;
                             e.replaceSelection(":" + emojiKeyword + ":");
-                            e.setSelection(selected.start+keywordLength,selected.end+keywordLength);
+                            e.setSelection(selected.start + keywordLength, selected.end + keywordLength);
                             e.hideEmoji();
-                            if(fullScreen){
+                            if (fullScreen) {
                                 innerPreview.html(marked(textarea.val()));
                             }
                         }
@@ -1591,7 +1601,7 @@
                         _class = 'emoji-block';
 
                     var emojiHtml = $('<div/>', {
-                        class:_class,
+                        class: _class,
                         title: emojiName,
                         'data-emoji': emojiName
                     });
@@ -1600,8 +1610,8 @@
                         _class += fontawesome;
                         _class += emojiName;
                         emojiHtml.attr({
-                            class:_class,
-                            'data-class':fontawesome+emojiName
+                            class: _class,
+                            'data-class': fontawesome + emojiName
                         });
                     }
                     rowGroup.append(emojiHtml);
