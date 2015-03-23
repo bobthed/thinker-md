@@ -858,7 +858,7 @@
         }
         , setImageLink: function (link) {
             // Give ![] surround the selection and prepend the image link
-            var chunk, cursor, instance = this, selected = instance.getSelection(), content = instance.getContent(), _link = link;
+            var _this=this,chunk, cursor, instance = this, selected = instance.getSelection(), content = instance.getContent(), _link = link;
 
             if (selected.length === 0) {
                 // Give extra word
@@ -881,7 +881,9 @@
 
                 // Set the cursor
                 instance.setSelection(cursor, cursor + chunk.length);
-
+                if (_this.$isFullscreen) {
+                    _this.$innerPreview.html(marked(_this.$textarea.val()));
+                }
                 this.hideUpload();
             } else {
 
@@ -1771,18 +1773,18 @@
                             chunk = selected.text;
                         }
 
-                        link = prompt(e.__localize('Insert Hyperlink'), 'http://');
+                        /* link = prompt(e.__localize('Insert Hyperlink'), 'http://');*/
+                        link = 'http://';
+                        /*  if (link !== null && link !== '' && link !== 'http://' && link.substr(0, 4) === 'http') {*/
+                        var sanitizedLink = $('<div>' + link + '</div>').text();
 
-                        if (link !== null && link !== '' && link !== 'http://' && link.substr(0, 4) === 'http') {
-                            var sanitizedLink = $('<div>' + link + '</div>').text();
+                        // transform selection and set the cursor into chunked text
+                        e.replaceSelection('[' + chunk + '](' + sanitizedLink + ')');
+                        cursor = selected.start + chunk.length+10;
 
-                            // transform selection and set the cursor into chunked text
-                            e.replaceSelection('[' + chunk + '](' + sanitizedLink + ')');
-                            cursor = selected.start + 1;
-
-                            // Set the cursor
-                            e.setSelection(cursor, cursor + chunk.length);
-                        }
+                        // Set the cursor
+                        e.setSelection(cursor, cursor);
+                        /* }*/
                     }
                 }, {
                     name: 'cmdImage',
