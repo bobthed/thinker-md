@@ -49,27 +49,27 @@ grunt watch
 ```
 编译后会生成如下目录
 
-|dist
-|----javascript
-|--------user
-|------------thinker-md-user.js
-|------------thinker-md-user.min.js
-|------------thinker-md-user.min.map
-|--------vendor
-|------------jquery-2.1.3.js
-|------------thinker-md.js
-|------------thinker-md.min.js
-|------------thinker-md.min.map
-|----stylesheets
-|--------fonts
-|------------fontawesome-webfont.eot
-|------------glyphicons-halflings-regular.eot
-|------------...
-|--------img
-|--------user
-|------------thinker-md.user.min.css
-|--------vendor
-|------------thinker-md.min.css
+> dist
+----javascript
+----|----user
+----|----|----thinker-md-user.js
+----|----|----thinker-md-user.min.js
+----|----|----thinker-md-user.min.map
+----|----vendor
+----|----|----jquery-2.1.3.js
+----|----|----thinker-md.js
+----|----|----thinker-md.min.js
+----|----|----thinker-md.min.map
+----stylesheets
+----|----fonts
+----|----|----fontawesome-webfont.eot
+----|----|----glyphicons-halflings-regular.eot
+----|----|----...
+----|----img
+----|----user
+----|----|----thinker-md.user.min.css
+----|----vendor
+----|----|----thinker-md.min.css
 
 
 # 2. 用户指南
