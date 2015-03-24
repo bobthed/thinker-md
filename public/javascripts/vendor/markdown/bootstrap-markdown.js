@@ -819,7 +819,8 @@
                     if (xhr.readyState === 4 && xhr.status === 200) {
                         uploadImgURL = xhr.responseText;
                         if ('' !== uploadImgURL) {
-                            _this.setImageLink(uploadImgURL);
+                            //_this.setImageLink(uploadImgURL);
+                            uploadPanel.find('input.md-input-image-url').val(uploadImgURL);
                         }
                     }
                 };
