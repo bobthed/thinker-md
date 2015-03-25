@@ -859,7 +859,7 @@
         }
         , setImageLink: function (link) {
             // Give ![] surround the selection and prepend the image link
-            var _this=this,chunk, cursor, instance = this, selected = instance.getSelection(), content = instance.getContent(), _link = link;
+            var _this = this, chunk, cursor, instance = this, selected = instance.getSelection(), content = instance.getContent(), _link = link;
 
             if (selected.length === 0) {
                 // Give extra word
@@ -969,7 +969,12 @@
                     } else {
                         text = cutPaste.html();
                         text = text.replace(/<br\s*\/?>|<br\s*?>/ig, "\n")
-                            .replace(/<\/?[^>]*>/g, "")
+                            .replace(/<\/?[^>]*>/g, function ($0, $1) {
+                                if('</p>'===$0 ||'</div>'===$0){
+                                    return "\n";
+                                }
+                                return " ";
+                            })
                             .replace(/[ | ]*\n/g, "\n")
                             .replace(/&nbsp;/g, " ")
                             .replace(/&lt;/g, "<")
@@ -1781,7 +1786,7 @@
 
                         // transform selection and set the cursor into chunked text
                         e.replaceSelection('[' + chunk + '](' + sanitizedLink + ')');
-                        cursor = selected.start + chunk.length+10;
+                        cursor = selected.start + chunk.length + 10;
 
                         // Set the cursor
                         e.setSelection(cursor, cursor);

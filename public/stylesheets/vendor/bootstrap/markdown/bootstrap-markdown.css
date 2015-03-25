@@ -329,7 +329,7 @@
     overflow-y: auto;
     overflow-x: hidden;
     border: none !important;
-    white-space: pre;
+    white-space: pre-wrap;
     word-break: break-all;
     -ms-word-wrap: break-word;
     word-wrap: break-word;
