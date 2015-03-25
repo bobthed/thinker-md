@@ -19531,7 +19531,7 @@ marked.setOptions({
                                 if('</p>'===$0 ||'</div>'===$0){
                                     return "\n";
                                 }
-                                return " ";
+                                return "";
                             })
                             .replace(/[ | ]*\n/g, "\n")
                             .replace(/&nbsp;/g, " ")
