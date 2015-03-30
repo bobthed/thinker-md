@@ -15,13 +15,26 @@
 }
 
 .md-editor > .md-header > .btn-group button {
+    margin: 0;
+    padding: 0;
     width: 35px;
     height: 30px;
     outline: none;
     border: 0;
-    border-radius: 6px;
-    color: #ddd;
+    border-radius: 6px !important;
+    color: #666;
+    font-size: 16px;
     background-color: rgba(0, 0, 0, 0);
+}
+
+.md-fullscreen-mode > .md-header > .btn-group button {
+    color: #999;
+}
+
+.md-editor > .md-header > .btn-group button span{
+    width: 30px;
+    height: 30px;
+    line-height: 30px !important;
 }
 
 .md-editor > .md-header > .btn-group button:hover {
@@ -62,10 +75,6 @@
 
 .md-editor > .md-full-preview .md-full-preview-body .md-full-preview-inner p {
     margin: 0 0 1.1em;
-    white-space: pre-wrap;
-    word-break: break-all;
-    -ms-word-wrap: break-word;
-    word-wrap: break-word;
 }
 
 .md-editor > .md-full-preview .md-full-preview-body .md-full-preview-inner h1 {
@@ -150,6 +159,10 @@
 .md-editor > .md-full-preview .md-full-preview-body .md-full-preview-inner * {
     font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
     font-size: 18px;
+    white-space: initial;
+    word-break: break-all;
+    -ms-word-wrap: break-word;
+    word-wrap: break-word;
 }
 
 .md-editor > .md-preview {
@@ -164,6 +177,10 @@
 .md-editor > .md-preview * {
     font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
     font-size: 18px;
+    white-space: initial;
+    word-break: break-all;
+    -ms-word-wrap: break-word;
+    word-wrap: break-word;
 }
 
 .md-editor > .md-preview emoji {
@@ -183,10 +200,6 @@
 }
 
 .md-editor > .md-preview p {
-    white-space: pre;
-    word-break: break-all;
-    -ms-word-wrap: break-word;
-    word-wrap: break-word;
 }
 
 .md-editor > .md-preview h1 {
@@ -277,12 +290,12 @@
     height: 30px;
     line-height: 30px;
     right: 5px;
-    color: #ddd;
+    color: #666;
     padding: 0
 }
 
 .md-editor .md-controls .md-control:hover {
-    color: #fff;
+    color: #10AF88;
 }
 
 .md-editor.md-fullscreen-mode {
@@ -381,7 +394,7 @@
     height: 30px;
     line-height: 30px;
     top: 10px;
-    right: 0;
+    right: 10px;
     z-index: 1;
     display: block;
 }
@@ -434,7 +447,7 @@ upload*/
 }
 
 .md-editor > .md-upload > .md-dialog {
-    margin: 30px auto;
+    margin: 80px auto;
     width: 600px;
     height: auto;
     background-color: #f6f6f6;
@@ -569,7 +582,7 @@ upload*/
 }
 
 .md-editor > .md-emoji > .md-dialog {
-    margin: 30px auto;
+    margin: 80px auto;
     width: 830px;
     height: auto;
     background-color: #f6f6f6;
