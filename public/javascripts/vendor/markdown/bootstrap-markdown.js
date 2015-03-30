@@ -1575,8 +1575,8 @@
             }
 
             return emojiPanel;
-        },
-        renderEmojiNav: function (name, active) {
+        }
+        ,renderEmojiNav: function (name, active) {
             var _class = active ? 'active' : '';
             return $('<li/>', {
                 class: _class,
@@ -2000,7 +2000,7 @@
                     toggle: true,
                     hotkey: 'Ctrl+P',
                     title: 'Preview',
-                    btnText: 'Preview',
+                    //btnText: 'Preview',
                     //btnClass: 'btn btn-primary btn-sm',
                     icon: {glyph: 'glyphicon glyphicon-search', fa: 'fa fa-search', 'fa-3': 'icon-search'},
                     callback: function (e) {
