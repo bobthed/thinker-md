@@ -557,6 +557,10 @@ upload*/
     line-height: 34px;
 }
 
+.md-green{
+    color: green !important;
+}
+
 .md-upload .md-content-footer button:last-child {
     margin-left: 15px;
 }
