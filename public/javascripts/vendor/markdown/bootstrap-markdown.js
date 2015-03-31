@@ -1664,7 +1664,7 @@
         width: 'inherit',
         height: 'inherit',
         resize: 'none',
-        iconlibrary: 'fa',
+        iconlibrary: 'glyph',
         language: 'en',
         initialstate: 'editor',
         imgurl: '',
@@ -1814,7 +1814,7 @@
                     name: 'cmdEmoji',
                     title: 'Emoji',
                     hotkey: 'Ctrl+E',
-                    icon: {glyph: 'glyphicon glyphicon-user', fa: 'fa fa-smile-o', 'fa-3': 'icon-picture'},
+                    icon: {glyph: 'fa fa-smile-o', fa: 'fa fa-smile-o', 'fa-3': 'icon-picture'},
                     callback: function (e) {
                         //e.$uploadMode = true;
                         e.showEmojiPanel(e);
