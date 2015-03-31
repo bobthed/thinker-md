@@ -715,7 +715,7 @@
                         return false;
                     }
                     _this.setImageLink(link);
-                    _this.setPercent(_this.__localize('Progress') + '0%');
+                    _this.setPercent(0);
                     if (_this.$isFullscreen) {
                         _this.$innerPreview.html(marked(_this.$textarea.val()));
                     }
@@ -745,12 +745,16 @@
                 this.$percent.html(this.__localize('Progress') + progress + '%');
             }
         },
-        setState: function (text) {
+        setState: function (text,color) {
             var _this = this;
             if (_this.$stateBar) {
+                if(color){
+                    _this.$stateBar.addClass('md-green');
+                }
                 _this.$stateBar.html(text);
                 setTimeout(function () {
                     _this.$stateBar.html('');
+                    _this.$stateBar.removeClass('md-green');
                 }, 3000);
             }
         },
@@ -769,6 +773,9 @@
                 _fileName = '',
                 _suffixReg = /^.*\.(?:jpg|png|gif)$/,
                 formData = new FormData();
+            if(progress && progress.length>0){
+                progress = progress.get(0);
+            }
             if (null === imgUrl || '' === imgUrl) {
                 _this.setState(_this.__localize('UploadPathTip'));
                 return;
@@ -801,6 +808,7 @@
                         _this.setPercent(0);
                         progress.max = 100;
                         progress.value = 0;
+                        _this.setState(_this.__localize('ProgressLoaded'),true);
                     }, 1000);
                 };
 
