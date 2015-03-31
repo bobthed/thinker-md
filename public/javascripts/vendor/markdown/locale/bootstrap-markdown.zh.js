@@ -32,6 +32,7 @@
         'ImageInputTip':'请填入网络图片地址或点击按钮上传本地图片到服务器.',
         'BrowerSupportTip':'你的浏览器不被支持(IE10+)!',
         'Progress':'上传进度',
+        'ProgressLoaded':'上传完成',
         'UploadPathTip':'未设置文件上传路径!',
         'UploadEooroTip':'上传出错',
         'SupportTypeTip':'仅支持JPG、GIF和PNG图片文件!',
