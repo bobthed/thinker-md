@@ -19273,7 +19273,7 @@ marked.setOptions({
                         return false;
                     }
                     _this.setImageLink(link);
-                    _this.setPercent(_this.__localize('Progress') + '0%');
+                    _this.setPercent(0);
                     if (_this.$isFullscreen) {
                         _this.$innerPreview.html(marked(_this.$textarea.val()));
                     }
@@ -19303,12 +19303,16 @@ marked.setOptions({
                 this.$percent.html(this.__localize('Progress') + progress + '%');
             }
         },
-        setState: function (text) {
+        setState: function (text,color) {
             var _this = this;
             if (_this.$stateBar) {
+                if(color){
+                    _this.$stateBar.addClass('md-green');
+                }
                 _this.$stateBar.html(text);
                 setTimeout(function () {
                     _this.$stateBar.html('');
+                    _this.$stateBar.removeClass('md-green');
                 }, 3000);
             }
         },
@@ -19327,6 +19331,9 @@ marked.setOptions({
                 _fileName = '',
                 _suffixReg = /^.*\.(?:jpg|png|gif)$/,
                 formData = new FormData();
+            if(progress && progress.length>0){
+                progress = progress.get(0);
+            }
             if (null === imgUrl || '' === imgUrl) {
                 _this.setState(_this.__localize('UploadPathTip'));
                 return;
@@ -19359,6 +19366,7 @@ marked.setOptions({
                         _this.setPercent(0);
                         progress.max = 100;
                         progress.value = 0;
+                        _this.setState(_this.__localize('ProgressLoaded'),true);
                     }, 1000);
                 };
 
@@ -20133,8 +20141,8 @@ marked.setOptions({
             }
 
             return emojiPanel;
-        },
-        renderEmojiNav: function (name, active) {
+        }
+        ,renderEmojiNav: function (name, active) {
             var _class = active ? 'active' : '';
             return $('<li/>', {
                 class: _class,
@@ -20558,7 +20566,7 @@ marked.setOptions({
                     toggle: true,
                     hotkey: 'Ctrl+P',
                     title: 'Preview',
-                    btnText: 'Preview',
+                    //btnText: 'Preview',
                     //btnClass: 'btn btn-primary btn-sm',
                     icon: {glyph: 'glyphicon glyphicon-search', fa: 'fa fa-search', 'fa-3': 'icon-search'},
                     callback: function (e) {
@@ -21063,6 +21071,7 @@ marked.setOptions({
         'ImageInputTip':'请填入网络图片地址或点击按钮上传本地图片到服务器.',
         'BrowerSupportTip':'你的浏览器不被支持(IE10+)!',
         'Progress':'上传进度',
+        'ProgressLoaded':'上传完成',
         'UploadPathTip':'未设置文件上传路径!',
         'UploadEooroTip':'上传出错',
         'SupportTypeTip':'仅支持JPG、GIF和PNG图片文件!',

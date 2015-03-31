@@ -12,7 +12,10 @@ $("#md").markdown({
     resize: 'vertical',
     localStorage: 'md',
     imgurl: 'http://192.168.1.142:8080/upload',
-    base64url: 'http://192.168.1.142:8080/base64'
+    base64url: 'http://192.168.1.142:8080/base64',
+    disabledButtons:{
+        groupUtil:'cmdPreview'
+    }
 }).val(howto);
 
 $("#tmd").markdown({
@@ -23,5 +26,6 @@ $("#tmd").markdown({
     resize: 'vertical',
     textMarkdown:true,
     imgurl: 'http://192.168.1.142:8080/upload',
-    base64url: 'http://192.168.1.142:8080/base64'
+    base64url: 'http://192.168.1.142:8080/base64',
+    disabledButtons:['cmdPreview']
 });
