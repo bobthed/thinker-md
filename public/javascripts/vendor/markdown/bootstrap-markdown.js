@@ -2101,7 +2101,6 @@
             $this.data('markdown').showEditor();
             return;
         }
-
         $this.markdown()
     };
 
@@ -2120,7 +2119,6 @@
             }
         })
     };
-
     $(document)
         .on('click.markdown.data-api', '[data-provide="markdown-editable"]', function (e) {
             initMarkdown($(this));
@@ -2134,5 +2132,4 @@
                 initMarkdown($(this));
             })
         });
-
 }(window.jQuery);
