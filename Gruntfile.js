@@ -217,11 +217,8 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
 
     grunt.registerTask('resource', ['copy']);
-
     grunt.registerTask('css', ['cssmin:vendor', 'cssmin:user']);
-
     grunt.registerTask('js', ['concat:vendor', 'concat:user', 'uglify:vendor', 'uglify:user']);
-
     // the default task can be run just by typing "grunt" on the command line
     grunt.registerTask('default', ['copy', 'css', 'js']);
 
