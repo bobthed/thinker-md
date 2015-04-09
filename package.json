@@ -1,38 +1,37 @@
 {
-  "name": "thinker-md",
+  "author": "Nate Ling",
+  "license": "private",
+  "name": "lee",
   "version": "1.0.0",
-  "description": "Grunt",
+  "description": "J2EE width thinker-md",
   "main": "Gruntfile.js",
+  "repository": {
+    "type": "",
+    "url": ""
+  },
   "dependencies": {
-    "grunt": "^0.4.5",
-    "grunt-contrib-concat": "^0.5.1",
-    "grunt-contrib-watch": "^0.6.1",
-    "grunt-contrib-jshint": "^0.11.0",
-    "grunt-contrib-qunit": "^0.5.2",
-    "grunt-contrib-copy": "^0.8.0",
-    "grunt-contrib-uglify": "^0.8.0",
-    "grunt-contrib-cssmin": "^0.12.2",
-    "grunt-init": "^0.3.2"
+    "grunt": "latest",
+    "grunt-contrib-concat": "latest",
+    "grunt-contrib-watch": "latest",
+    "grunt-contrib-jshint": "latest",
+    "grunt-contrib-qunit": "latest",
+    "grunt-contrib-copy": "latest",
+    "grunt-contrib-uglify": "latest",
+    "grunt-contrib-cssmin": "latest",
+    "grunt-init": "latest"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "dir": {
-    "js": {
-      "vendor": "public/javascripts/vendor/",
-      "user": "public/javascripts/user/"
-    },
-    "css": {
-      "vendor": "public/stylesheets/vendor/",
-      "user": "public/stylesheets/user/"
-    },
+  "javascripts": {
+    "user": "public/javascripts/user/",
+    "vendor": "public/javascripts/vendor/"
+  },
+  "stylesheets": {
+    "emoji": "public/stylesheets/emoji/",
     "fonts": "public/stylesheets/fonts/",
-    "img":"public/stylesheets/img/"
-  },
-  "repository": {
-    "type": "site",
-    "url": "http://www.oschina.net"
-  },
-  "author": "Nate Ling",
-  "license": "MIT"
+    "imgs": "public/stylesheets/imgs/",
+    "user": "public/stylesheets/user/",
+    "vendor": "public/stylesheets/vendor/"
+  }
 }

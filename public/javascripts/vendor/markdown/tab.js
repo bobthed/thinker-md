@@ -53,6 +53,8 @@ String.prototype.countOfTab = function () {
     return (this.match(reg) || []).length;
 };
 
+String.prototype.get
+
 String.prototype.countOfTabEnter = function () {
     var reg = /\u0020{4}\u000a/g;
     return (this.match(reg) || []).length;

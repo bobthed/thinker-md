@@ -745,10 +745,10 @@
                 this.$percent.html(this.__localize('Progress') + progress + '%');
             }
         },
-        setState: function (text,color) {
+        setState: function (text, color) {
             var _this = this;
             if (_this.$stateBar) {
-                if(color){
+                if (color) {
                     _this.$stateBar.addClass('md-green');
                 }
                 _this.$stateBar.html(text);
@@ -773,7 +773,7 @@
                 _fileName = '',
                 _suffixReg = /^.*\.(?:jpg|png|gif)$/,
                 formData = new FormData();
-            if(progress && progress.length>0){
+            if (progress && progress.length > 0) {
                 progress = progress.get(0);
             }
             if (null === imgUrl || '' === imgUrl) {
@@ -808,7 +808,7 @@
                         _this.setPercent(0);
                         progress.max = 100;
                         progress.value = 0;
-                        _this.setState(_this.__localize('ProgressLoaded'),true);
+                        _this.setState(_this.__localize('ProgressLoaded'), true);
                     }, 1000);
                 };
 
@@ -935,6 +935,17 @@
                 editor.keypress(function (event) {
                     _this.pasteFunc(event, firefox)
                 });
+                //这里处理Firefox粘贴处理
+                editor.get(0).addEventListener('paste', function (event) {
+                    var event = event || window.event;
+                    var clipboardData = event.clipboardData || window.clipboardData;
+                    var text = clipboardData.getData("text");
+                    if (text) {
+                        var selection = _this.getSelection().start;
+                        _this.replaceSelection(text);
+                        _this.setSelection(selection + text.length, selection + text.length);
+                    }
+                }, false);
             } else if (/chrome/i.test(browser) && /webkit/i.test(browser) && /mozilla/i.test(browser)) {
                 chrome = true;
                 editor.on('paste', function (event) {
@@ -972,27 +983,14 @@
                         imgs.remove();
                     }
                     var text = '';
+                    //这里不作Firefox粘贴处理
                     if (window.clipboardData) {
                         text = window.clipboardData.getData('Text');
-                    } else {
-                        text = cutPaste.html();
-                        text = text.replace(/<br\s*\/?>|<br\s*?>/ig, "\n")
-                            .replace(/<\/?[^>]*>/g, function ($0, $1) {
-                                if('</p>'===$0 ||'</div>'===$0){
-                                    return "\n";
-                                }
-                                return "";
-                            })
-                            .replace(/[ | ]*\n/g, "\n")
-                            .replace(/&nbsp;/g, " ")
-                            .replace(/&lt;/g, "<")
-                            .replace(/&gt;/g, ">")
-                            .replace(/&amp;/g, "&");
-                    }
-                    if (text) {
-                        var selection = _this.getSelection().start;
-                        _this.replaceSelection(text);
-                        _this.setSelection(selection + text.length, selection + text.length);
+                        if (text) {
+                            var selection = _this.getSelection().start;
+                            _this.replaceSelection(text);
+                            _this.setSelection(selection + text.length, selection + text.length);
+                        }
                     }
                     cutPaste.empty();
                 }, 10);
@@ -1559,7 +1557,16 @@
                 this.$emoji['groupNav'][emojiGroup[egIndex]] = nav;
                 emojiNavPanel.append(nav);
                 if (group instanceof Array) {
-                    var _panel = this.renderEmoji(group, emojiGroup[egIndex], false);
+
+                    /*var _panel = this.renderEmoji(group, emojiGroup[egIndex], false);*/
+                    var _panel = $('<div/>', {
+                        'data-group': emojiGroup[egIndex]
+                    });
+                    if (emojiGroup[egIndex] === 'twemoji') {
+                        _panel.append(twemoji);
+                    } else if (emojiGroup[egIndex] === 'font-awesome') {
+                        _panel.append(fontAwesome);
+                    }
                     this.$emoji['groupPanel'][emojiGroup[egIndex]] = _panel;
                     emojiPanel.append(_panel.hide());
                     continue;
@@ -1573,7 +1580,18 @@
                         var name = githubGroup[ghIndex],
                             github = group[name];
                         if (github instanceof Array) {
-                            githubPanel.append(this.renderEmoji(github, name, true));
+                            //githubPanel.append(this.renderEmoji(github, name, true));
+                            if (name === 'People') {
+                                githubPanel.append(githubEmojiPeople);
+                            } else if (name === 'Nature') {
+                                githubPanel.append(githubEmojiObjects);
+                            } else if (name === 'Objects') {
+                                githubPanel.append(githubEmojiObjects);
+                            } else if (name === 'Places') {
+                                githubPanel.append(githubEmojiPlaces);
+                            } else if (name === 'Symbols') {
+                                githubPanel.append(githubEmojiSymbols);
+                            }
                         }
                     }
                     this.$emoji['groupPanel'][emojiGroup[egIndex]] = githubPanel;
@@ -1584,7 +1602,7 @@
 
             return emojiPanel;
         }
-        ,renderEmojiNav: function (name, active) {
+        , renderEmojiNav: function (name, active) {
             var _class = active ? 'active' : '';
             return $('<li/>', {
                 class: _class,

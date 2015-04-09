@@ -1,3 +1,4 @@
+// Source: public/javascripts/user/index.js
 /**
  * Created by ling on 2015/3/31.
  */

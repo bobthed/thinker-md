@@ -1,5 +1,8 @@
+/**
+ * Created by ling on 2015/4/2.
+ */
 module.exports = function (grunt) {
-    "use strict";
+    'use strict';
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         concat: {
@@ -12,45 +15,49 @@ module.exports = function (grunt) {
                         src.replace(/(^|\n)[ \t]*('use strict'|"use strict");?\s*/g, '$1');
                 }
             },
-            dist: {
+            vendor: {
                 // the files to concatenate
                 src: [
                     /*highlight*/
-                    '<%= pkg.dir.js.vendor %>highlight/highlight.js',
+                    '<%= pkg.javascripts.vendor %>highlight/highlight.js',
                     /*bootstrap*/
-                    '<%= pkg.dir.js.vendor %>bootstrap/bootstrap.js',
+                    '<%= pkg.javascripts.vendor %>bootstrap/bootstrap.js',
                     /*markdown*/
-                    '<%= pkg.dir.js.vendor %>markdown/he.js',
-                    '<%= pkg.dir.js.vendor %>markdown/marked.js',
-                    '<%= pkg.dir.js.vendor %>markdown/to-markdown.js',
-                    '<%= pkg.dir.js.vendor %>markdown/jsHtmlToText.js',
-                    '<%= pkg.dir.js.vendor %>markdown/undo.js',
-                    '<%= pkg.dir.js.vendor %>markdown/tab.js',
-                    '<%= pkg.dir.js.vendor %>markdown/config.js',
-                    '<%= pkg.dir.js.vendor %>markdown/bootstrap-markdown.js',
-                    '<%= pkg.dir.js.vendor %>markdown/locale/*.js'
-
+                    '<%= pkg.javascripts.vendor %>markdown/he.js',
+                    '<%= pkg.javascripts.vendor %>markdown/marked.js',
+                    '<%= pkg.javascripts.vendor %>markdown/to-markdown.js',
+                    '<%= pkg.javascripts.vendor %>markdown/jsHtmlToText.js',
+                    '<%= pkg.javascripts.vendor %>markdown/undo.js',
+                    '<%= pkg.javascripts.vendor %>markdown/tab.js',
+                    '<%= pkg.javascripts.vendor %>markdown/config.js',
+                    '<%= pkg.javascripts.vendor %>markdown/emoji.js',
+                    '<%= pkg.javascripts.vendor %>markdown/bootstrap-markdown.js',
+                    '<%= pkg.javascripts.vendor %>markdown/locale/*.js'
                 ],
                 // the location of the resulting JS file
-                dest: 'dist/javascripts/vendor/<%= pkg.name %>.js'
+                dest: 'dist/javascripts/<%= pkg.name%>.vendor.js'
             },
             user: {
                 // the files to concatenate
-                src: ['<%= pkg.dir.js.user %>*.js', '<%= pkg.dir.js.user %>**/*.js'],
+                src: [
+                    '<%= pkg.javascripts.user %>*.js',
+                    '<%= pkg.javascripts.user %>**/*.js',
+                    '<%= pkg.javascripts.user %>**/**/*.js'
+                ],
                 // the location of the resulting JS file
-                dest: 'dist/javascripts/user/<%= pkg.name %>-user.js'
+                dest: 'dist/javascripts/<%= pkg.name%>.user.js'
             }
         },
         uglify: {
             options: {
                 // the banner is inserted at the top of the output
-                //‰∏çÊ∑∑Ê∑ÜÂèòÈáèÂêç
+                //≤ªªÏœ˝±‰¡ø√˚
                 mangle: {
                     except: ['jquery', 'marked', 'toMarkdown', 'markdown', 'htmlToText', 'hljs', 'Undo']
                 },
                 preserveComments: false,
                 sourceMap: true,
-                //ËæìÂá∫ÂéãÁº©ÁéáÔºåÂèØÈÄâÁöÑÂÄºÊúâ false(‰∏çËæìÂá∫‰ø°ÊÅØ)Ôºågzip
+                // ‰≥ˆ—πÀı¬ £¨ø…—°µƒ÷µ”– false(≤ª ‰≥ˆ–≈œ¢)£¨gzip
                 report: "min",
                 ASCIIOnly: 'true',
                 beautify: {
@@ -64,20 +71,20 @@ module.exports = function (grunt) {
                     unused: false
                 }
             },
-            dist: {
+            vendor: {
                 options: {
-                    sourceMapName: "dist/javascripts/vendor/<%= pkg.name %>.min.map"
+                    sourceMapName: "dist/javascripts/<%= pkg.name %>.vendor.min.map"
                 },
                 files: {
-                    'dist/javascripts/vendor/<%= pkg.name %>.min.js': ['<%= concat.dist.dest %>']
+                    'dist/javascripts/<%= pkg.name %>.vendor.min.js': ['<%= concat.vendor.dest %>']
                 }
             },
             user: {
                 options: {
-                    sourceMapName: "dist/javascripts/user/<%= pkg.name %>-user.min.map"
+                    sourceMapName: "dist/javascripts/<%= pkg.name %>.user.min.map"
                 },
                 files: {
-                    'dist/javascripts/user/<%= pkg.name %>-user.min.js': ['<%= concat.user.dest %>']
+                    'dist/javascripts/<%= pkg.name %>.user.min.js': ['<%= concat.user.dest %>']
                 }
             }
         },
@@ -86,21 +93,21 @@ module.exports = function (grunt) {
                 keepSpecialComments: 0,
                 report: 'gzip'
             },
-            dist: {
+            vendor: {
                 files: {
-                    'dist/stylesheets/vendor/<%= pkg.name %>.min.css': [
-                        '<%= pkg.dir.css.vendor %>*.css',
-                        '<%= pkg.dir.css.vendor %>**/*.css',
-                        '<%= pkg.dir.css.vendor %>**/**/*.css'
+                    'dist/stylesheets/<%= pkg.name %>.vendor.css': [
+                        '<%= pkg.stylesheets.vendor %>*.css',
+                        '<%= pkg.stylesheets.vendor %>**/*.css',
+                        '<%= pkg.stylesheets.vendor %>**/**/*.css'
                     ]
                 }
             },
             user: {
                 files: {
-                    'dist/stylesheets/user/<%= pkg.name %>.user.min.css': [
-                        '<%= pkg.dir.css.user %>*.css',
-                        '<%= pkg.dir.css.user %>**/*.css',
-                        '<%= pkg.dir.css.user %>**/**/*.css'
+                    'dist/stylesheets/<%= pkg.name %>.user.css': [
+                        '<%= pkg.stylesheets.user %>*.css',
+                        '<%= pkg.stylesheets.user %>**/*.css',
+                        '<%= pkg.stylesheets.user %>**/**/*.css'
                     ]
                 }
             }
@@ -108,16 +115,20 @@ module.exports = function (grunt) {
         copy: {
             lib: {
                 expand: true,
-                cwd: '<%= pkg.dir.js.vendor %>jquery/',
+                cwd: '<%= pkg.javascripts.vendor %>jquery/',
                 src: [
-                    '*.js'
-                ], dest: 'dist/javascripts/vendor/'
+                    '*.js',
+                    '**/*.js',
+                    '*.map',
+                    '**/*.map'
+                ],
+                dest: 'dist/javascripts/'
             },
             fonts: {
                 files: [
                     {
                         expand: true,
-                        cwd: '<%= pkg.dir.fonts%>',
+                        cwd: '<%= pkg.stylesheets.fonts%>',
                         src: [
                             '*.eot',
                             '*.svg',
@@ -125,7 +136,7 @@ module.exports = function (grunt) {
                             '*.woff',
                             '*.woff2'
                         ],
-                        dest: 'dist/stylesheets/fonts/'
+                        dest: 'dist/fonts/'
                     }
                 ]
             },
@@ -133,49 +144,68 @@ module.exports = function (grunt) {
                 files: [
                     {
                         expand: true,
-                        cwd: '<%= pkg.dir.img%>',
+                        cwd: '<%= pkg.stylesheets.imgs%>',
                         src: [
                             '*.*',
                             '**/*.*',
                             '**/**/*.*'
                         ],
-                        dest: 'dist/stylesheets/img/'
+                        dest: 'dist/imgs/'
+                    }
+                ]
+            },
+            emoji: {
+                files: [
+                    {
+                        expand: true,
+                        cwd: '<%= pkg.stylesheets.emoji%>',
+                        src: [
+                            '*.css'
+                        ],
+                        dest: 'dist/emoji/'
                     }
                 ]
             }
         },
         watch: {
+            options: {
+                event: ['all'],
+                dateFormat: function (time) {
+                    grunt.log.writeln('The watch finished in ' + time + 'ms at' + (new Date()).toString());
+                    grunt.log.writeln('Waiting for more changes...');
+                }
+            },
             jsuser: {
                 files: [
-                    '<%= pkg.dir.js.user %>*.js',
-                    '<%= pkg.dir.js.user %>**/*.js',
-                    '<%= pkg.dir.js.user %>**/**/*.js'
+                    '<%= pkg.javascripts.user %>*.js',
+                    '<%= pkg.javascripts.user %>**/*.js',
+                    '<%= pkg.javascripts.user %>**/**/*.js'
                 ],
                 tasks: ['concat:user', 'uglify:user']
             },
             jsvendor: {
                 files: [
-                    '<%= pkg.dir.js.vendor %>*.js',
-                    '<%= pkg.dir.js.vendor %>**/*.js',
-                    '<%= pkg.dir.js.vendor %>**/**/*.js'
+                    '<%= pkg.javascripts.vendor %>*.js',
+                    '<%= pkg.javascripts.vendor %>**/*.js',
+                    '<%= pkg.javascripts.vendor %>**/**/*.js'
                 ],
-                tasks: ['concat:dist', 'uglify:dist']
+                tasks: ['concat:vendor', 'uglify:vendor']
             },
             cssuser: {
                 files: [
-                    '<%= pkg.dir.css.user %>*.css',
-                    '<%= pkg.dir.css.user %>**/*.css',
-                    '<%= pkg.dir.css.user %>**/**/*.css'
+                    '<%= pkg.stylesheets.user %>*.css',
+                    '<%= pkg.stylesheets.user %>**/*.css',
+                    '<%= pkg.stylesheets.user %>**/**/*.css'
                 ],
                 tasks: ['cssmin:user']
             },
             cssvendor: {
                 files: [
-                    '<%= pkg.dir.css.vendor %>*.css',
-                    '<%= pkg.dir.css.vendor %>**/*.css',
-                    '<%= pkg.dir.css.vendor %>**/**/*.css'
+                    '<%= pkg.stylesheets.vendor %>*.css',
+                    '<%= pkg.stylesheets.vendor %>**/*.css',
+                    '<%= pkg.stylesheets.vendor %>**/**/*.css'
                 ],
-                tasks: ['cssmin:dist']
+                tasks: ['cssmin:vendor']
             }
         }
     });
@@ -188,10 +218,11 @@ module.exports = function (grunt) {
 
     grunt.registerTask('resource', ['copy']);
 
+    grunt.registerTask('css', ['cssmin:vendor', 'cssmin:user']);
+
+    grunt.registerTask('js', ['concat:vendor', 'concat:user', 'uglify:vendor', 'uglify:user']);
+
     // the default task can be run just by typing "grunt" on the command line
-    grunt.registerTask('default', ['concat:dist', 'concat:user', 'uglify:dist', 'uglify:user']);
+    grunt.registerTask('default', ['copy', 'css', 'js']);
 
-    grunt.registerTask('css', ['cssmin:dist', 'cssmin:user']);
-
-    grunt.task.run(['resource', 'default', 'css'])
 };
