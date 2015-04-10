@@ -1,4 +1,4 @@
-# Thinker-md
+![logo](http://static.oschina.net/uploads/space/2015/0410/192411_CgHK_1028150.jpg)
 
 ### Thinker-md是什么
 
