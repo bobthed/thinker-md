@@ -29,7 +29,7 @@
         // @see : https://github.com/toopay/bootstrap-markdown/issues/109
         var opts = ['autofocus', 'savable', 'hideable', 'width',
             'height', 'resize', 'iconlibrary', 'language', 'imgurl', 'base64url', 'localStorage',
-            'footer', 'fullscreen', 'hiddenButtons', 'disabledButtons'];
+            'footer', 'fullscreen', 'hiddenButtons', 'disabledButtons', 'flowChart'];
         $.each(opts, function (_, opt) {
             if (typeof $(element).data(opt) !== 'undefined') {
                 options = typeof options == 'object' ? options : {};
@@ -92,6 +92,10 @@
 
         this.$emojiPanel = null;
         this.$emojiElements = null;
+
+        this.isIE = (navigator.appName == "Microsoft Internet Explorer");
+        this.isIE8 = (this.isIE && navigator.appVersion.match(/8./i) == "8.");
+
 
         this.showEditor();
     };
@@ -264,10 +268,34 @@
                 $('body').addClass('md-nooverflow');
                 this.$options.onFullscreen(this);
 
-                $innerPreview.html(marked($textarea.val()));
+                //处理流程图和序列图
+                var markedRenderer = new marked.Renderer();
+                markedRenderer.code = function (code, lang) {
+
+                    if (lang === "seq" || lang === "sequence") {
+                        return "<div class=\"sequence-diagram\">" + code + "</div>";
+                    }
+                    else if (lang === "flow") {
+
+                        return "<div class=\"flowchart\">" + code + "</div>";
+                    }
+                    else {
+
+                        return marked.Renderer.prototype.code.apply(this, arguments);
+                    }
+
+                };
+
+                $innerPreview.html(marked($textarea.val(),{renderer: markedRenderer}));
                 $textarea.keyup(function (evt) {
-                    $innerPreview.html(marked($textarea.val()));
+                    $innerPreview.html(marked($textarea.val()),{renderer: markedRenderer});
                 });
+
+                if (!this.isIE8) {
+                    if (this.$options.flowChart) {
+                        $innerPreview.find(".flowchart").flowChart();
+                    }
+                }
 
                 $textarea.scroll(function () {
                     var __this = $(this).get(0),
@@ -572,7 +600,24 @@
             if (typeof markdown == 'object') {
                 content = markdown.toHTML(val);
             } else if (typeof marked == 'function') {
-                content = marked(val);
+                //处理流程图和序列图
+                var markedRenderer = new marked.Renderer();
+                markedRenderer.code = function (code, lang) {
+
+                    if (lang === "seq" || lang === "sequence") {
+                        return "<div class=\"sequence-diagram\">" + code + "</div>";
+                    }
+                    else if (lang === "flow") {
+
+                        return "<div class=\"flowchart\">" + code + "</div>";
+                    }
+                    else {
+
+                        return marked.Renderer.prototype.code.apply(this, arguments);
+                    }
+
+                };
+                content = marked(val, {renderer: markedRenderer});
             } else {
                 content = val;
             }
@@ -1025,6 +1070,7 @@
                 content,
                 callbackContent;
 
+
             // Give flag that tell the editor enter preview mode
             this.$isPreview = true;
             // Disable all buttons
@@ -1038,6 +1084,11 @@
             // Build preview element
             replacementContainer.html(content);
 
+            if (!this.isIE8) {
+                if (this.$options.flowChart) {
+                    replacementContainer.find(".flowchart").flowChart();
+                }
+            }
             if (afterContainer && afterContainer.attr('class') == 'md-footer') {
                 // If there is footer element, insert the preview container before it
                 replacementContainer.insertBefore(afterContainer);
@@ -1076,6 +1127,8 @@
 
             // Obtain the preview container
             var container = this.$editor.find('div[data-provider="markdown-preview"]');
+
+            //
 
             // Remove the preview container
             container.remove();
@@ -1676,18 +1729,19 @@
 
     $.fn.markdown.defaults = {
         /* Editor Properties */
-        autofocus: true,
+        autofocus: true,  //是否自动焦点到编辑器
         hideable: false,
         savable: false,
         width: 'inherit',
         height: 'inherit',
         resize: 'none',
         iconlibrary: 'glyph',
-        language: 'en',
+        language: 'en',  //默认国际化语言
         initialstate: 'editor',
         imgurl: '',
         base64url: '',
         localStorage: '',
+        flowChart: false,//    flowChart.js 只支持 IE9+
         /* Buttons Properties */
         buttons: [
             [{

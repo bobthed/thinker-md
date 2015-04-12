@@ -33,6 +33,17 @@
 <script type="text/javascript" charset="utf-8" src="public/javascripts/vendor/markdown/bootstrap-markdown.js"></script>
 <script type="text/javascript" charset="utf-8"
         src="public/javascripts/vendor/markdown/locale/bootstrap-markdown.zh.js"></script>
-<script type="text/javascript" charset="utf-8" src="public/javascripts/user/index.js"></script>
+<script>
+    $("textarea[data-provide='markdown']").markdown({
+        language: 'zh',
+        fullscreen: {
+            enable: true
+        },
+        resize: 'vertical',
+        localStorage: 'md',
+        imgurl: '/cors/upload/ajaxUpload',
+        base64url: '/cors/upload/base64Upload'
+    });
+</script>
 </body>
 </html>

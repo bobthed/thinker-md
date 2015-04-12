@@ -2,32 +2,10 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title>流程图用例</title>
+    <title>基本用例</title>
 </head>
 <body>
-<textarea name="content" data-provide="markdown" rows="10" placeholder="这里输入内容,支持Markdown语法.">
-#### Using FlowChart
-
-setting:
-
-    {
-        flowChart : true
-    }
-
-#### Example
-
-```flow
-st=>start: User login
-op=>operation: Operation
-cond=>condition: Successful Yes or No?
-e=>end: Into admin
-
-st->op->cond
-cond(yes)->e
-cond(no)->op
-```
-
-</textarea>
+<textarea name="content" data-provide="markdown" rows="10" placeholder="这里输入内容,支持Markdown语法."></textarea>
 <style type="text/css">
     @import "../public/stylesheets/vendor/bootstrap.css";
     @import "../public/stylesheets/vendor/bootstrap-markdown.css";
@@ -41,14 +19,10 @@ cond(no)->op
     @import "../public/stylesheets/vendor/font-awesome.css";
     @import "../public/stylesheets/vendor/sunburst.css";
 </style>
-
 <script type="text/javascript" charset="utf-8" src="../public/javascripts/emojimap.js"></script>
 <script type="text/javascript" charset="utf-8" src="../public/javascripts/vendor/jquery/jquery-2.1.3.js"></script>
 <script type="text/javascript" charset="utf-8" src="../public/javascripts/vendor/highlight/highlight.js"></script>
 <script type="text/javascript" charset="utf-8" src="../public/javascripts/vendor/bootstrap/bootstrap.js"></script>
-<script type="text/javascript" charset="utf-8" src="../public/javascripts/vendor/flowchart/raphael.js"></script>
-<script type="text/javascript" charset="utf-8" src="../public/javascripts/vendor/flowchart/flowchart.min.js"></script>
-<script type="text/javascript" charset="utf-8" src="../public/javascripts/vendor/flowchart/jquery.flowchart.min.js"></script>
 <script type="text/javascript" charset="utf-8" src="../public/javascripts/vendor/markdown/he.js"></script>
 <script type="text/javascript" charset="utf-8" src="../public/javascripts/vendor/markdown/marked.js"></script>
 <script type="text/javascript" charset="utf-8" src="../public/javascripts/vendor/markdown/to-markdown.js"></script>
@@ -68,8 +42,7 @@ cond(no)->op
         resize: 'vertical',
         localStorage: 'md',
         imgurl: '/cors/upload/ajaxUpload',
-        base64url: '/cors/upload/base64Upload',
-        flowChart : true
+        base64url: '/cors/upload/base64Upload'
     });
 </script>
 </body>
