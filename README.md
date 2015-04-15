@@ -2,7 +2,7 @@
 
 ### Thinker-md是什么
 
-Thinker-md是一个支持markdown的在线文档编辑器，在线演示：http://thinkermd.oschina.mopaas.com/view/
+Thinker-md是一个支持markdown的在线文档编辑器，在线演示：http://thinkermd.oschina.mopaas.com
 
 ### Thinker-md的特性
 
