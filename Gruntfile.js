@@ -20,8 +20,6 @@ module.exports = function (grunt) {
                 src: [
                     /*highlight*/
                     '<%= pkg.javascripts.vendor %>highlight/highlight.js',
-                    /*bootstrap*/
-                    '<%= pkg.javascripts.vendor %>bootstrap/bootstrap.js',
                     /*markdown*/
                     '<%= pkg.javascripts.vendor %>markdown/he.js',
                     '<%= pkg.javascripts.vendor %>markdown/marked.js',
