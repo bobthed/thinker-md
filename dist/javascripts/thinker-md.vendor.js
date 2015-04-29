@@ -16574,9 +16574,9 @@ var fontAwesome = '\u003c\u0064\u0069\u0076\u0020\u0063\u006c\u0061\u0073\u0073\
 
                 };
 
-                $innerPreview.html(marked($textarea.val(),{renderer: markedRenderer}));
+                $innerPreview.html(marked($textarea.val(), {renderer: markedRenderer}));
                 $textarea.keyup(function (evt) {
-                    $innerPreview.html(marked($textarea.val()),{renderer: markedRenderer});
+                    $innerPreview.html(marked($textarea.val()), {renderer: markedRenderer});
                 });
 
                 if (!this.isIE8) {
@@ -16748,12 +16748,12 @@ var fontAwesome = '\u003c\u0064\u0069\u0076\u0020\u0063\u006c\u0061\u0073\u0073\
                     callback.push(options.onSave);
 
                     editorFooter.append('<button class="btn btn-success" data-provider="'
-                    + ns
-                    + '" data-handler="'
-                    + saveHandler
-                    + '"><i class="icon icon-white icon-ok"></i> '
-                    + this.__localize('Save')
-                    + '</button>');
+                        + ns
+                        + '" data-handler="'
+                        + saveHandler
+                        + '"><i class="icon icon-white icon-ok"></i> '
+                        + this.__localize('Save')
+                        + '</button>');
                 }
 
                 if (null === cutPaste) {
@@ -17029,6 +17029,7 @@ var fontAwesome = '\u003c\u0064\u0069\u0076\u0020\u0063\u006c\u0061\u0073\u0073\
 
                 cancleButton = $('<button/>', {
                     class: 'btn btn-default',
+                    type: 'button',
                     text: e.__localize('Cancle')
                 });
 
