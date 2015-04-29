@@ -3,8 +3,8 @@
 }
 
 .title {
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 18px;
+    font-size: 22px;
+    font-weight: 400;
 }
 
 .content {
@@ -19,7 +19,9 @@
 }
 
 .md-editor {
-    font-family: "Myriad Set Pro", "Lucida Grande", "Helvetica Neue", "Helvetica", "Arial", "Verdana", "sans-serif";
+    font-family: "Helvetica Neue", Helvetica, Arial, "Hiragino Sans GB", "Hiragino Sans GB W3", "Microsoft YaHei UI", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
     display: block;
     outline: none;
     border: 1px solid #ddd;
@@ -542,7 +544,7 @@ upload*/
 
 .md-upload .md-content-header .md-content-header-button {
     position: absolute;
-    top: 15px;
+    top: 25px;
     right: 15px;
     cursor: pointer;
     font-size: 18px;
@@ -560,13 +562,14 @@ upload*/
 }
 
 .md-upload .md-content-body .md-content-body-danger {
+    font-size: 14px;
     background-color: rgba(232, 76, 61, 0.1);
     color: #d82a1a;
     padding: 15px;
     margin-bottom: 21px;
     border: 1px solid rgba(232, 76, 61, 0.15);
     border-radius: 4px;
-    line-height: 2;
+    line-height: 1.5;
 }
 
 .md-upload .md-content-body > p {
@@ -856,7 +859,6 @@ emoji[data-emoji~=emoji] {
 }
 
 .btn {
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     border: 1px solid #ccc;
     outline: none;
     padding: 5px 15px;
