@@ -1,5 +1,5 @@
 @font-face {
-    font-family: 'Glyphicons Halflings';
+    font-family: 'Glyphicons';
 
     src: url('../fonts/glyphicons-halflings-regular.eot');
     src: url('../fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('../fonts/glyphicons-halflings-regular.woff2') format('woff2'), url('../fonts/glyphicons-halflings-regular.woff') format('woff'), url('../fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('../fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
@@ -9,7 +9,7 @@
     position: relative;
     top: 1px;
     display: inline-block;
-    font-family: Glyphicons Halflings;
+    font-family: 'Glyphicons' !important;
     font-style: normal;
     font-weight: normal;
     line-height: 1;
