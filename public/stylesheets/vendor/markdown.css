@@ -51,6 +51,10 @@
     line-height: 30px !important;
 }
 
+.md-editor > .md-header > .btn-group button span.fa {
+    font-size: 18px !important;
+}
+
 .md-editor > .md-header > .btn-group button:hover {
     background-color: #10AF88;
     color: #fff;
@@ -77,6 +81,7 @@
 
 .md-editor > .md-full-preview .md-full-preview-body .md-full-preview-inner {
     padding: 5px 30px 5px 0 !important;
+    line-height: 1.6em;
     margin-left: 25px;
     height: 100%;
     background-color: #f6f6f6;
@@ -360,9 +365,9 @@
     top: 50px;
     bottom: 0;
     margin: 0 auto !important;
-    height: auto !important;
+    height: calc(100% - 55px) !important;
     font-size: 18px !important;
-    padding: 0 10px !important;
+    padding: 5px 10px !important;
     color: #999;
     line-height: 1.6em !important;
     resize: none !important;
@@ -425,6 +430,10 @@
     right: 10px;
     z-index: 1;
     display: block;
+}
+
+.md-controls .md-control span {
+    line-height: 30px;
 }
 
 .md-editor.md-fullscreen-mode .md-fullscreen-controls a {
