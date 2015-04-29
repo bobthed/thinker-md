@@ -807,7 +807,6 @@ emoji[data-emoji~=emoji] {
     background-size: contain;
 }
 
-/*
 ::-webkit-scrollbar {
     -webkit-appearance: none;
     width: 15px;
@@ -830,4 +829,4 @@ emoji[data-emoji~=emoji] {
 
 ::-webkit-scrollbar-corner {
     background-color: transparent;
-}*/
+}
