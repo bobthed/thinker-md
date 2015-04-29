@@ -670,12 +670,12 @@
                     'data-provide': 'markdown-upload-content-header'
                 }).append($('<i/>', {
                     type: 'button',
-                    class: 'md-content-header-button glyphicon glyphicon-remove'
+                    class: 'md-content-header-button gly gly-remove'
                 })).on('click', function (evt) {
                     if ($(evt.target).is('i.md-content-header-button'))
                         _this.hideUpload();
                 }).append($('<h4/>', {
-                    class: 'md-content-header-title',
+                    class: 'md-content-header-title title',
                     text: e.__localize('Image')
                 }));
 
@@ -694,7 +694,7 @@
                 });
 
                 localUpload = $('<span />', {
-                    class: 'md-input-group-addon glyphicon glyphicon-picture'
+                    class: 'md-input-group-addon gly gly-picture'
                 });
                 localUploadField = $('<input>', {
                     type: 'file',
@@ -1100,7 +1100,7 @@
             // Set the preview element dimensions
             replacementContainer.css({
                 //width: container.outerWidth() + 'px',
-                width: '100%',
+                width: 'inherit',
                 height: container.outerHeight() + 'px'
             });
 
@@ -1524,7 +1524,7 @@
                     'data-provide': 'markdown-upload-content-header'
                 }).append($('<i/>', {
                     type: 'button',
-                    class: 'md-content-header-button glyphicon glyphicon-remove'
+                    class: 'md-content-header-button gly gly-remove'
                 })).on('click', function (evt) {
                     if ($(evt.target).is('i.md-content-header-button'))
                         _this.hideEmoji();
@@ -1637,7 +1637,7 @@
                             if (name === 'People') {
                                 githubPanel.append(githubEmojiPeople);
                             } else if (name === 'Nature') {
-                                githubPanel.append(githubEmojiObjects);
+                                githubPanel.append(githubEmojiNature);
                             } else if (name === 'Objects') {
                                 githubPanel.append(githubEmojiObjects);
                             } else if (name === 'Places') {
@@ -1750,7 +1750,7 @@
                     name: 'cmdBold',
                     hotkey: 'Ctrl+B',
                     title: 'Bold',
-                    icon: {glyph: 'glyphicon glyphicon-bold', fa: 'fa fa-bold', 'fa-3': 'icon-bold'},
+                    icon: {glyph: 'gly gly-bold', fa: 'fa fa-bold', 'fa-3': 'icon-bold'},
                     callback: function (e) {
                         // Give/remove ** surround the selection
                         var chunk, cursor, selected = e.getSelection(), content = e.getContent();
@@ -1780,7 +1780,7 @@
                     name: 'cmdItalic',
                     title: 'Italic',
                     hotkey: 'Ctrl+I',
-                    icon: {glyph: 'glyphicon glyphicon-italic', fa: 'fa fa-italic', 'fa-3': 'icon-italic'},
+                    icon: {glyph: 'gly gly-italic', fa: 'fa fa-italic', 'fa-3': 'icon-italic'},
                     callback: function (e) {
                         // Give/remove * surround the selection
                         var chunk, cursor, selected = e.getSelection(), content = e.getContent();
@@ -1810,7 +1810,7 @@
                     name: 'cmdHeading',
                     title: 'Heading',
                     hotkey: 'Ctrl+H',
-                    icon: {glyph: 'glyphicon glyphicon-header', fa: 'fa fa-header', 'fa-3': 'icon-font'},
+                    icon: {glyph: 'gly gly-header', fa: 'fa fa-header', 'fa-3': 'icon-font'},
                     callback: function (e) {
                         // Append/remove ### surround the selection
                         var chunk, cursor, selected = e.getSelection(), content = e.getContent(), pointer = 4, prevChar;
@@ -1847,7 +1847,7 @@
                     name: 'cmdUrl',
                     title: 'URL/Link',
                     hotkey: 'Ctrl+L',
-                    icon: {glyph: 'glyphicon glyphicon-link', fa: 'fa fa-link', 'fa-3': 'icon-link'},
+                    icon: {glyph: 'gly gly-link', fa: 'fa fa-link', 'fa-3': 'icon-link'},
                     callback: function (e) {
                         // Give [] surround the selection and prepend the link
                         var chunk, cursor, selected = e.getSelection(), content = e.getContent(), link;
@@ -1876,7 +1876,7 @@
                     name: 'cmdImage',
                     title: 'Image',
                     hotkey: 'Ctrl+G',
-                    icon: {glyph: 'glyphicon glyphicon-picture', fa: 'fa fa-picture-o', 'fa-3': 'icon-picture'},
+                    icon: {glyph: 'gly gly-picture', fa: 'fa fa-picture-o', 'fa-3': 'icon-picture'},
                     callback: function (e) {
                         e.$uploadMode = true;
                         e.showUpload(e);
@@ -1899,7 +1899,7 @@
                     name: 'cmdList',
                     hotkey: 'Ctrl+U',
                     title: 'Unordered List',
-                    icon: {glyph: 'glyphicon glyphicon-list', fa: 'fa fa-list', 'fa-3': 'icon-list-ul'},
+                    icon: {glyph: 'gly gly-list', fa: 'fa fa-list', 'fa-3': 'icon-list-ul'},
                     callback: function (e) {
                         // Prepend/Give - surround the selection
                         var chunk, cursor, selected = e.getSelection(), content = e.getContent();
@@ -1945,7 +1945,7 @@
                         name: 'cmdListO',
                         hotkey: 'Ctrl+O',
                         title: 'Ordered List',
-                        icon: {glyph: 'glyphicon glyphicon-th-list', fa: 'fa fa-list-ol', 'fa-3': 'icon-list-ol'},
+                        icon: {glyph: 'gly gly-th-list', fa: 'fa fa-list-ol', 'fa-3': 'icon-list-ol'},
                         callback: function (e) {
 
                             // Prepend/Give - surround the selection
@@ -1991,7 +1991,7 @@
                         name: 'cmdCode',
                         hotkey: 'Ctrl+K',
                         title: 'Code',
-                        icon: {glyph: 'glyphicon glyphicon-asterisk', fa: 'fa fa-code', 'fa-3': 'icon-code'},
+                        icon: {glyph: 'gly gly-asterisk', fa: 'fa fa-code', 'fa-3': 'icon-code'},
                         callback: function (e) {
                             // Give/remove ** surround the selection
                             var chunk, cursor, selected = e.getSelection(), content = e.getContent();
@@ -2030,7 +2030,7 @@
                         name: 'cmdQuote',
                         hotkey: 'Ctrl+Q',
                         title: 'Quote',
-                        icon: {glyph: 'glyphicon glyphicon-comment', fa: 'fa fa-quote-left', 'fa-3': 'icon-quote-left'},
+                        icon: {glyph: 'gly gly-comment', fa: 'fa fa-quote-left', 'fa-3': 'icon-quote-left'},
                         callback: function (e) {
                             // Prepend/Give - surround the selection
                             var chunk, cursor, selected = e.getSelection(), content = e.getContent();
@@ -2082,7 +2082,7 @@
                     title: 'Preview',
                     //btnText: 'Preview',
                     //btnClass: 'btn btn-primary btn-sm',
-                    icon: {glyph: 'glyphicon glyphicon-search', fa: 'fa fa-search', 'fa-3': 'icon-search'},
+                    icon: {glyph: 'gly gly-search', fa: 'fa fa-search', 'fa-3': 'icon-search'},
                     callback: function (e) {
                         // Check the preview mode and toggle based on this flag
                         var isPreview = e.$isPreview, content;
@@ -2107,12 +2107,12 @@
             icons: {
                 fullscreenOn: {
                     fa: 'fa fa-expand',
-                    glyph: 'glyphicon glyphicon-fullscreen',
+                    glyph: 'gly gly-fullscreen',
                     'fa-3': 'icon-resize-full'
                 },
                 fullscreenOff: {
                     fa: 'fa fa-compress',
-                    glyph: 'glyphicon glyphicon-fullscreen',
+                    glyph: 'gly gly-fullscreen',
                     'fa-3': 'icon-resize-small'
                 }
             }
