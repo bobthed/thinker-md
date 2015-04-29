@@ -14,6 +14,12 @@
     margin: 0
 }
 
+.md-editor > textarea {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
 .btn-group {
     position: relative;
     display: inline-block;
@@ -32,6 +38,7 @@
     font-size: 16px;
     background-color: rgba(0, 0, 0, 0);
     cursor: pointer;
+    vertical-align: top;
 }
 
 .md-fullscreen-mode > .md-header > .btn-group button {
@@ -74,6 +81,9 @@
     height: 100%;
     background-color: #f6f6f6;
     overflow-y: auto;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 .md-editor > .md-full-preview .md-full-preview-body .md-full-preview-inner ul {
@@ -332,8 +342,11 @@
 }
 
 .md-editor.md-fullscreen-mode .md-full-preview {
+    position: fixed;
     width: 50%;
-    height: 100%;
+    left: 50%;
+    top: 50px;
+    bottom: 0;
     display: inline-block;
     background-color: #f6f6f6;
 }
@@ -343,8 +356,11 @@
 }
 
 .md-editor.md-fullscreen-mode .md-input, .md-editor.md-fullscreen-mode .md-preview {
+    position: fixed;
+    top: 50px;
+    bottom: 0;
     margin: 0 auto !important;
-    height: 100% !important;
+    height: auto !important;
     font-size: 18px !important;
     padding: 0 10px !important;
     color: #999;
@@ -781,3 +797,28 @@ emoji[data-emoji~=emoji] {
     height: 24px;
     background-size: contain;
 }
+
+/*
+::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 15px;
+}
+
+::-webkit-scrollbar-thumb {
+    height: 6px;
+    border: 4px solid rgba(0, 0, 0, 0);
+    background-clip: padding-box;
+    -webkit-border-radius: 7px;
+    background-color: rgba(0, 0, 0, 0.15);
+    -webkit-box-shadow: inset -1px -1px 0 rgba(0, 0, 0, 0.05), inset 1px 1px 0 rgba(0, 0, 0, 0.05);
+}
+
+::-webkit-scrollbar-button {
+    width: 0;
+    height: 0;
+    display: none;
+}
+
+::-webkit-scrollbar-corner {
+    background-color: transparent;
+}*/
