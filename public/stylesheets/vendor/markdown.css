@@ -1,14 +1,9 @@
-.text {
-    font-family: "Myriad Set Pro", "Lucida Grande", "Helvetica Neue", "Helvetica", "Arial", "Verdana", "sans-serif";
-}
-
 .title {
     font-size: 22px;
     font-weight: 400;
 }
 
 .content {
-    font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, freesans, sans-serif;
     font-size: 16px;
     line-height: 1.6;
 }
