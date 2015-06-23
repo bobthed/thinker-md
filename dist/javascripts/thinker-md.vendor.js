@@ -17262,7 +17262,7 @@ var fontAwesome = '\u003c\u0064\u0069\u0076\u0020\u0063\u006c\u0061\u0073\u0073\
                 return;
 
             var firefox = false,
-                chrome = false,
+                chrome = true,
                 trident = false;
 
             if (/firefox/i.test(browser)) {
@@ -17278,8 +17278,17 @@ var fontAwesome = '\u003c\u0064\u0069\u0076\u0020\u0063\u006c\u0061\u0073\u0073\
                         var selection = _this.getSelection().start;
                         _this.replaceSelection(text);
                         _this.setSelection(selection + text.length, selection + text.length);
+                        if (event.preventDefault) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        if (event.returnValue)
+                            event.returnValue = false;
+                        if (event.cancelBubble)
+                            event.cancelBubble = true;
+                        return false;
                     }
-                }, false);
+                }, true);
             } else if (/chrome/i.test(browser) && /webkit/i.test(browser) && /mozilla/i.test(browser)) {
                 chrome = true;
                 editor.on('paste', function (event) {

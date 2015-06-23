@@ -974,7 +974,7 @@
                 return;
 
             var firefox = false,
-                chrome = false,
+                chrome = true,
                 trident = false;
 
             if (/firefox/i.test(browser)) {
@@ -990,8 +990,17 @@
                         var selection = _this.getSelection().start;
                         _this.replaceSelection(text);
                         _this.setSelection(selection + text.length, selection + text.length);
+                        if (event.preventDefault) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        if (event.returnValue)
+                            event.returnValue = false;
+                        if (event.cancelBubble)
+                            event.cancelBubble = true;
+                        return false;
                     }
-                }, false);
+                }, true);
             } else if (/chrome/i.test(browser) && /webkit/i.test(browser) && /mozilla/i.test(browser)) {
                 chrome = true;
                 editor.on('paste', function (event) {
