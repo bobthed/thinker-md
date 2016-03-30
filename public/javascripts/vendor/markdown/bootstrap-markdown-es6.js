@@ -601,9 +601,9 @@
 
             // parse with supported markdown parser
             var val = val || this.$textarea.val();
-            if (typeof markdown == 'object') {
+            if (typeof markdown === 'object' && typeof markdown.toHTML === 'function') {
                 content = markdown.toHTML(val);
-            } else if (typeof marked == 'function') {
+            } else if (typeof marked === 'function') {
                 //处理流程图和序列图
                 var markedRenderer = new marked.Renderer();
                 markedRenderer.code = function (code, lang) {
@@ -1550,7 +1550,7 @@
                         // Build the original element
                         var oldElement = $('<' + editable.type + '/>'),
                             content = this.getContent(),
-                            currentContent = (typeof markdown == 'object') ? markdown.toHTML(content) : content;
+                            currentContent = (typeof markdown == 'object' && typeof markdown.toHTML === 'function') ? markdown.toHTML(content) : content;
 
                         $(editable.attrKeys).each(function (k, v) {
                             oldElement.attr(editable.attrKeys[k], editable.attrValues[k]);
