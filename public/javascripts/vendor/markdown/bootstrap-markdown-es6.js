@@ -387,6 +387,15 @@
 
                 editor.append(editorHeader);
 
+                var _localCache = '',
+                    _localStorage = this.$localStorage;
+                if (window.localStorage && _localStorage && '' !== _localStorage) {
+                    _localCache = localStorage.getItem(_localStorage);
+                }
+
+                var rawContent = (typeof toMarkdown == 'function') ? toMarkdown(container.html()) : container.html(),
+                // inner content (whether textarea or others) is preferred
+                    currentContent = $.trim(rawContent) || _localCache;
                 // Wrap the textarea
                 if (container.is('textarea')) {
                     container.before(editor);
@@ -394,13 +403,9 @@
                     textarea.addClass('md-input');
                     editor.append(textarea);
                 } else {
-                    var rawContent = (typeof toMarkdown == 'function') ? toMarkdown(container.html()) : container.html(),
-                        currentContent = $.trim(rawContent);
                     // This is some arbitrary content that could be edited
                     textarea = $('<textarea/>', {
-                        'class': 'md-input',
-                        'val': currentContent,
-                        'text': _localCache
+                        'class': 'md-input'
                     });
 
                     editor.append(textarea);
@@ -418,6 +423,7 @@
                     // Set editor to blocked the original container
                     container.replaceWith(editor);
                 }
+                textarea.val(currentContent);
 
                 //add by wpl
                 if (options.fullscreen.enable && _fullPreview === null) {
@@ -518,13 +524,6 @@
                 // Set editor attributes, data short-hand API and listener
                 this.$editor.attr('id', new Date().getTime().toString());
 
-                var _localCache = '',
-                    _localStorage = this.$localStorage;
-                if (window.localStorage && _localStorage && '' !== _localStorage) {
-                    _localCache = localStorage.getItem(_localStorage);
-                    this.$textarea.val(_localCache);
-                }
-
                 this.$editor.on('click', '[data-provider="bootstrap-markdown"]', $.proxy(this.__handle, this));
 
                 if (this.$element.is(':disabled') || this.$element.is('[readonly]')) {
@@ -601,9 +600,9 @@
 
             // parse with supported markdown parser
             var val = val || this.$textarea.val();
-            if (typeof markdown == 'object') {
+            if (typeof markdown === 'object' && typeof markdown.toHTML === 'function') {
                 content = markdown.toHTML(val);
-            } else if (typeof marked == 'function') {
+            } else if (typeof marked === 'function') {
                 //处理流程图和序列图
                 var markedRenderer = new marked.Renderer();
                 markedRenderer.code = function (code, lang) {
@@ -1550,7 +1549,7 @@
                         // Build the original element
                         var oldElement = $('<' + editable.type + '/>'),
                             content = this.getContent(),
-                            currentContent = (typeof markdown == 'object') ? markdown.toHTML(content) : content;
+                            currentContent = (typeof markdown == 'object' && typeof markdown.toHTML === 'function') ? markdown.toHTML(content) : content;
 
                         $(editable.attrKeys).each(function (k, v) {
                             oldElement.attr(editable.attrKeys[k], editable.attrValues[k]);
