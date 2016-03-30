@@ -15097,7 +15097,7 @@ hljs.registerLanguage('xl', function (hljs) {
             + level
             + ' id="'
             + this.options.headerPrefix
-            + raw.toLowerCase().replace(/[^\w]+/g, '-')
+            + raw.toLowerCase().replace(/[\\`*_{}[\]()#+-.!'"/?&\s]+/g, '-').replace(/-+$/g, '')
             + '">'
             + text
             + '</h'
