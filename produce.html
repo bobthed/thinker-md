@@ -5,7 +5,7 @@
     <title>Thinker-MD</title>
 </head>
 <body>
-<textarea name="content" data-provide="markdown" rows="10" placeholder="这里输入内容,支持Markdown语法.">></textarea>
+<textarea name="content" rows="10" placeholder="这里输入内容,支持Markdown语法.">></textarea>
 <style type="text/css" scoped="scoped">
     @import "dist/stylesheets/thinker-md.user.css";
     @import "dist/stylesheets/thinker-md.vendor.css";
@@ -19,7 +19,7 @@
 <script type="text/javascript" charset="utf-8" src="dist/javascripts/jquery-2.1.3.min.js"></script>
 <script type="text/javascript" charset="utf-8" src="dist/javascripts/thinker-md.vendor.min.js"></script>
 <script>
-    $("textarea[data-provide='markdown']").markdown({
+    $("textarea").markdown({
         language: 'zh',
         fullscreen: {
             enable: true
