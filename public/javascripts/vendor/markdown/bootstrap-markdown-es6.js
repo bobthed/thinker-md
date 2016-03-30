@@ -1,7 +1,3 @@
-'use strict';
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
-
 /* ===================================================
  * bootstrap-markdown.js v2.8.0
  * http://github.com/toopay/bootstrap-markdown
@@ -28,23 +24,25 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     /* MARKDOWN CLASS DEFINITION
      * ========================== */
 
-    var Markdown = function Markdown(element, options) {
+    var Markdown = function (element, options) {
         // @TODO : remove this BC on next major release
         // @see : https://github.com/toopay/bootstrap-markdown/issues/109
-        var opts = ['autofocus', 'savable', 'hideable', 'width', 'height', 'resize', 'iconlibrary', 'language', 'imgurl', 'base64url', 'localStorage', 'footer', 'fullscreen', 'hiddenButtons', 'disabledButtons', 'flowChart'];
+        var opts = ['autofocus', 'savable', 'hideable', 'width',
+            'height', 'resize', 'iconlibrary', 'language', 'imgurl', 'base64url', 'localStorage',
+            'footer', 'fullscreen', 'hiddenButtons', 'disabledButtons', 'flowChart'];
         $.each(opts, function (_, opt) {
             if (typeof $(element).data(opt) !== 'undefined') {
-                options = (typeof options === 'undefined' ? 'undefined' : _typeof(options)) == 'object' ? options : {};
-                options[opt] = $(element).data(opt);
+                options = typeof options == 'object' ? options : {};
+                options[opt] = $(element).data(opt)
             }
         });
         // End BC
 
         //emoji
         this.$emoji = {
-            groupNav: { 'github-emoji': null, 'twemoji': null, 'font-awesome': null },
+            groupNav: {'github-emoji': null, 'twemoji': null, 'font-awesome': null},
             groupName: ['github-emoji', 'twemoji', 'font-awesome'],
-            groupPanel: { 'github-emoji': null, 'twemoji': null, 'font-awesome': null },
+            groupPanel: {'github-emoji': null, 'twemoji': null, 'font-awesome': null},
             groups: {
                 "github-emoji": {
                     "People": ["bowtie", "smile", "laughing", "blush", "smiley", "relaxed", "smirk", "heart_eyes", "kissing_heart", "kissing_closed_eyes", "flushed", "relieved", "satisfied", "grin", "wink", "stuck_out_tongue_winking_eye", "stuck_out_tongue_closed_eyes", "grinning", "kissing", "kissing_smiling_eyes", "stuck_out_tongue", "sleeping", "worried", "frowning", "anguished", "open_mouth", "grimacing", "confused", "hushed", "expressionless", "unamused", "sweat_smile", "sweat", "disappointed_relieved", "weary", "pensive", "disappointed", "confounded", "fearful", "cold_sweat", "persevere", "cry", "sob", "joy", "astonished", "scream", "neckbeard", "tired_face", "angry", "rage", "triumph", "sleepy", "yum", "mask", "sunglasses", "dizzy_face", "imp", "smiling_imp", "neutral_face", "no_mouth", "innocent", "alien", "yellow_heart", "blue_heart", "purple_heart", "heart", "green_heart", "broken_heart", "heartbeat", "heartpulse", "two_hearts", "revolving_hearts", "cupid", "sparkling_heart", "sparkles", "star", "star2", "dizzy", "boom", "collision", "anger", "exclamation", "question", "grey_exclamation", "grey_question", "zzz", "dash", "sweat_drops", "notes", "musical_note", "fire", "hankey", "poop", "shit", "+1", "thumbsup", "-1", "thumbsdown", "ok_hand", "punch", "facepunch", "fist", "v", "wave", "hand", "raised_hand", "open_hands", "point_up", "point_down", "point_left", "point_right", "raised_hands", "pray", "point_up_2", "clap", "muscle", "metal", "fu", "walking", "runner", "running", "couple", "family", "two_men_holding_hands", "two_women_holding_hands", "dancer", "dancers", "ok_woman", "no_good", "information_desk_person", "raising_hand", "bride_with_veil", "person_with_pouting_face", "person_frowning", "bow", "couplekiss", "couple_with_heart", "massage", "haircut", "nail_care", "boy", "girl", "woman", "man", "baby", "older_woman", "older_man", "person_with_blond_hair", "man_with_gua_pi_mao", "man_with_turban", "construction_worker", "cop", "angel", "princess", "smiley_cat", "smile_cat", "heart_eyes_cat", "kissing_cat", "smirk_cat", "scream_cat", "crying_cat_face", "joy_cat", "pouting_cat", "japanese_ogre", "japanese_goblin", "see_no_evil", "hear_no_evil", "speak_no_evil", "guardsman", "skull", "feet", "lips", "kiss", "droplet", "ear", "eyes", "nose", "tongue", "love_letter", "bust_in_silhouette", "busts_in_silhouette", "speech_balloon", "thought_balloon", "feelsgood", "finnadie", "goberserk", "godmode", "hurtrealbad", "rage1", "rage2", "rage3", "rage4", "suspect", "trollface"],
@@ -61,7 +59,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         // Class Properties
         this.$ns = 'bootstrap-markdown';
         this.$element = $(element);
-        this.$editable = { el: null, type: null, attrKeys: [], attrValues: [], content: null };
+        this.$editable = {el: null, type: null, attrKeys: [], attrValues: [], content: null};
         this.$options = $.extend(true, {}, $.fn.markdown.defaults, options, this.$element.data('options'));
         this.$oldContent = null;
         this.$isPreview = false;
@@ -95,20 +93,19 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         this.$emojiPanel = null;
         this.$emojiElements = null;
 
-        this.isIE = navigator.appName == "Microsoft Internet Explorer";
-        this.isIE8 = this.isIE && navigator.appVersion.match(/8./i) == "8.";
+        this.isIE = (navigator.appName == "Microsoft Internet Explorer");
+        this.isIE8 = (this.isIE && navigator.appVersion.match(/8./i) == "8.");
+
 
         this.showEditor();
     };
 
     Markdown.prototype = {
 
-        constructor: Markdown,
+        constructor: Markdown
 
-        __alterButtons: function __alterButtons(name, alter) {
-            var handler = this.$handler,
-                isAll = name == 'all',
-                that = this;
+        , __alterButtons: function (name, alter) {
+            var handler = this.$handler, isAll = (name == 'all'), that = this;
 
             $.each(handler, function (k, v) {
                 var halt = true;
@@ -122,9 +119,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                     alter(that.$editor.find('button[data-handler="' + v + '"]'));
                 }
             });
-        },
+        }
 
-        __buildButtons: function __buildButtons(buttonsArray, container) {
+        , __buildButtons: function (buttonsArray, container) {
             var i,
                 ns = this.$ns,
                 handler = this.$handler,
@@ -132,26 +129,23 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
             for (i = 0; i < buttonsArray.length; i++) {
                 // Build each group container
-                var y,
-                    btnGroups = buttonsArray[i];
+                var y, btnGroups = buttonsArray[i];
                 for (y = 0; y < btnGroups.length; y++) {
                     // Build each button group
                     var z,
                         buttons = btnGroups[y].data,
                         btnGroupContainer = $('<div/>', {
-                        'class': 'btn-group'
-                    });
+                            'class': 'btn-group'
+                        });
 
                     for (z = 0; z < buttons.length; z++) {
                         var button = buttons[z],
-                            buttonContainer,
-                            buttonIconContainer,
+                            buttonContainer, buttonIconContainer,
                             buttonHandler = ns + '-' + button.name,
                             buttonIcon = this.__getIcon(button.icon),
                             btnText = button.btnText ? button.btnText : '',
-
                         //btnClass = button.btnClass ? button.btnClass : 'btn',
-                        tabIndex = button.tabIndex ? button.tabIndex : '-1',
+                            tabIndex = button.tabIndex ? button.tabIndex : '-1',
                             hotkey = typeof button.hotkey !== 'undefined' ? button.hotkey : '',
                             hotkeyCaption = typeof jQuery.hotkeys !== 'undefined' && hotkey !== '' ? ' (' + hotkey + ')' : '';
 
@@ -186,22 +180,25 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             }
 
             return container;
-        },
-        __setListener: function __setListener() {
+        }
+        , __setListener: function () {
             // Set size and resizable Properties
             var hasRows = typeof this.$textarea.attr('rows') !== 'undefined',
                 maxRows = this.$textarea.val().split("\n").length > 5 ? this.$textarea.val().split("\n").length : '5',
-                rowsVal = hasRows ? this.$textarea.attr('rows') : maxRows,
-                _this = this;
+                rowsVal = hasRows ? this.$textarea.attr('rows') : maxRows, _this = this;
 
             this.$textarea.attr('rows', rowsVal);
             if (this.$options.resize) {
                 this.$textarea.css('resize', this.$options.resize);
             }
 
-            this.$textarea.on('focus', $.proxy(this.focus, this)).on('keypress', $.proxy(this.keypress, this)).on('keyup keydown', function () {
-                _this.keyup.apply(_this, arguments);
-            }).on('change', $.proxy(this.change, this));
+            this.$textarea
+                .on('focus', $.proxy(this.focus, this))
+                .on('keypress', $.proxy(this.keypress, this))
+                .on('keyup keydown', function () {
+                    _this.keyup.apply(_this, arguments);
+                })
+                .on('change', $.proxy(this.change, this));
 
             if (this.eventSupported('keydown')) {
                 this.$textarea.on('keydown', $.proxy(this.keydown, this));
@@ -209,9 +206,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
             // Re-attach markdown data
             this.$textarea.data('markdown', this);
-        },
+        }
 
-        __handle: function __handle(e) {
+        , __handle: function (e) {
             var target = $(e.currentTarget),
                 handler = this.$handler,
                 callback = this.$callback,
@@ -234,31 +231,33 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             }
 
             e.preventDefault();
-        },
+        }
 
-        __localize: function __localize(string) {
+        , __localize: function (string) {
             var messages = $.fn.markdown.messages,
                 language = this.$options.language;
-            if (typeof messages !== 'undefined' && typeof messages[language] !== 'undefined' && typeof messages[language][string] !== 'undefined') {
+            if (
+                typeof messages !== 'undefined' &&
+                typeof messages[language] !== 'undefined' &&
+                typeof messages[language][string] !== 'undefined'
+            ) {
                 return messages[language][string];
             }
             return string;
-        },
+        }
 
-        __getIcon: function __getIcon(src) {
-            return (typeof src === 'undefined' ? 'undefined' : _typeof(src)) == 'object' ? src[this.$options.iconlibrary] : src;
-        },
+        , __getIcon: function (src) {
+            return typeof src == 'object' ? src[this.$options.iconlibrary] : src;
+        }
 
-        setFullscreen: function setFullscreen(mode) {
+        , setFullscreen: function (mode) {
             var $editor = this.$editor,
                 $textarea = this.$textarea,
                 $innerPreview = this.$innerPreview,
-
             //小预览窗口
-            preview = $('div[data-provider="markdown-preview"]'),
-
+                preview = $('div[data-provider="markdown-preview"]'),
             //预览按钮
-            previewButton = $('button[data-handler="bootstrap-markdown-cmdPreview"]');
+                previewButton = $('button[data-handler="bootstrap-markdown-cmdPreview"]');
             if (mode) {
                 if (this.$isPreview) {
                     this.hidePreview();
@@ -273,18 +272,21 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
                     if (lang === "seq" || lang === "sequence") {
                         return "<div class=\"sequence-diagram\">" + code + "</div>";
-                    } else if (lang === "flow") {
+                    }
+                    else if (lang === "flow") {
 
                         return "<div class=\"flowchart\">" + code + "</div>";
-                    } else {
+                    }
+                    else {
 
                         return marked.Renderer.prototype.code.apply(this, arguments);
                     }
+
                 };
 
-                $innerPreview.html(marked($textarea.val(), { renderer: markedRenderer }));
+                $innerPreview.html(marked($textarea.val(), {renderer: markedRenderer}));
                 $textarea.keyup(function (evt) {
-                    $innerPreview.html(marked($textarea.val()), { renderer: markedRenderer });
+                    $innerPreview.html(marked($textarea.val()), {renderer: markedRenderer});
                 });
 
                 if (!this.isIE8) {
@@ -323,7 +325,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
             this.$isFullscreen = mode;
             $textarea.focus();
-        }, showEditor: function showEditor() {
+        }, showEditor: function () {
 
             var instance = this,
                 textarea,
@@ -340,11 +342,11 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                 innerPreview = this.$fullPreview,
                 cutPaste = this.$cutPaste,
                 editor = $('<div/>', {
-                'class': 'md-editor',
-                click: function click() {
-                    instance.focus();
-                }
-            });
+                    'class': 'md-editor',
+                    click: function () {
+                        instance.focus();
+                    }
+                });
 
             // Prepare the editor
             if (this.$editor === null) {
@@ -360,13 +362,15 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
                 // Reduce and/or reorder the button groups
                 if (options.reorderButtonGroups.length > 0) {
-                    allBtnGroups = allBtnGroups.filter(function (btnGroup) {
-                        return options.reorderButtonGroups.indexOf(btnGroup.name) > -1;
-                    }).sort(function (a, b) {
-                        if (options.reorderButtonGroups.indexOf(a.name) < options.reorderButtonGroups.indexOf(b.name)) return -1;
-                        if (options.reorderButtonGroups.indexOf(a.name) > options.reorderButtonGroups.indexOf(b.name)) return 1;
-                        return 0;
-                    });
+                    allBtnGroups = allBtnGroups
+                        .filter(function (btnGroup) {
+                            return options.reorderButtonGroups.indexOf(btnGroup.name) > -1;
+                        })
+                        .sort(function (a, b) {
+                            if (options.reorderButtonGroups.indexOf(a.name) < options.reorderButtonGroups.indexOf(b.name)) return -1;
+                            if (options.reorderButtonGroups.indexOf(a.name) > options.reorderButtonGroups.indexOf(b.name)) return 1;
+                            return 0;
+                        });
                 }
 
                 // Build the buttons
@@ -390,7 +394,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                     textarea.addClass('md-input');
                     editor.append(textarea);
                 } else {
-                    var rawContent = typeof toMarkdown == 'function' ? toMarkdown(container.html()) : container.html(),
+                    var rawContent = (typeof toMarkdown == 'function') ? toMarkdown(container.html()) : container.html(),
                         currentContent = $.trim(rawContent);
                     // This is some arbitrary content that could be edited
                     textarea = $('<textarea/>', {
@@ -440,8 +444,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                 }
 
                 var editorFooter = $('<div/>', {
-                    'class': 'md-footer'
-                }),
+                        'class': 'md-footer'
+                    }),
                     createFooter = false,
                     footer = '';
                 // Create the footer if savable
@@ -453,7 +457,13 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                     handler.push(saveHandler);
                     callback.push(options.onSave);
 
-                    editorFooter.append('<button class="btn btn-success" data-provider="' + ns + '" data-handler="' + saveHandler + '"><i class="icon icon-white icon-ok"></i> ' + this.__localize('Save') + '</button>');
+                    editorFooter.append('<button class="btn btn-success" data-provider="'
+                        + ns
+                        + '" data-handler="'
+                        + saveHandler
+                        + '"><i class="icon icon-white icon-ok"></i> '
+                        + this.__localize('Save')
+                        + '</button>');
                 }
 
                 if (null === cutPaste) {
@@ -522,7 +532,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                     this.disableButtons('all');
                 }
 
-                if (this.eventSupported('keydown') && _typeof(jQuery.hotkeys) === 'object') {
+                if (this.eventSupported('keydown') && typeof jQuery.hotkeys === 'object') {
                     editorHeader.find('[data-provider="bootstrap-markdown"]').each(function () {
                         var $button = $(this),
                             hotkey = $button.attr('data-hotkey');
@@ -540,6 +550,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                 } else if (options.initialstate === 'fullscreen' && options.fullscreen.enable) {
                     this.setFullscreen(true);
                 }
+
             } else {
                 this.$editor.show();
             }
@@ -583,14 +594,14 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             this.bindDropUpload();
 
             return this;
-        },
+        }
 
-        parseContent: function parseContent(val) {
+        , parseContent: function (val) {
             var content;
 
             // parse with supported markdown parser
             var val = val || this.$textarea.val();
-            if ((typeof markdown === 'undefined' ? 'undefined' : _typeof(markdown)) == 'object') {
+            if (typeof markdown == 'object') {
                 content = markdown.toHTML(val);
             } else if (typeof marked == 'function') {
                 //处理流程图和序列图
@@ -599,28 +610,30 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
                     if (lang === "seq" || lang === "sequence") {
                         return "<div class=\"sequence-diagram\">" + code + "</div>";
-                    } else if (lang === "flow") {
+                    }
+                    else if (lang === "flow") {
 
                         return "<div class=\"flowchart\">" + code + "</div>";
-                    } else {
+                    }
+                    else {
 
                         return marked.Renderer.prototype.code.apply(this, arguments);
                     }
+
                 };
-                content = marked(val, { renderer: markedRenderer });
+                content = marked(val, {renderer: markedRenderer});
             } else {
                 content = val;
             }
 
             return content;
-        },
-        showUpload: function showUpload(e) {
+        }
+        , showUpload: function (e) {
             var _this = this,
                 uploadPanel = this.$uploadPanel,
                 editor = this.$editor,
-
             //upload panel
-            mdUpload = null,
+                mdUpload = null,
                 mdDialog = null,
                 mdContent = null,
                 mdContentHeader = null,
@@ -641,7 +654,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                     'class': 'md-upload',
                     'data-provide': 'markdown-upload'
                 }).on('click', function (evt) {
-                    if ($(evt.target).is('div.md-upload')) _this.hideUpload();
+                    if ($(evt.target).is('div.md-upload'))
+                        _this.hideUpload();
                 });
 
                 mdDialog = $('<div/>', {
@@ -654,6 +668,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                     'data-provide': 'markdown-upload-content'
                 });
 
+
                 mdContentHeader = $('<div/>', {
                     'class': 'md-content-header',
                     'data-provide': 'markdown-upload-content-header'
@@ -661,7 +676,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                     type: 'button',
                     class: 'md-content-header-button gly gly-remove'
                 })).on('click', function (evt) {
-                    if ($(evt.target).is('i.md-content-header-button')) _this.hideUpload();
+                    if ($(evt.target).is('i.md-content-header-button'))
+                        _this.hideUpload();
                 }).append($('<h4/>', {
                     class: 'md-content-header-title title',
                     text: e.__localize('Image')
@@ -708,8 +724,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                     placeholder: 'http://example.com/image.jpg'
                 });
 
-                progressBar = $('<div/>', { class: 'md-progress-bar' });
-                progress = $('<progress/>', { max: 100, value: 0 });
+                progressBar = $('<div/>', {class: 'md-progress-bar'});
+                progress = $('<progress/>', {max: 100, value: 0});
                 percent = $('<span/>', {
                     text: _this.__localize('Progress') + '0%'
                 });
@@ -725,7 +741,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                     'data-provide': 'markdown-upload-content-footer'
                 });
 
-                stateBar = $('<span/>', { class: 'md-state-bar' });
+                stateBar = $('<span/>', {class: 'md-state-bar'});
 
                 cancleButton = $('<button/>', {
                     class: 'btn btn-default',
@@ -774,12 +790,12 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
             uploadPanel.show();
         },
-        setPercent: function setPercent(progress) {
+        setPercent: function (progress) {
             if (this.$percent) {
                 this.$percent.html(this.__localize('Progress') + progress + '%');
             }
         },
-        setState: function setState(text, color) {
+        setState: function (text, color) {
             var _this = this;
             if (_this.$stateBar) {
                 if (color) {
@@ -792,7 +808,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                 }, 3000);
             }
         },
-        fileUpload: function fileUpload() {
+        fileUpload: function () {
             //ajax上传文件
             var _this = this,
                 imgUrl = this.$options.imgurl,
@@ -872,11 +888,12 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                 xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
                 xhr.send(formData);
             }
-        },
-        xhrImageUpload: function xhrImageUpload(base64) {
+        }
+        , xhrImageUpload: function (base64) {
             var _this = this,
                 base64Url = this.$options.base64url;
-            if (null === base64Url || '' === base64Url) return;
+            if (null === base64Url || '' === base64Url)
+                return;
             if (base64.indexOf("data:image/png;base64") !== -1) {
                 var imageFormData = new FormData();
                 imageFormData.append("base64Date", base64); // typo
@@ -897,11 +914,11 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                 xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
                 xhr.send(imageFormData);
             }
-        },
-        bindDropUpload: function bindDropUpload() {
+        }
+        , bindDropUpload: function () {
             var xhr;
-            if (typeof 'XMLHttpRequest' !== 'undefined' && 'upload' in (xhr = new XMLHttpRequest())) {
-                // IE 10+
+            if ((typeof 'XMLHttpRequest' !== 'undefined')
+                && ('upload' in (xhr = new XMLHttpRequest()))) { // IE 10+
                 var _this = this,
                     imgUrl = _this.$options.imgurl,
                     maxFileSize = _this.$fileSize,
@@ -912,16 +929,17 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                 reader.onload = function (e) {
                     var contents = e.target.result;
                     _this.replaceSelection(contents);
-                };
+                }
 
-                _this.$textarea.bind('dragover dragend', function () {
-                    return false;
-                }).bind("drop", function (e) {
+                _this.$textarea
+                    .bind('dragover dragend', function () {
+                        return false;
+                    })
+                    .bind("drop", function(e){
                     var fileList = e.originalEvent.dataTransfer.files;
                     formData.delete('img');
-                    if (fileList.length) {
-                        // file drop
-                        Array.prototype.forEach.call(fileList, function (file) {
+                    if (fileList.length) { // file drop
+                        Array.prototype.forEach.call(fileList, file => {
                             if (file.type.indexOf('text') != -1) {
                                 if (file.size > _this.$fileSize) {
                                     alert(_this.__localize('FileSizeTip'));
@@ -935,12 +953,12 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                                 }
 
                                 if (!file.name.match(_suffixReg)) {
-                                    alert(_this.__localize('SupportTypeTip') + ': ' + file.name);
+                                    alert(`${_this.__localize('SupportTypeTip')}: ${file.name}`);
                                     return;
                                 }
 
                                 if (file.size > maxFileSize) {
-                                    alert(_this.__localize('FileSizeTip') + ': ' + file.name);
+                                    alert(`${_this.__localize('FileSizeTip')}: ${file.name}`);
                                     return;
                                 }
                                 formData.append('img', file);
@@ -971,14 +989,10 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                     }
                 });
             }
-        },
-        setImageLink: function setImageLink(link) {
+        }
+        , setImageLink: function (link) {
             // Give ![] surround the selection and prepend the image link
-            var _this = this,
-                chunk,
-                cursor,
-                instance = this,
-                selected = instance.getSelection(),
+            var _this = this, chunk, cursor, instance = this, selected = instance.getSelection(),
                 _links = Array.isArray(link) ? link : [link];
 
             if (selected.length === 0) {
@@ -988,13 +1002,13 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                 chunk = selected.text;
             }
 
-            var linkContents = _links.filter(function (_link) {
-                return _link !== null && _link !== '' && _link !== 'http://' && (_link.substr(0, 4) === 'http' || _link.substr(0, 21) === 'data:image/png;base64');
-            }).map(function (_link) {
+            var linkContents = _links.filter( _link => _link !== null && _link !== '' && _link !== 'http://'
+                && (_link.substr(0, 4) === 'http' || _link.substr(0, 21) === 'data:image/png;base64'))
+            .map(_link => {
                 var sanitizedLink = $('<div>' + _link + '</div>').text();
 
                 // transform selection and set the cursor into chunked text
-                return '![' + chunk + '](' + sanitizedLink + ' "' + instance.__localize('enter image title here') + '")';
+                return `![${chunk}](${sanitizedLink} "${instance.__localize('enter image title here')}")`;
             }).join('\n');
             if (linkContents.length) {
                 instance.replaceSelection(linkContents);
@@ -1006,8 +1020,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                     _this.$innerPreview.html(marked(_this.$textarea.val()));
                 }
             }
-        },
-        hideUpload: function hideUpload() {
+        }
+        , hideUpload: function () {
             var uploadPanel = this.$uploadPanel,
                 textarea = this.$textarea;
             if (null !== uploadPanel) {
@@ -1017,11 +1031,11 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                 uploadPanel.hide();
                 this.$uploadMode = false;
             }
-        },
-        hideLoading: function hideLoading(loadingCount) {
+        }
+        , hideLoading: function (loadingCount) {
             this.$loading.toggle(loadingCount > 0);
-        },
-        localCache: function localCache() {
+        }
+        , localCache: function () {
             var _localStorage = this.$localStorage,
                 textarea = this.$textarea;
             if (window.localStorage && _localStorage && '' !== _localStorage) {
@@ -1029,14 +1043,15 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                     localStorage.setItem(_localStorage, textarea.val());
                 }, 1000);
             }
-        },
-        registPaste: function registPaste() {
+        }
+        , registPaste: function () {
             var _this = this,
                 cutPaste = this.$cutPaste,
                 editor = this.$editor,
                 timeStamp = null,
                 browser = navigator.userAgent.toLowerCase();
-            if (null === cutPaste) return;
+            if (null === cutPaste)
+                return;
 
             var firefox = false,
                 chrome = true,
@@ -1044,7 +1059,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
             if (/firefox/i.test(browser)) {
                 editor.keypress(function (event) {
-                    _this.pasteFunc(event, firefox);
+                    _this.pasteFunc(event, firefox)
                 });
                 //这里处理Firefox粘贴处理
                 editor.get(0).addEventListener('paste', function (event) {
@@ -1059,8 +1074,10 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                             event.preventDefault();
                             event.stopPropagation();
                         }
-                        if (event.returnValue) event.returnValue = false;
-                        if (event.cancelBubble) event.cancelBubble = true;
+                        if (event.returnValue)
+                            event.returnValue = false;
+                        if (event.cancelBubble)
+                            event.cancelBubble = true;
                         return false;
                     }
                 }, true);
@@ -1071,11 +1088,12 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                 });
             } else if (/trident/i.test(browser)) {
                 editor.keydown(function (event) {
-                    _this.pasteFunc(event, trident);
+                    _this.pasteFunc(event, trident)
                 });
             }
-        },
-        pasteFunc: function pasteFunc(event, chrome) {
+
+        }
+        , pasteFunc: function (event, chrome) {
             var _this = this,
                 cutPaste = this.$cutPaste,
                 textarea = this.$textarea,
@@ -1083,14 +1101,13 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
             if (!chrome) {
                 //防止一个粘贴BUG
-                if (uploadMode) return;
+                if (uploadMode)
+                    return;
             }
             if (!chrome && (event.ctrlKey || event.metaKey) && (event.keyCode === 86 || event.key === 'v')) {
                 cutPaste.focus();
                 setTimeout(function () {
-                    var imgs = cutPaste.find('img'),
-                        img = null,
-                        base64 = null;
+                    var imgs = cutPaste.find('img'), img = null, base64 = null;
                     textarea.focus();
                     if (imgs && imgs.length > 0) {
                         img = imgs[0];
@@ -1113,12 +1130,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                     cutPaste.empty();
                 }, 10);
             } else if (chrome) {
-                var clipboardData,
-                    items,
-                    item,
-                    _i = 0,
-                    _length,
-                    _ref;
+                var clipboardData, items, item, _i = 0, _length, _ref;
                 if (((_ref = event.originalEvent) !== null ? _ref.clipboardData : void 0) !== null) {
                     clipboardData = event.originalEvent.clipboardData;
                     if (items = clipboardData.items) {
@@ -1126,9 +1138,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                         for (; _i < _length; ++_i) {
                             item = items[_i];
                             if (item && item.type.match(/^image\//)) {
-                                var blob = item.getAsFile(),
-                                    reader = new FileReader(),
-                                    base64 = null;
+                                var blob = item.getAsFile(), reader = new FileReader(), base64 = null;
                                 reader.onload = function (evt) {
                                     base64 = evt.target.result;
                                     if (base64 && '' !== base64) {
@@ -1141,14 +1151,15 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                     }
                 }
             }
-        },
-        showPreview: function showPreview() {
+        }
+        , showPreview: function () {
             var options = this.$options,
                 container = this.$textarea,
                 afterContainer = container.next(),
-                replacementContainer = $('<div/>', { 'class': 'md-preview', 'data-provider': 'markdown-preview' }),
+                replacementContainer = $('<div/>', {'class': 'md-preview', 'data-provider': 'markdown-preview'}),
                 content,
                 callbackContent;
+
 
             // Give flag that tell the editor enter preview mode
             this.$isPreview = true;
@@ -1198,9 +1209,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                 this.disableButtons('all');
             }
             return this;
-        },
+        }
 
-        hidePreview: function hidePreview() {
+        , hidePreview: function () {
             // Give flag that tell the editor quit preview mode
             this.$isPreview = false;
 
@@ -1222,29 +1233,27 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             this.__setListener();
 
             return this;
-        },
+        }
 
-        isDirty: function isDirty() {
+        , isDirty: function () {
             return this.$oldContent != this.getContent();
-        },
+        }
 
-        getContent: function getContent() {
+        , getContent: function () {
             return this.$textarea.val();
-        },
+        }
 
-        setContent: function setContent(content) {
+        , setContent: function (content) {
             this.$textarea.val(content);
 
             return this;
-        },
+        }
 
-        findSelection: function findSelection(chunk) {
-            var content = this.getContent(),
-                startChunkPosition;
+        , findSelection: function (chunk) {
+            var content = this.getContent(), startChunkPosition;
 
             if (startChunkPosition = content.indexOf(chunk), startChunkPosition >= 0 && chunk.length > 0) {
-                var oldSelection = this.getSelection(),
-                    selection;
+                var oldSelection = this.getSelection(), selection;
 
                 this.setSelection(startChunkPosition, startChunkPosition + chunk.length);
                 selection = this.getSelection();
@@ -1255,12 +1264,14 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             } else {
                 return null;
             }
-        },
-        getSelection: function getSelection() {
+        }
+        , getSelection: function () {
 
             var e = this.$textarea[0];
 
-            return ('selectionStart' in e && function () {
+            return (
+
+            ('selectionStart' in e && function () {
                 var l = e.selectionEnd - e.selectionStart;
                 return {
                     start: e.selectionStart,
@@ -1268,68 +1279,79 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                     length: l,
                     text: e.value.substr(e.selectionStart, l)
                 };
-            } ||
+            }) ||
 
-            /* browser not supported */
+                /* browser not supported */
             function () {
                 return null;
-            })();
-        },
+            }
 
-        setSelection: function setSelection(start, end) {
+            )();
+
+        }
+
+        , setSelection: function (start, end) {
 
             var e = this.$textarea[0];
 
-            return ('selectionStart' in e && function () {
+            return (
+
+            ('selectionStart' in e && function () {
                 e.selectionStart = start;
                 e.selectionEnd = end;
                 return;
-            } ||
+            }) ||
 
-            /* browser not supported */
+                /* browser not supported */
             function () {
                 return null;
-            })();
-        },
+            }
 
-        replaceSelection: function replaceSelection(text) {
+            )();
+
+        }
+
+        , replaceSelection: function (text) {
 
             var e = this.$textarea[0];
 
-            return ('selectionStart' in e && function () {
+            return (
+
+            ('selectionStart' in e && function () {
                 var start = e.selectionStart + text.length;
                 e.value = e.value.substr(0, e.selectionStart) + text + e.value.substr(e.selectionEnd, e.value.length);
 
                 // Set cursor to the last replacement end
                 e.selectionStart = e.selectionEnd = start;
                 return this;
-            } ||
+            }) ||
             /* browser not supported */
             function () {
                 e.value += text;
                 return jQuery(e);
-            })();
-        },
+            }
 
-        getNextTab: function getNextTab() {
+            )();
+        }
+
+        , getNextTab: function () {
             // Shift the nextTab
             if (this.$nextTab.length === 0) {
                 return null;
             } else {
-                var nextTab,
-                    tab = this.$nextTab.shift();
+                var nextTab, tab = this.$nextTab.shift();
 
                 if (typeof tab == 'function') {
                     nextTab = tab();
-                } else if ((typeof tab === 'undefined' ? 'undefined' : _typeof(tab)) == 'object' && tab.length > 0) {
+                } else if (typeof tab == 'object' && tab.length > 0) {
                     nextTab = tab;
                 }
 
                 return nextTab;
             }
-        },
+        }
 
-        setNextTab: function setNextTab(start, end) {
+        , setNextTab: function (start, end) {
             // Push new selection into nextTab collections
             if (typeof start == 'string') {
                 var that = this;
@@ -1346,21 +1368,21 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             }
 
             return;
-        },
+        }
 
-        __parseButtonNameParam: function __parseButtonNameParam(nameParam) {
+        , __parseButtonNameParam: function (nameParam) {
             var buttons = [];
 
             if (typeof nameParam == 'string') {
-                buttons = nameParam.split(',');
+                buttons = nameParam.split(',')
             } else {
                 buttons = nameParam;
             }
 
             return buttons;
-        },
+        }
 
-        enableButtons: function enableButtons(name) {
+        , enableButtons: function (name) {
             var buttons = this.__parseButtonNameParam(name),
                 that = this;
 
@@ -1371,9 +1393,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             });
 
             return this;
-        },
+        }
 
-        disableButtons: function disableButtons(name) {
+        , disableButtons: function (name) {
             var buttons = this.__parseButtonNameParam(name),
                 that = this;
 
@@ -1384,9 +1406,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             });
 
             return this;
-        },
+        }
 
-        hideButtons: function hideButtons(name) {
+        , hideButtons: function (name) {
             var buttons = this.__parseButtonNameParam(name),
                 that = this;
 
@@ -1397,9 +1419,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             });
 
             return this;
-        },
+        }
 
-        showButtons: function showButtons(name) {
+        , showButtons: function (name) {
             var buttons = this.__parseButtonNameParam(name),
                 that = this;
 
@@ -1410,30 +1432,28 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             });
 
             return this;
-        },
+        }
 
-        eventSupported: function eventSupported(eventName) {
+        , eventSupported: function (eventName) {
             var isSupported = eventName in this.$element;
             if (!isSupported) {
                 this.$element.setAttribute(eventName, 'return;');
                 isSupported = typeof this.$element[eventName] === 'function';
             }
             return isSupported;
-        },
+        }
 
-        keyup: function keyup(e) {
+        , keyup: function (e) {
             var blocked = false;
             switch (e.keyCode) {
                 case 40: // down arrow
                 case 38: // up arrow
                 case 16: // shift
                 case 17: // ctrl
-                case 18:
-                    // alt
+                case 18: // alt
                     break;
 
-                case 9:
-                    // tab
+                case 9: // tab
                     var nextTab;
                     if (nextTab = this.getNextTab(), nextTab !== null) {
                         // Get the nextTab if exists
@@ -1443,28 +1463,28 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                         }, 500);
 
                         blocked = true;
-                    } else {// just output tabs
+                    } else { // just output tabs
                         /*// The next tab memory contains nothing...
                         // check the cursor position to determine tab action
                         var cursor = this.getSelection();
-                         if (cursor.start == cursor.end && cursor.end == this.getContent().length) {
+
+                        if (cursor.start == cursor.end && cursor.end == this.getContent().length) {
                             // The cursor already reach the end of the content
                             blocked = false;
                         } else {
                             // Put the cursor to the end
                             this.setSelection(this.getContent().length, this.getContent().length);
-                             blocked = true;
+
+                            blocked = true;
                         }*/
                     }
 
                     break;
 
-                case 13:
-                    // enter
+                case 13: // enter
                     blocked = false;
                     break;
-                case 27:
-                    // escape
+                case 27: // escape
                     if (this.$isFullscreen) this.setFullscreen(false);
                     blocked = false;
                     break;
@@ -1479,14 +1499,14 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             }
 
             this.$options.onChange(this);
-        },
+        }
 
-        change: function change(e) {
+        , change: function (e) {
             this.$options.onChange(this);
             return this;
-        },
+        }
 
-        focus: function focus(e) {
+        , focus: function (e) {
             var options = this.$options,
                 isHideable = options.hideable,
                 editor = this.$editor;
@@ -1498,7 +1518,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                 if ($(this).attr('id') !== editor.attr('id')) {
                     var attachedMarkdown;
 
-                    if (attachedMarkdown = $(this).find('textarea').data('markdown'), attachedMarkdown === null) {
+                    if (attachedMarkdown = $(this).find('textarea').data('markdown'),
+                        attachedMarkdown === null) {
                         attachedMarkdown = $(this).find('div[data-provider="markdown-preview"]').data('markdown');
                     }
 
@@ -1512,9 +1533,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             options.onFocus(this);
 
             return this;
-        },
+        }
 
-        blur: function blur(e) {
+        , blur: function (e) {
             var options = this.$options,
                 isHideable = options.hideable,
                 editor = this.$editor,
@@ -1529,7 +1550,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                         // Build the original element
                         var oldElement = $('<' + editable.type + '/>'),
                             content = this.getContent(),
-                            currentContent = (typeof markdown === 'undefined' ? 'undefined' : _typeof(markdown)) == 'object' ? markdown.toHTML(content) : content;
+                            currentContent = (typeof markdown == 'object') ? markdown.toHTML(content) : content;
 
                         $(editable.attrKeys).each(function (k, v) {
                             oldElement.attr(editable.attrKeys[k], editable.attrValues[k]);
@@ -1549,15 +1570,14 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             }
 
             return this;
-        },
-        showEmojiPanel: function showEmojiPanel(e) {
+        }
+        , showEmojiPanel: function (e) {
             var _this = this,
                 emojiPanel = this.$emojiPanel,
                 emojiElements = this.$emojiElements,
                 editor = this.$editor,
-
             //emojiPanel panel
-            mdEmoji = null,
+                mdEmoji = null,
                 mdDialog = null,
                 mdContent = null,
                 mdContentHeader = null,
@@ -1576,7 +1596,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                     'class': 'md-emoji',
                     'data-provide': 'markdown-emoji'
                 }).on('click', function (evt) {
-                    if ($(evt.target).is('div.md-emoji')) _this.hideEmoji();
+                    if ($(evt.target).is('div.md-emoji'))
+                        _this.hideEmoji();
                 });
 
                 mdDialog = $('<div/>', {
@@ -1596,7 +1617,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                     type: 'button',
                     class: 'md-content-header-button gly gly-remove'
                 })).on('click', function (evt) {
-                    if ($(evt.target).is('i.md-content-header-button')) _this.hideEmoji();
+                    if ($(evt.target).is('i.md-content-header-button'))
+                        _this.hideEmoji();
                 }).append($('<Strong/>', {
                     class: 'md-content-header-title',
                     text: e.__localize('Emoji')
@@ -1654,22 +1676,22 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                 return;
             }
             emojiPanel.show();
-        },
-        hideEmoji: function hideEmoji() {
+        }
+        , hideEmoji: function () {
             var textarea = this.$textarea,
                 emojiPanel = this.$emojiPanel;
             if (null != emojiPanel) {
                 emojiPanel.hide();
             }
             textarea.focus();
-        },
-        initEmoji: function initEmoji() {
+        }
+        , initEmoji: function () {
 
             var emoji = this.$emoji,
                 emojiGroup = emoji['groupName'],
                 emojiPanel = $('<div/>', {
-                class: 'md-emoji-panel'
-            });
+                    class: 'md-emoji-panel'
+                });
             var emojiNavPanel = $('<ul/>', {
                 class: 'md-emoji-nav'
             });
@@ -1695,8 +1717,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                 }
                 if (group instanceof Object) {
                     var githubPanel = $('<div/>', {
-                        'data-group': emojiGroup[egIndex]
-                    }),
+                            'data-group': emojiGroup[egIndex]
+                        }),
                         githubGroup = ['People', 'Nature', 'Objects', 'Places', 'Symbols'];
                     for (var ghIndex = 0; ghIndex < githubGroup.length; ++ghIndex) {
                         var name = githubGroup[ghIndex],
@@ -1717,26 +1739,27 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                         }
                     }
                     this.$emoji['groupPanel'][emojiGroup[egIndex]] = githubPanel;
-                    emojiPanel.append(emojiNavPanel).append(githubPanel);
+                    emojiPanel.append(emojiNavPanel)
+                        .append(githubPanel);
                 }
             }
 
             return emojiPanel;
-        },
-        renderEmojiNav: function renderEmojiNav(name, active) {
+        }
+        , renderEmojiNav: function (name, active) {
             var _class = active ? 'active' : '';
             return $('<li/>', {
                 class: _class,
                 'data-emoji-target': name,
                 text: name
             });
-        },
-        renderEmoji: function renderEmoji(group, name, title) {
+        }
+        , renderEmoji: function (group, name, title) {
             var cols = 20,
                 fontawesome = ' fa ',
                 groupPanel = $('<div/>', {
-                'data-group': name
-            }),
+                    'data-group': name
+                }),
                 groupLength = group.length,
                 mod = groupLength % cols,
                 rows = mod === 0 ? groupLength / cols : parseInt(groupLength / cols) + 1;
@@ -1751,7 +1774,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                     class: 'emoji-row'
                 });
                 for (var col = 0; col < cols; col++) {
-                    var index = row * cols + col,
+                    var index = (row * cols) + col,
                         emojiName = group[index],
                         _class = 'emoji-block';
 
@@ -1786,401 +1809,385 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
     $.fn.markdown = function (option) {
         return this.each(function () {
-            var $this = $(this),
-                data = $this.data('markdown'),
-                options = (typeof option === 'undefined' ? 'undefined' : _typeof(option)) == 'object' && option;
-            if (!data) $this.data('markdown', data = new Markdown(this, options));
-        });
+            var $this = $(this)
+                , data = $this.data('markdown')
+                , options = typeof option == 'object' && option;
+            if (!data) $this.data('markdown', (data = new Markdown(this, options)))
+        })
     };
 
     $.fn.markdown.messages = {};
 
     $.fn.markdown.defaults = {
         /* Editor Properties */
-        autofocus: true, //是否自动焦点到编辑器
+        autofocus: true,  //是否自动焦点到编辑器
         hideable: false,
         savable: false,
         width: 'inherit',
         height: 'inherit',
         resize: 'none',
         iconlibrary: 'glyph',
-        language: 'en', //默认国际化语言
+        language: 'en',  //默认国际化语言
         initialstate: 'editor',
         imgurl: '',
         base64url: '',
         localStorage: '',
-        flowChart: false, //    flowChart.js 只支持 IE9+
+        flowChart: false,//    flowChart.js 只支持 IE9+
         /* Buttons Properties */
-        buttons: [[{
-            name: 'groupFont',
-            data: [{
-                name: 'cmdBold',
-                hotkey: 'Ctrl+B',
-                title: 'Bold',
-                icon: { glyph: 'gly gly-bold', fa: 'fa fa-bold', 'fa-3': 'icon-bold' },
-                callback: function callback(e) {
-                    // Give/remove ** surround the selection
-                    var chunk,
-                        cursor,
-                        selected = e.getSelection(),
-                        content = e.getContent();
+        buttons: [
+            [{
+                name: 'groupFont',
+                data: [{
+                    name: 'cmdBold',
+                    hotkey: 'Ctrl+B',
+                    title: 'Bold',
+                    icon: {glyph: 'gly gly-bold', fa: 'fa fa-bold', 'fa-3': 'icon-bold'},
+                    callback: function (e) {
+                        // Give/remove ** surround the selection
+                        var chunk, cursor, selected = e.getSelection(), content = e.getContent();
 
-                    if (selected.length === 0) {
-                        // Give extra word
-                        chunk = e.__localize('strong text');
-                    } else {
-                        chunk = selected.text;
-                    }
-
-                    // transform selection and set the cursor into chunked text
-                    if (content.substr(selected.start - 2, 2) === '**' && content.substr(selected.end, 2) === '**') {
-                        e.setSelection(selected.start - 2, selected.end + 2);
-                        e.replaceSelection(chunk);
-                        cursor = selected.start - 2;
-                    } else {
-                        e.replaceSelection('**' + chunk + '**');
-                        cursor = selected.start + 2;
-                    }
-
-                    // Set the cursor
-                    e.setSelection(cursor, cursor + chunk.length);
-                }
-            }, {
-                name: 'cmdItalic',
-                title: 'Italic',
-                hotkey: 'Ctrl+I',
-                icon: { glyph: 'gly gly-italic', fa: 'fa fa-italic', 'fa-3': 'icon-italic' },
-                callback: function callback(e) {
-                    // Give/remove * surround the selection
-                    var chunk,
-                        cursor,
-                        selected = e.getSelection(),
-                        content = e.getContent();
-
-                    if (selected.length === 0) {
-                        // Give extra word
-                        chunk = e.__localize('emphasized text');
-                    } else {
-                        chunk = selected.text;
-                    }
-
-                    // transform selection and set the cursor into chunked text
-                    if (content.substr(selected.start - 1, 1) === '_' && content.substr(selected.end, 1) === '_') {
-                        e.setSelection(selected.start - 1, selected.end + 1);
-                        e.replaceSelection(chunk);
-                        cursor = selected.start - 1;
-                    } else {
-                        e.replaceSelection('_' + chunk + '_');
-                        cursor = selected.start + 1;
-                    }
-
-                    // Set the cursor
-                    e.setSelection(cursor, cursor + chunk.length);
-                }
-            }, {
-                name: 'cmdHeading',
-                title: 'Heading',
-                hotkey: 'Ctrl+H',
-                icon: { glyph: 'gly gly-header', fa: 'fa fa-header', 'fa-3': 'icon-font' },
-                callback: function callback(e) {
-                    // Append/remove ### surround the selection
-                    var chunk,
-                        cursor,
-                        selected = e.getSelection(),
-                        content = e.getContent(),
-                        pointer = 4,
-                        prevChar;
-
-                    if (selected.length === 0) {
-                        // Give extra word
-                        chunk = e.__localize('heading text');
-                    } else {
-                        chunk = selected.text + '\n';
-                    }
-
-                    // transform selection and set the cursor into chunked text
-                    if (content.substr(selected.start - pointer, pointer) === '### ' || content.substr(selected.start - --pointer, pointer) === '###') {
-                        e.setSelection(selected.start - pointer, selected.end);
-                        e.replaceSelection(chunk);
-                        cursor = selected.start - pointer;
-                    } else if (selected.start > 0 && (prevChar = content.substr(selected.start - 1, 1), !!prevChar && prevChar != '\n')) {
-                        e.replaceSelection('\n\n### ' + chunk);
-                        cursor = selected.start + 6;
-                    } else {
-                        // Empty string before element
-                        e.replaceSelection('### ' + chunk);
-                        cursor = selected.start + 4;
-                    }
-
-                    // Set the cursor
-                    e.setSelection(cursor, cursor + chunk.length);
-                }
-            }]
-        }, {
-            name: 'groupLink',
-            data: [{
-                name: 'cmdUrl',
-                title: 'URL/Link',
-                hotkey: 'Ctrl+L',
-                icon: { glyph: 'gly gly-link', fa: 'fa fa-link', 'fa-3': 'icon-link' },
-                callback: function callback(e) {
-                    // Give [] surround the selection and prepend the link
-                    var chunk,
-                        cursor,
-                        selected = e.getSelection(),
-                        content = e.getContent(),
-                        link;
-
-                    if (selected.length === 0) {
-                        // Give extra word
-                        chunk = e.__localize('enter link description here');
-                    } else {
-                        chunk = selected.text;
-                    }
-
-                    /* link = prompt(e.__localize('Insert Hyperlink'), 'http://');*/
-                    link = 'http://';
-                    /*  if (link !== null && link !== '' && link !== 'http://' && link.substr(0, 4) === 'http') {*/
-                    var sanitizedLink = $('<div>' + link + '</div>').text();
-
-                    // transform selection and set the cursor into chunked text
-                    e.replaceSelection('[' + chunk + '](' + sanitizedLink + ')');
-                    cursor = selected.start + chunk.length + 10;
-
-                    // Set the cursor
-                    e.setSelection(cursor, cursor);
-                    /* }*/
-                }
-            }, {
-                name: 'cmdImage',
-                title: 'Image',
-                hotkey: 'Ctrl+G',
-                icon: { glyph: 'gly gly-picture', fa: 'fa fa-picture-o', 'fa-3': 'icon-picture' },
-                callback: function callback(e) {
-                    e.$uploadMode = true;
-                    e.showUpload(e);
-                }
-            }, {
-                name: 'cmdEmoji',
-                title: 'Emoji',
-                hotkey: 'Ctrl+E',
-                icon: { glyph: 'fa fa-smile-o', fa: 'fa fa-smile-o', 'fa-3': 'icon-picture' },
-                callback: function callback(e) {
-                    //e.$uploadMode = true;
-                    e.showEmojiPanel(e);
-                }
-            }]
-        }, {
-            name: 'groupMisc',
-            data: [{
-                name: 'cmdList',
-                hotkey: 'Ctrl+U',
-                title: 'Unordered List',
-                icon: { glyph: 'gly gly-list', fa: 'fa fa-list', 'fa-3': 'icon-list-ul' },
-                callback: function callback(e) {
-                    // Prepend/Give - surround the selection
-                    var chunk,
-                        cursor,
-                        selected = e.getSelection(),
-                        content = e.getContent();
-
-                    // transform selection and set the cursor into chunked text
-                    if (selected.length === 0) {
-                        // Give extra word
-                        chunk = e.__localize('list text here');
-
-                        e.replaceSelection('- ' + chunk);
-                        // Set the cursor
-                        cursor = selected.start + 2;
-                    } else {
-                        if (selected.text.indexOf('\n') < 0) {
+                        if (selected.length === 0) {
+                            // Give extra word
+                            chunk = e.__localize('strong text');
+                        } else {
                             chunk = selected.text;
+                        }
+
+                        // transform selection and set the cursor into chunked text
+                        if (content.substr(selected.start - 2, 2) === '**'
+                            && content.substr(selected.end, 2) === '**') {
+                            e.setSelection(selected.start - 2, selected.end + 2);
+                            e.replaceSelection(chunk);
+                            cursor = selected.start - 2;
+                        } else {
+                            e.replaceSelection('**' + chunk + '**');
+                            cursor = selected.start + 2;
+                        }
+
+                        // Set the cursor
+                        e.setSelection(cursor, cursor + chunk.length);
+                    }
+                }, {
+                    name: 'cmdItalic',
+                    title: 'Italic',
+                    hotkey: 'Ctrl+I',
+                    icon: {glyph: 'gly gly-italic', fa: 'fa fa-italic', 'fa-3': 'icon-italic'},
+                    callback: function (e) {
+                        // Give/remove * surround the selection
+                        var chunk, cursor, selected = e.getSelection(), content = e.getContent();
+
+                        if (selected.length === 0) {
+                            // Give extra word
+                            chunk = e.__localize('emphasized text');
+                        } else {
+                            chunk = selected.text;
+                        }
+
+                        // transform selection and set the cursor into chunked text
+                        if (content.substr(selected.start - 1, 1) === '_'
+                            && content.substr(selected.end, 1) === '_') {
+                            e.setSelection(selected.start - 1, selected.end + 1);
+                            e.replaceSelection(chunk);
+                            cursor = selected.start - 1;
+                        } else {
+                            e.replaceSelection('_' + chunk + '_');
+                            cursor = selected.start + 1;
+                        }
+
+                        // Set the cursor
+                        e.setSelection(cursor, cursor + chunk.length);
+                    }
+                }, {
+                    name: 'cmdHeading',
+                    title: 'Heading',
+                    hotkey: 'Ctrl+H',
+                    icon: {glyph: 'gly gly-header', fa: 'fa fa-header', 'fa-3': 'icon-font'},
+                    callback: function (e) {
+                        // Append/remove ### surround the selection
+                        var chunk, cursor, selected = e.getSelection(), content = e.getContent(), pointer = 4, prevChar;
+
+                        if (selected.length === 0) {
+                            // Give extra word
+                            chunk = e.__localize('heading text');
+                        } else {
+                            chunk = selected.text + '\n';
+                        }
+
+                        // transform selection and set the cursor into chunked text
+                        if (content.substr(selected.start - pointer, pointer) === '### '
+                            || content.substr(selected.start - (--pointer), pointer) === '###') {
+                            e.setSelection(selected.start - pointer, selected.end);
+                            e.replaceSelection(chunk);
+                            cursor = selected.start - pointer;
+                        } else if (selected.start > 0 && (prevChar = content.substr(selected.start - 1, 1), !!prevChar && prevChar != '\n')) {
+                            e.replaceSelection('\n\n### ' + chunk);
+                            cursor = selected.start + 6;
+                        } else {
+                            // Empty string before element
+                            e.replaceSelection('### ' + chunk);
+                            cursor = selected.start + 4;
+                        }
+
+                        // Set the cursor
+                        e.setSelection(cursor, cursor + chunk.length);
+                    }
+                }]
+            }, {
+                name: 'groupLink',
+                data: [{
+                    name: 'cmdUrl',
+                    title: 'URL/Link',
+                    hotkey: 'Ctrl+L',
+                    icon: {glyph: 'gly gly-link', fa: 'fa fa-link', 'fa-3': 'icon-link'},
+                    callback: function (e) {
+                        // Give [] surround the selection and prepend the link
+                        var chunk, cursor, selected = e.getSelection(), content = e.getContent(), link;
+
+                        if (selected.length === 0) {
+                            // Give extra word
+                            chunk = e.__localize('enter link description here');
+                        } else {
+                            chunk = selected.text;
+                        }
+
+                        /* link = prompt(e.__localize('Insert Hyperlink'), 'http://');*/
+                        link = 'http://';
+                        /*  if (link !== null && link !== '' && link !== 'http://' && link.substr(0, 4) === 'http') {*/
+                        var sanitizedLink = $('<div>' + link + '</div>').text();
+
+                        // transform selection and set the cursor into chunked text
+                        e.replaceSelection('[' + chunk + '](' + sanitizedLink + ')');
+                        cursor = selected.start + chunk.length + 10;
+
+                        // Set the cursor
+                        e.setSelection(cursor, cursor);
+                        /* }*/
+                    }
+                }, {
+                    name: 'cmdImage',
+                    title: 'Image',
+                    hotkey: 'Ctrl+G',
+                    icon: {glyph: 'gly gly-picture', fa: 'fa fa-picture-o', 'fa-3': 'icon-picture'},
+                    callback: function (e) {
+                        e.$uploadMode = true;
+                        e.showUpload(e);
+
+                    }
+                }, {
+                    name: 'cmdEmoji',
+                    title: 'Emoji',
+                    hotkey: 'Ctrl+E',
+                    icon: {glyph: 'fa fa-smile-o', fa: 'fa fa-smile-o', 'fa-3': 'icon-picture'},
+                    callback: function (e) {
+                        //e.$uploadMode = true;
+                        e.showEmojiPanel(e);
+
+                    }
+                }]
+            }, {
+                name: 'groupMisc',
+                data: [{
+                    name: 'cmdList',
+                    hotkey: 'Ctrl+U',
+                    title: 'Unordered List',
+                    icon: {glyph: 'gly gly-list', fa: 'fa fa-list', 'fa-3': 'icon-list-ul'},
+                    callback: function (e) {
+                        // Prepend/Give - surround the selection
+                        var chunk, cursor, selected = e.getSelection(), content = e.getContent();
+
+                        // transform selection and set the cursor into chunked text
+                        if (selected.length === 0) {
+                            // Give extra word
+                            chunk = e.__localize('list text here');
 
                             e.replaceSelection('- ' + chunk);
-
                             // Set the cursor
                             cursor = selected.start + 2;
                         } else {
-                            var list = [];
+                            if (selected.text.indexOf('\n') < 0) {
+                                chunk = selected.text;
 
-                            list = selected.text.split('\n');
-                            chunk = list[0];
+                                e.replaceSelection('- ' + chunk);
 
-                            $.each(list, function (k, v) {
-                                list[k] = '- ' + v;
-                            });
+                                // Set the cursor
+                                cursor = selected.start + 2;
+                            } else {
+                                var list = [];
 
-                            e.replaceSelection('\n\n' + list.join('\n'));
+                                list = selected.text.split('\n');
+                                chunk = list[0];
 
-                            // Set the cursor
-                            cursor = selected.start + 4;
+                                $.each(list, function (k, v) {
+                                    list[k] = '- ' + v;
+                                });
+
+                                e.replaceSelection('\n\n' + list.join('\n'));
+
+                                // Set the cursor
+                                cursor = selected.start + 4;
+                            }
                         }
-                    }
-
-                    // Set the cursor
-                    e.setSelection(cursor, cursor + chunk.length);
-                }
-            }, {
-                name: 'cmdListO',
-                hotkey: 'Ctrl+O',
-                title: 'Ordered List',
-                icon: { glyph: 'gly gly-th-list', fa: 'fa fa-list-ol', 'fa-3': 'icon-list-ol' },
-                callback: function callback(e) {
-
-                    // Prepend/Give - surround the selection
-                    var chunk,
-                        cursor,
-                        selected = e.getSelection(),
-                        content = e.getContent();
-
-                    // transform selection and set the cursor into chunked text
-                    if (selected.length === 0) {
-                        // Give extra word
-                        chunk = e.__localize('list text here');
-                        e.replaceSelection('1. ' + chunk);
-                        // Set the cursor
-                        cursor = selected.start + 3;
-                    } else {
-                        if (selected.text.indexOf('\n') < 0) {
-                            chunk = selected.text;
-
-                            e.replaceSelection('1. ' + chunk);
-
-                            // Set the cursor
-                            cursor = selected.start + 3;
-                        } else {
-                            var list = [];
-
-                            list = selected.text.split('\n');
-                            chunk = list[0];
-
-                            $.each(list, function (k, v) {
-                                list[k] = '1. ' + v;
-                            });
-
-                            e.replaceSelection('\n\n' + list.join('\n'));
-
-                            // Set the cursor
-                            cursor = selected.start + 5;
-                        }
-                    }
-
-                    // Set the cursor
-                    e.setSelection(cursor, cursor + chunk.length);
-                }
-            }, {
-                name: 'cmdCode',
-                hotkey: 'Ctrl+K',
-                title: 'Code',
-                icon: { glyph: 'gly gly-asterisk', fa: 'fa fa-code', 'fa-3': 'icon-code' },
-                callback: function callback(e) {
-                    // Give/remove ** surround the selection
-                    var chunk,
-                        cursor,
-                        selected = e.getSelection(),
-                        content = e.getContent();
-
-                    if (selected.length === 0) {
-                        // Give extra word
-                        chunk = e.__localize('code text here');
-                    } else {
-                        chunk = selected.text;
-                    }
-
-                    // transform selection and set the cursor into chunked text
-                    if (content.substr(selected.start - 4, 4) === '```\n' && content.substr(selected.end, 4) === '\n```') {
-                        e.setSelection(selected.start - 4, selected.end + 4);
-                        e.replaceSelection(chunk);
-                        cursor = selected.start - 4;
-                    } else if (content.substr(selected.start - 1, 1) === '`' && content.substr(selected.end, 1) === '`') {
-                        e.setSelection(selected.start - 1, selected.end + 1);
-                        e.replaceSelection(chunk);
-                        cursor = selected.start - 1;
-                    } else if (content.indexOf('\n') > -1) {
-                        e.replaceSelection('```\n' + chunk + '\n```');
-                        cursor = selected.start + 4;
-                    } else {
-                        e.replaceSelection('`' + chunk + '`');
-                        cursor = selected.start + 1;
-                    }
-
-                    // Set the cursor
-                    e.setSelection(cursor, cursor + chunk.length);
-                }
-            }, {
-                name: 'cmdQuote',
-                hotkey: 'Ctrl+Q',
-                title: 'Quote',
-                icon: { glyph: 'gly gly-comment', fa: 'fa fa-quote-left', 'fa-3': 'icon-quote-left' },
-                callback: function callback(e) {
-                    // Prepend/Give - surround the selection
-                    var chunk,
-                        cursor,
-                        selected = e.getSelection(),
-                        content = e.getContent();
-
-                    // transform selection and set the cursor into chunked text
-                    if (selected.length === 0) {
-                        // Give extra word
-                        chunk = e.__localize('quote here');
-
-                        e.replaceSelection('> ' + chunk);
 
                         // Set the cursor
-                        cursor = selected.start + 2;
-                    } else {
-                        if (selected.text.indexOf('\n') < 0) {
-                            chunk = selected.text;
+                        e.setSelection(cursor, cursor + chunk.length);
+                    }
+                },
+                    {
+                        name: 'cmdListO',
+                        hotkey: 'Ctrl+O',
+                        title: 'Ordered List',
+                        icon: {glyph: 'gly gly-th-list', fa: 'fa fa-list-ol', 'fa-3': 'icon-list-ol'},
+                        callback: function (e) {
 
-                            e.replaceSelection('> ' + chunk);
+                            // Prepend/Give - surround the selection
+                            var chunk, cursor, selected = e.getSelection(), content = e.getContent();
+
+                            // transform selection and set the cursor into chunked text
+                            if (selected.length === 0) {
+                                // Give extra word
+                                chunk = e.__localize('list text here');
+                                e.replaceSelection('1. ' + chunk);
+                                // Set the cursor
+                                cursor = selected.start + 3;
+                            } else {
+                                if (selected.text.indexOf('\n') < 0) {
+                                    chunk = selected.text;
+
+                                    e.replaceSelection('1. ' + chunk);
+
+                                    // Set the cursor
+                                    cursor = selected.start + 3;
+                                } else {
+                                    var list = [];
+
+                                    list = selected.text.split('\n');
+                                    chunk = list[0];
+
+                                    $.each(list, function (k, v) {
+                                        list[k] = '1. ' + v;
+                                    });
+
+                                    e.replaceSelection('\n\n' + list.join('\n'));
+
+                                    // Set the cursor
+                                    cursor = selected.start + 5;
+                                }
+                            }
 
                             // Set the cursor
-                            cursor = selected.start + 2;
+                            e.setSelection(cursor, cursor + chunk.length);
+                        }
+                    },
+                    {
+                        name: 'cmdCode',
+                        hotkey: 'Ctrl+K',
+                        title: 'Code',
+                        icon: {glyph: 'gly gly-asterisk', fa: 'fa fa-code', 'fa-3': 'icon-code'},
+                        callback: function (e) {
+                            // Give/remove ** surround the selection
+                            var chunk, cursor, selected = e.getSelection(), content = e.getContent();
+
+                            if (selected.length === 0) {
+                                // Give extra word
+                                chunk = e.__localize('code text here');
+                            } else {
+                                chunk = selected.text;
+                            }
+
+                            // transform selection and set the cursor into chunked text
+                            if (content.substr(selected.start - 4, 4) === '```\n'
+                                && content.substr(selected.end, 4) === '\n```') {
+                                e.setSelection(selected.start - 4, selected.end + 4);
+                                e.replaceSelection(chunk);
+                                cursor = selected.start - 4;
+                            } else if (content.substr(selected.start - 1, 1) === '`'
+                                && content.substr(selected.end, 1) === '`') {
+                                e.setSelection(selected.start - 1, selected.end + 1);
+                                e.replaceSelection(chunk);
+                                cursor = selected.start - 1;
+                            } else if (content.indexOf('\n') > -1) {
+                                e.replaceSelection('```\n' + chunk + '\n```');
+                                cursor = selected.start + 4;
+                            } else {
+                                e.replaceSelection('`' + chunk + '`');
+                                cursor = selected.start + 1;
+                            }
+
+                            // Set the cursor
+                            e.setSelection(cursor, cursor + chunk.length);
+                        }
+                    },
+                    {
+                        name: 'cmdQuote',
+                        hotkey: 'Ctrl+Q',
+                        title: 'Quote',
+                        icon: {glyph: 'gly gly-comment', fa: 'fa fa-quote-left', 'fa-3': 'icon-quote-left'},
+                        callback: function (e) {
+                            // Prepend/Give - surround the selection
+                            var chunk, cursor, selected = e.getSelection(), content = e.getContent();
+
+                            // transform selection and set the cursor into chunked text
+                            if (selected.length === 0) {
+                                // Give extra word
+                                chunk = e.__localize('quote here');
+
+                                e.replaceSelection('> ' + chunk);
+
+                                // Set the cursor
+                                cursor = selected.start + 2;
+                            } else {
+                                if (selected.text.indexOf('\n') < 0) {
+                                    chunk = selected.text;
+
+                                    e.replaceSelection('> ' + chunk);
+
+                                    // Set the cursor
+                                    cursor = selected.start + 2;
+                                } else {
+                                    var list = [];
+
+                                    list = selected.text.split('\n');
+                                    chunk = list[0];
+
+                                    $.each(list, function (k, v) {
+                                        list[k] = '> ' + v;
+                                    });
+
+                                    e.replaceSelection('\n\n' + list.join('\n'));
+
+                                    // Set the cursor
+                                    cursor = selected.start + 4;
+                                }
+                            }
+
+                            // Set the cursor
+                            e.setSelection(cursor, cursor + chunk.length);
+                        }
+                    }]
+            }, {
+                name: 'groupUtil',
+                data: [{
+                    name: 'cmdPreview',
+                    toggle: true,
+                    hotkey: 'Ctrl+P',
+                    title: 'Preview',
+                    //btnText: 'Preview',
+                    //btnClass: 'btn btn-primary btn-sm',
+                    icon: {glyph: 'gly gly-search', fa: 'fa fa-search', 'fa-3': 'icon-search'},
+                    callback: function (e) {
+                        // Check the preview mode and toggle based on this flag
+                        var isPreview = e.$isPreview, content;
+
+                        if (isPreview === false) {
+                            // Give flag that tell the editor enter preview mode
+                            e.showPreview();
                         } else {
-                            var list = [];
-
-                            list = selected.text.split('\n');
-                            chunk = list[0];
-
-                            $.each(list, function (k, v) {
-                                list[k] = '> ' + v;
-                            });
-
-                            e.replaceSelection('\n\n' + list.join('\n'));
-
-                            // Set the cursor
-                            cursor = selected.start + 4;
+                            e.hidePreview();
                         }
                     }
-
-                    // Set the cursor
-                    e.setSelection(cursor, cursor + chunk.length);
-                }
+                }]
             }]
-        }, {
-            name: 'groupUtil',
-            data: [{
-                name: 'cmdPreview',
-                toggle: true,
-                hotkey: 'Ctrl+P',
-                title: 'Preview',
-                //btnText: 'Preview',
-                //btnClass: 'btn btn-primary btn-sm',
-                icon: { glyph: 'gly gly-search', fa: 'fa fa-search', 'fa-3': 'icon-search' },
-                callback: function callback(e) {
-                    // Check the preview mode and toggle based on this flag
-                    var isPreview = e.$isPreview,
-                        content;
-
-                    if (isPreview === false) {
-                        // Give flag that tell the editor enter preview mode
-                        e.showPreview();
-                    } else {
-                        e.hidePreview();
-                    }
-                }
-            }]
-        }]],
+        ],
         additionalButtons: [], // Place to hook more buttons by code
         reorderButtonGroups: [],
         hiddenButtons: [], // Default hidden buttons
@@ -2203,16 +2210,24 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         },
 
         /* Events hook */
-        onShow: function onShow(e) {},
-        onPreview: function onPreview(e) {},
-        onSave: function onSave(e) {},
-        onBlur: function onBlur(e) {},
-        onFocus: function onFocus(e) {},
-        onChange: function onChange(e) {},
-        onFullscreen: function onFullscreen(e) {}
+        onShow: function (e) {
+        },
+        onPreview: function (e) {
+        },
+        onSave: function (e) {
+        },
+        onBlur: function (e) {
+        },
+        onFocus: function (e) {
+        },
+        onChange: function (e) {
+        },
+        onFullscreen: function (e) {
+        }
     };
 
     $.fn.markdown.Constructor = Markdown;
+
 
     /* MARKDOWN NO CONFLICT
      * ==================== */
@@ -2224,39 +2239,42 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
     /* MARKDOWN GLOBAL FUNCTION & DATA-API
      * ==================================== */
-    var initMarkdown = function initMarkdown(el) {
+    var initMarkdown = function (el) {
         var $this = el;
 
         if ($this.data('markdown')) {
             $this.data('markdown').showEditor();
             return;
         }
-        $this.markdown();
+        $this.markdown()
     };
 
-    var blurNonFocused = function blurNonFocused(e) {
+    var blurNonFocused = function (e) {
         var $activeElement = $(document.activeElement);
 
         // Blur event
         $(document).find('.md-editor').each(function () {
             var $this = $(this),
                 focused = $activeElement.closest('.md-editor')[0] === this,
-                attachedMarkdown = $this.find('textarea').data('markdown') || $this.find('div[data-provider="markdown-preview"]').data('markdown');
+                attachedMarkdown = $this.find('textarea').data('markdown') ||
+                    $this.find('div[data-provider="markdown-preview"]').data('markdown');
 
             if (attachedMarkdown && !focused) {
                 attachedMarkdown.blur();
             }
-        });
+        })
     };
-    $(document).on('click.markdown.data-api', '[data-provide="markdown-editable"]', function (e) {
-        initMarkdown($(this));
-        e.preventDefault();
-    }).on('click focusin', function (e) {
-        blurNonFocused(e);
-    }).ready(function () {
-        $('textarea[data-provide="markdown"]').each(function () {
+    $(document)
+        .on('click.markdown.data-api', '[data-provide="markdown-editable"]', function (e) {
             initMarkdown($(this));
+            e.preventDefault();
+        })
+        .on('click focusin', function (e) {
+            blurNonFocused(e);
+        })
+        .ready(function () {
+            $('textarea[data-provide="markdown"]').each(function () {
+                initMarkdown($(this));
+            })
         });
-    });
 }(window.jQuery);
-//# sourceMappingURL=bootstrap-markdown.js.map

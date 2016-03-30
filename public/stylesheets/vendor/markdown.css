@@ -21,6 +21,7 @@
     outline: none;
     border: 1px solid #ddd;
     margin-top: 5px;
+    position: relative;
 }
 
 .md-editor .md-footer, .md-editor > .md-header {
@@ -884,6 +885,13 @@ emoji[data-emoji~=emoji] {
 
 .btn-primary:hover {
     background-color: #10AF88;
+}
+
+i.md-loading {
+    position: absolute;
+    right: 5px;
+    bottom: 5px;
+    display: none;
 }
 
 /*

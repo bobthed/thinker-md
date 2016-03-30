@@ -49,13 +49,13 @@ module.exports = function (grunt) {
         uglify: {
             options: {
                 // the banner is inserted at the top of the output
-                //²»»ìÏı±äÁ¿Ãû
+                //ä¸æ··æ·†å˜é‡å
                 mangle: {
                     except: ['jquery', 'marked', 'toMarkdown', 'markdown', 'htmlToText', 'hljs', 'Undo']
                 },
                 preserveComments: false,
                 sourceMap: true,
-                //Êä³öÑ¹ËõÂÊ£¬¿ÉÑ¡µÄÖµÓĞ false(²»Êä³öĞÅÏ¢)£¬gzip
+                //è¾“å‡ºå‹ç¼©ç‡ï¼Œå¯é€‰çš„å€¼æœ‰ false(ä¸è¾“å‡ºä¿¡æ¯)ï¼Œgzip
                 report: "min",
                 ASCIIOnly: 'true',
                 beautify: {
@@ -173,6 +173,14 @@ module.exports = function (grunt) {
                     grunt.log.writeln('Waiting for more changes...');
                 }
             },
+            jsbabel: {
+                files: [
+                    '<%= pkg.javascripts.vendor %>*-es6.js',
+                    '<%= pkg.javascripts.vendor %>**/*-es6.js',
+                    '<%= pkg.javascripts.vendor %>**/**/*-es6.js'
+                ],
+                tasks: ['babel:dev']
+            },
             jsuser: {
                 files: [
                     '<%= pkg.javascripts.user %>*.js',
@@ -205,6 +213,17 @@ module.exports = function (grunt) {
                 ],
                 tasks: ['cssmin:vendor']
             }
+        },
+
+        babel: {
+            options: {
+                sourceMap: true
+            },
+            dev: {
+                files : {
+                    '<%= pkg.javascripts.vendor %>markdown/bootstrap-markdown.js': '<%= pkg.javascripts.vendor %>markdown/bootstrap-markdown-es6.js'
+                }
+            }
         }
     });
 
@@ -213,11 +232,12 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-babel');
 
     grunt.registerTask('resource', ['copy']);
     grunt.registerTask('css', ['cssmin:vendor', 'cssmin:user']);
     grunt.registerTask('js', ['concat:vendor', 'concat:user', 'uglify:vendor', 'uglify:user']);
     // the default task can be run just by typing "grunt" on the command line
-    grunt.registerTask('default', ['copy', 'css', 'js']);
+    grunt.registerTask('default', ['babel:dev', 'copy', 'css', 'js']);
 
 };

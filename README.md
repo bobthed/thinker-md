@@ -38,7 +38,7 @@ Copyright (c) 2015 Oschina.net
     [Nodejs 文档](https://nodejs.org/documentation/)
     [Grunt 中文社区](http://www.gruntjs.org/)
 
-进入thinker-md根目录，执行如下命令：
+进入thinker-md根目录，执行如下命令(**2016.03.30更新加入了新依赖，请更新后再执行一次**)：
 ```Nodejs
 npm install
 ```
@@ -100,6 +100,7 @@ dist
 _参照/view/index.html和/view/develop.html_
 - index.html默认引用编译之后的js和css资源。
 - 如果需要定制thinker-md，你需要按照 **开发者指南** 步骤执行命令，切换到develop.html。所有资源的修改会自动生成到dist目录下。
+- **推广ES6(ES2015)**：我们强烈建议您修改bootstrap-markdown-es6.js而非bootstrap-markdown.js，您可以在里面使用ES6标准的JavaScript来进行编码。代码将被编译为ES5标准代码的bootstrap-markdown.js，因此您无需担心兼容性问题。([了解ES6](https://babeljs.io/docs/learn-es2015/))
 
 # 3. 使用
 
