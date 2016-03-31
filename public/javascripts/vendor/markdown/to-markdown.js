@@ -64,11 +64,11 @@ var toMarkdown = function (string) {
             replacement: function (str, attrs, innerHTML) {
                 var language = '';
                 if (attrs) {
-                    var langs = attrs.match(/"lang-\S+"/);
+                    var langs = attrs.match(/lang-\S+/);
                     if (langs && langs.length > 0) {
                         var lang = langs[0];
                         if (lang) {
-                            var _language = lang.substring(lang.indexOf('-') + 1, lang.length - 1);
+                            var _language = lang.substring(lang.indexOf('-') + 1, lang.length).replace(/"$/, '');
                             if (_language)
                                 language = _language;
                         }
