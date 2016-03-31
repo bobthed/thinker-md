@@ -686,6 +686,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                 });
                 localUploadField = $('<input>', {
                     type: 'file',
+                    multiple: 'multiple',
                     class: 'md-input-insert-image',
                     formenctype: 'multipart/form-data'
                 });
@@ -702,8 +703,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                     return false;
                 });
 
-                urlInput = $('<input>', {
-                    type: 'text',
+                urlInput = $('<textarea>', {
+                    // type: 'text',
                     class: 'md-input-image-url',
                     placeholder: 'http://example.com/image.jpg'
                 });
@@ -748,7 +749,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                         _this.setState(_this.__localize('ImageInputTip'));
                         return false;
                     }
-                    _this.setImageLink(link);
+                    _this.setImageLink(link.split('\n'));
                     _this.setPercent(0);
                     if (_this.$isFullscreen) {
                         _this.$innerPreview.html(marked(_this.$textarea.val()));
@@ -789,7 +790,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                 setTimeout(function () {
                     _this.$stateBar.html('');
                     _this.$stateBar.removeClass('md-green');
-                }, 3000);
+                }, 5000);
             }
         },
         fileUpload: function fileUpload() {
@@ -798,7 +799,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                 imgUrl = this.$options.imgurl,
                 xhr = null,
                 progress = this.$progress,
-                file = null,
                 maxFileSize = this.$fileSize,
                 uploadImgURL = "",
                 uploadPanel = this.$uploadPanel,
@@ -814,63 +814,75 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                 _this.setState(_this.__localize('UploadPathTip'));
                 return;
             }
+
             if (inputFile.length > 0 && inputFile[0].files && inputFile[0].files.length > 0) {
-                formData.append('img', inputFile[0].files[0]);
-                file = inputFile[0].files[0];
-                _fileSize = file.size;
-                _fileName = file.name.toLowerCase();
+                var _typeTip = [],
+                    _sizeTip = [],
+                    state = '';
+                Array.prototype.forEach.call(inputFile[0].files, function (file) {
+                    _fileSize = file.size;
+                    _fileName = file.name.toLowerCase();
 
-                if (!_fileName.match(_suffixReg)) {
-                    _this.setState(_this.__localize('SupportTypeTip'));
-                    return;
+                    if (!_fileName.match(_suffixReg)) {
+                        _typeTip.push(_fileName);
+                    } else if (_fileSize > maxFileSize) {
+                        _sizeTip.push(_fileName);
+                    } else {
+                        formData.append('img', file);
+                    }
+                });
+                if (_typeTip.length) {
+                    state += _this.__localize('SupportTypeTip') + ': ' + _typeTip.join(', ') + '. ';
+                }
+                if (_sizeTip.length) {
+                    state += _this.__localize('FileSizeTip') + ': ' + _sizeTip.join(', ') + '. ';
+                }
+                if (state.length) {
+                    _this.setState(state);
                 }
 
-                if (_fileSize > maxFileSize) {
-                    _this.setState(_this.__localize('FileSizeTip'));
-                    return;
-                }
+                if (formData.has('img')) {
+                    xhr = new XMLHttpRequest();
+                    xhr.upload.onprogress = function (evt) {
+                        _this.setPercent(Math.round(evt.loaded * 100 / evt.total));
+                        progress.max = evt.total;
+                        progress.value = evt.loaded;
+                    };
 
-                xhr = new XMLHttpRequest();
-                xhr.upload.onprogress = function (evt) {
-                    _this.setPercent(Math.round(evt.loaded * 100 / evt.total));
-                    progress.max = evt.total;
-                    progress.value = evt.loaded;
-                };
+                    xhr.upload.onload = function () {
+                        setTimeout(function () {
+                            _this.setPercent(0);
+                            progress.max = 100;
+                            progress.value = 0;
+                            _this.setState(_this.__localize('ProgressLoaded'), true);
+                        }, 1000);
+                    };
 
-                xhr.upload.onload = function () {
-                    setTimeout(function () {
+                    xhr.upload.onerror = function () {
                         _this.setPercent(0);
                         progress.max = 100;
                         progress.value = 0;
-                        _this.setState(_this.__localize('ProgressLoaded'), true);
-                    }, 1000);
-                };
 
-                xhr.upload.onerror = function () {
-                    _this.setPercent(0);
-                    progress.max = 100;
-                    progress.value = 0;
+                        uploadPanel.find('input.md-input-insert-image').val('');
+                        uploadPanel.find('input.md-input-image-url').val('');
 
-                    uploadPanel.find('input.md-input-insert-image').val('');
-                    uploadPanel.find('input.md-input-image-url').val('');
+                        _this.setState(_this.__localize('UploadEooroTip'));
+                    };
 
-                    _this.setState(_this.__localize('UploadEooroTip'));
-                };
-
-                xhr.onreadystatechange = function () {
-                    if (xhr.readyState === 4 && xhr.status === 200) {
-                        uploadImgURL = xhr.responseText;
-                        if ('' !== uploadImgURL) {
-                            //_this.setImageLink(uploadImgURL);
-                            uploadPanel.find('input.md-input-image-url').val(uploadImgURL);
+                    xhr.onreadystatechange = function () {
+                        if (xhr.readyState === 4 && xhr.status === 200) {
+                            uploadImgURL = xhr.responseText;
+                            if ('' !== uploadImgURL) {
+                                uploadPanel.find('textarea.md-input-image-url').val(uploadImgURL);
+                            }
                         }
-                    }
-                };
+                    };
 
-                xhr.open('POST', imgUrl, true);
-                xhr.setRequestHeader("Cache-Control", "no-cache");
-                xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
-                xhr.send(formData);
+                    xhr.open('POST', imgUrl, true);
+                    xhr.setRequestHeader("Cache-Control", "no-cache");
+                    xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+                    xhr.send(formData);
+                }
             }
         },
         xhrImageUpload: function xhrImageUpload(base64) {

@@ -35,8 +35,8 @@
         'ProgressLoaded':'上传完成',
         'UploadPathTip':'未设置文件上传路径!',
         'UploadEooroTip':'上传出错',
-        'SupportTypeTip':'仅支持JPG、GIF和PNG图片文件!',
-        'FileSizeTip':'上传文件不能大于512Kb!'
+        'SupportTypeTip':'仅支持JPG、GIF和PNG图片文件',
+        'FileSizeTip':'上传文件不能大于512Kb'
 
     };
 }(jQuery));

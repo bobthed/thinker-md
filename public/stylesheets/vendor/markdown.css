@@ -631,13 +631,15 @@ upload*/
     padding: 19px 20px 20px;
     text-align: right;
     border-top: 1px solid #eee;
+    overflow: hidden;
 }
 
 .md-upload .md-state-bar {
     float: left;
+    text-align: left;
     color: red;
     display: inline-block;
-    height: 34px;
+    width: 380px;
     line-height: 34px;
 }
 

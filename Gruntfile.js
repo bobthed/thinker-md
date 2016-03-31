@@ -173,14 +173,6 @@ module.exports = function (grunt) {
                     grunt.log.writeln('Waiting for more changes...');
                 }
             },
-            jsbabel: {
-                files: [
-                    '<%= pkg.javascripts.vendor %>*-es6.js',
-                    '<%= pkg.javascripts.vendor %>**/*-es6.js',
-                    '<%= pkg.javascripts.vendor %>**/**/*-es6.js'
-                ],
-                tasks: ['babel:dev']
-            },
             jsuser: {
                 files: [
                     '<%= pkg.javascripts.user %>*.js',
@@ -195,7 +187,7 @@ module.exports = function (grunt) {
                     '<%= pkg.javascripts.vendor %>**/*.js',
                     '<%= pkg.javascripts.vendor %>**/**/*.js'
                 ],
-                tasks: ['concat:vendor', 'uglify:vendor']
+                tasks: ['babel:dev', 'concat:vendor', 'uglify:vendor']
             },
             cssuser: {
                 files: [
