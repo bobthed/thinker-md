@@ -156,13 +156,10 @@ _参照/view/index.html和/view/develop.html_
 
 ### 3.2.1 java版上传代码实现
 
-普通图像上传案例
+普通/base64图像上传案例(最后的imgFileNames聚合代码要求jdk8, 可自行修改以适应低版本jdk)
 ```java
-package net.oschina.servlet;
-
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;
-import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
@@ -171,15 +168,17 @@ import javax.servlet.annotation.WebInitParam;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.Iterator;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
- * Created by ling on 2014/11/11.
+ * Created by 艺 on 16/03/31.
  */
-@WebServlet(name = "upload", urlPatterns = "/upload", initParams = {@WebInitParam(name = "upload_path", value = "\\ImageDir")})
+@WebServlet(name = "upload", urlPatterns = "/c/imgUpload", initParams = {@WebInitParam(name = "upload_path", value = "/ImageDir/")})
 public class UploadServlet extends javax.servlet.http.HttpServlet {
 
     @Override
@@ -199,139 +198,82 @@ public class UploadServlet extends javax.servlet.http.HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
+        resp.addHeader("Access-Control-Allow-Origin", "*");
+        String imageDir = getServletConfig().getInitParameter("upload_path");
+        String directory = req.getSession().getServletContext().getRealPath(imageDir);
+        StringBuilder path = new StringBuilder(directory);
+        path.append(File.separator);
+
+        StringBuffer url = req.getRequestURL();
+        String urlBase = url.substring(0, url.indexOf(req.getRequestURI())) + imageDir;
+
         boolean isMultipart = ServletFileUpload.isMultipartContent(req);
         if (isMultipart) {
             FileItemFactory fileItemFactory = new DiskFileItemFactory();
             ServletFileUpload servletFileUpload = new ServletFileUpload(fileItemFactory);
-
-            Iterator<FileItem> items;
+            List<String> imgFileNames = new ArrayList<>();
 
             try {
-                items = servletFileUpload.parseRequest(req).iterator();
-                while (items.hasNext()) {
-                    FileItem item = items.next();
-                    if (!item.isFormField()) {
+                for (FileItem item : servletFileUpload.parseRequest(req)) {
+                    if (!item.isFormField()) { // file upload
                         //文件名称
                         String name = item.getName();
-                        String fileName = name.substring(name.lastIndexOf('\\') + 1, name.length());
-                        String directory = req.getSession().getServletContext().getRealPath("/ImageDir");
-
-                        StringBuilder path = new StringBuilder();
-                        path.append(directory);
-                        path.append(File.separator);
-                        path.append(fileName);
+                        String fileName = new Date().getTime() + name.substring(name.lastIndexOf('\\') + 1, name.length());
 
                         //上传文件
-                        File file = new File(path.toString());
+                        File file = new File(path + fileName);
                         File dir = file.getParentFile();
                         if (!dir.exists() && !dir.isDirectory()) {
                             dir.mkdir();
                         }
                         item.write(file);
 
+                        imgFileNames.add(fileName);
+                    } else if (item.getFieldName().equals("base64Date")) { // base64 upload
+                        String fileName = new Date().getTime() + ".png";
+                        StringBuilder base64Data = new StringBuilder();
+                        Reader reader = new InputStreamReader(item.getInputStream(), "UTF-8");
+                        char[] buffer = new char[1024];
+                        int read;
+                        while ((read = reader.read(buffer)) != -1) {
+                            base64Data.append(buffer, 0, read);
+                        }
+                        reader.close();
+                        String base64 = base64Data.toString();
+                        if (!"".equals(base64.trim())) {
+                            base64 = base64.substring(base64.lastIndexOf(',') + 1);
+                            byte[] b = Base64.getDecoder().decode(base64.getBytes());
+                            BufferedOutputStream bos;
+                            FileOutputStream fos;
+                            File file = new File(path + fileName);
+                            fos = new FileOutputStream(file);
+                            bos = new BufferedOutputStream(fos);
+                            bos.write(b);
+                            fos.flush();
+                            fos.close();
+                            bos.flush();
+                            bos.close();
 
-                        StringBuilder imgUrl = new StringBuilder("http://localhost:8080/ImageDir/");
-                        imgUrl.append(fileName);
-
-                        resp.addHeader("Access-Control-Allow-Origin", "*");
-                        resp.setContentType("text/json; charset=UTF-8");
-                        OutputStream outputStream = resp.getOutputStream();
-                        outputStream.write(imgUrl.toString().getBytes("UTF-8"));
-
-                        outputStream.flush();
-                        outputStream.close();
+                            imgFileNames.add(fileName);
+                        }
                     }
                 }
-            } catch (FileUploadException e) {
-                e.printStackTrace();
             } catch (Exception e) {
                 e.printStackTrace();
             }
+
+            resp.addHeader("Access-Control-Allow-Origin", "*");
+            resp.setContentType("text/json; charset=UTF-8");
+            OutputStream outputStream = resp.getOutputStream();
+            outputStream.write(imgFileNames.stream()
+                    .map(fileName -> (urlBase + fileName))
+                    .collect(Collectors.joining("\n"))
+                    .getBytes("UTF-8"));
+
+            outputStream.flush();
+            outputStream.close();
+            return ;
         }
-    }
-}
-```
-
-base64图像上传案例
-```java
-package net.oschina.servlet;
-
-import javax.servlet.ServletException;
-import javax.servlet.annotation.MultipartConfig;
-import javax.servlet.annotation.WebInitParam;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.Part;
-import java.io.*;
-import java.util.Base64;
-import java.util.Date;
-
-/**
- * Created by ling on 2015/3/16.
- */
-@WebServlet(name = "base64", urlPatterns = "/base64", initParams = {@WebInitParam(name = "upload_path", value = "\\ImageDir")})
-@MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, // 2MB
-        maxFileSize = 1024 * 1024 * 10,      // 10MB
-        maxRequestSize = 1024 * 1024 * 50)   // 50MB
-public class Base64Servlet extends HttpServlet {
-    @Override
-    protected void doOptions(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.addHeader("Access-Control-Allow-Origin", "*");
-        resp.addHeader("Access-Control-Allow-Methods", "GET,POST,OPTIONS");
-        resp.addHeader("Access-Control-Allow-Headers", "Cache-Control,X-Requested-With,Content-Type");
-        super.doOptions(req, resp);
-    }
-
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setCharacterEncoding("UTF-8");
-        resp.addHeader("Access-Control-Allow-Origin", "*");
-        resp.setContentType("text/json; charset=UTF-8");
-        OutputStream outputStream = resp.getOutputStream();
-        //文件名称
-        String fileName = new Date().getTime() + ".png";
-        String directory = req.getSession().getServletContext().getRealPath("/ImageDir");
-        StringBuilder path = new StringBuilder();
-        path.append(directory);
-        path.append(File.separator);
-        path.append(fileName);
-        for (Part part : req.getParts()) {
-            StringBuilder base64Data = new StringBuilder();
-            Reader reader = new InputStreamReader(part.getInputStream(), "UTF-8");
-            char[] buffer = new char[1024];
-            int read;
-            while ((read = reader.read(buffer)) != -1) {
-                base64Data.append(buffer, 0, read);
-            }
-            reader.close();
-            String base64 = base64Data.toString();
-            if (null != base64 && !"".equals(base64.trim())) {
-                base64 = base64.substring(base64.lastIndexOf(',') + 1);
-                byte[] b = Base64.getDecoder().decode(base64.getBytes());
-                BufferedOutputStream bos;
-                FileOutputStream fos;
-                File file = new File(path.toString());
-                fos = new FileOutputStream(file);
-                bos = new BufferedOutputStream(fos);
-                bos.write(b);
-                fos.flush();
-                fos.close();
-                bos.flush();
-                bos.close();
-                StringBuilder imgUrl = new StringBuilder("http://localhost:8080/ImageDir/");
-                imgUrl.append(fileName);
-                outputStream.write(imgUrl.toString().getBytes("UTF-8"));
-            }
-        }
-
-        outputStream.flush();
-        outputStream.close();
-
-    }
-
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        this.doPost(request, response);
     }
 }
 ```
