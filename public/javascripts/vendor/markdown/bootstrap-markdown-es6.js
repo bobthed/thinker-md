@@ -393,9 +393,6 @@
                     _localCache = localStorage.getItem(_localStorage);
                 }
 
-                var rawContent = (typeof toMarkdown == 'function') ? toMarkdown(container.html()) : container.html(),
-                // inner content (whether textarea or others) is preferred
-                    currentContent = $.trim(rawContent) || _localCache;
                 // Wrap the textarea
                 if (container.is('textarea')) {
                     container.before(editor);
@@ -423,6 +420,9 @@
                     // Set editor to blocked the original container
                     container.replaceWith(editor);
                 }
+                var rawContent = (typeof toMarkdown == 'function') ? toMarkdown(textarea.val()) : textarea.val();
+                // inner content (whether textarea or others) is preferred
+                var currentContent = $.trim(rawContent) || _localCache;
                 textarea.val(currentContent);
 
                 //add by wpl
