@@ -389,10 +389,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                     _localCache = localStorage.getItem(_localStorage);
                 }
 
-                var rawContent = typeof toMarkdown == 'function' ? toMarkdown(container.html()) : container.html(),
-
-                // inner content (whether textarea or others) is preferred
-                currentContent = $.trim(rawContent) || _localCache;
                 // Wrap the textarea
                 if (container.is('textarea')) {
                     container.before(editor);
@@ -420,6 +416,10 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                     // Set editor to blocked the original container
                     container.replaceWith(editor);
                 }
+                var rawText = textarea.val().trim(),
+                    rawContent = rawText.substr(0, 1) != '<' && typeof toMarkdown == 'function' ? toMarkdown(rawText) : rawText;
+                // inner content (whether textarea or others) is preferred
+                var currentContent = $.trim(rawContent) || _localCache;
                 textarea.val(currentContent);
 
                 //add by wpl
@@ -1459,13 +1459,13 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                         /*// The next tab memory contains nothing...
                         // check the cursor position to determine tab action
                         var cursor = this.getSelection();
-                         if (cursor.start == cursor.end && cursor.end == this.getContent().length) {
+                          if (cursor.start == cursor.end && cursor.end == this.getContent().length) {
                             // The cursor already reach the end of the content
                             blocked = false;
                         } else {
                             // Put the cursor to the end
                             this.setSelection(this.getContent().length, this.getContent().length);
-                             blocked = true;
+                              blocked = true;
                         }*/
                     }
 

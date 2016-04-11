@@ -420,7 +420,8 @@
                     // Set editor to blocked the original container
                     container.replaceWith(editor);
                 }
-                var rawContent = (typeof toMarkdown == 'function') ? toMarkdown(textarea.val()) : textarea.val();
+                var rawText = textarea.val().trim(),
+                    rawContent = (rawText.substr(0, 1) != '<' && typeof toMarkdown == 'function') ? toMarkdown(rawText) : rawText;
                 // inner content (whether textarea or others) is preferred
                 var currentContent = $.trim(rawContent) || _localCache;
                 textarea.val(currentContent);
