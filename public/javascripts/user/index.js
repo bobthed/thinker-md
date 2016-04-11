@@ -8,6 +8,6 @@ $("textarea[data-provide='markdown']").markdown({
     },
     resize: 'vertical',
     localStorage: 'md',
-    imgurl: '/cors/upload/ajaxUpload',
-    base64url: '/cors/upload/base64Upload'
+    imgurl: '/c/imgUpload',
+    base64url: '/c/imgUpload'
 });
