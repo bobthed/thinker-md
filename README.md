@@ -148,7 +148,7 @@ _参照/view/index.html和/view/develop.html_
 |`resize`|`string`|禁用或改变 `resize` 属性, 可能的值 `none`,`both`,`horizontal`,`vertical`。 默认 `none` 如果此属性未被禁止, 用户可以预览时改变编辑器高度。|
 |`language`|`string`|本地语言设置。 默认 `zh`|
 |`footer`|`mixed`|编辑器底部栏. 可能的值 `string`,`callback`。 默认为空|
-|`fullscreen`|`object`| `enable` (`boolean`)：是否启用全屏；`debounce` (`number`)：全屏状态下由按键触发的解析函数两次执行最小间隔，用来防止快速输入时的卡顿，默认为0，不限制。|
+|`fullscreen`|`object`| `enable` (`boolean`)：是否启用全屏；`debounce` (`number`)：全屏状态下由按键触发的解析函数两次执行最小间隔，用来防止快速输入时的卡顿，单位毫秒，默认为0，不限制。|
 |`hiddenButtons`|`mixed`|按钮名字数组或字符串。 默认为空字符串|
 |`disabledButtons`|`mixed`|按钮名字数组或字符串。 默认为空字符串|
 |`localStorage`|`string`|HTML5本地存储，全局唯一|
