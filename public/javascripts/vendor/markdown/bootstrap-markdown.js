@@ -199,12 +199,34 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                 this.$textarea.css('resize', this.$options.resize);
             }
 
-            this.$textarea.on('focus', $.proxy(this.focus, this)).on('keypress', $.proxy(this.keypress, this)).on('keyup keydown', function () {
+            this.$textarea.on('focus', $.proxy(this.focus, this)).on('keypress', $.proxy(this.keypress, this)).on('keydown', function () {
+                // $.proxy can't stop event
+                _this.keydown.apply(_this, arguments);
+            }).on('keyup', function () {
                 _this.keyup.apply(_this, arguments);
             }).on('change', $.proxy(this.change, this));
 
             if (this.eventSupported('keydown')) {
                 this.$textarea.on('keydown', $.proxy(this.keydown, this));
+            }
+
+            if (this.$options.fullscreen.enable) {
+                this.$textarea.keyup(_.debounce(function () {
+                    if (_this.$isFullscreen) {
+                        _this.$innerPreview.html(_this.parseContent(_this.$textarea.val()));
+                        _this.showDiagrams(_this.$innerPreview);
+                    }
+                }, _this.$options.fullscreen.debounce));
+
+                this.$textarea.scroll(function () {
+                    var __this = $(this).get(0),
+                        scrollHeight = __this.scrollHeight,
+                        scrollTop = __this.scrollTop;
+                    var __inner = _this.$innerPreview.get(0),
+                        innerHeight = __inner.scrollHeight;
+                    var top = scrollTop * innerHeight / scrollHeight;
+                    _this.$innerPreview.scrollTop(top);
+                });
             }
 
             // Re-attach markdown data
@@ -258,7 +280,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             preview = $('div[data-provider="markdown-preview"]'),
 
             //预览按钮
-            previewButton = $('button[data-handler="bootstrap-markdown-cmdPreview"]');
+            previewButton = $('button[data-handler="bootstrap-markdown-cmdPreview"]'),
+                _this = this;
             if (mode) {
                 if (this.$isPreview) {
                     this.hidePreview();
@@ -267,46 +290,13 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                 $('body').addClass('md-nooverflow');
                 this.$options.onFullscreen(this);
 
-                //处理流程图和序列图
-                var markedRenderer = new marked.Renderer();
-                markedRenderer.code = function (code, lang) {
-
-                    if (lang === "seq" || lang === "sequence") {
-                        return "<div class=\"sequence-diagram\">" + code + "</div>";
-                    } else if (lang === "flow") {
-
-                        return "<div class=\"flowchart\">" + code + "</div>";
-                    } else {
-
-                        return marked.Renderer.prototype.code.apply(this, arguments);
-                    }
-                };
-
-                $innerPreview.html(marked($textarea.val(), { renderer: markedRenderer }));
-                $textarea.keyup(function (evt) {
-                    $innerPreview.html(marked($textarea.val()), { renderer: markedRenderer });
-                });
-
-                if (!this.isIE8) {
-                    if (this.$options.flowChart) {
-                        $innerPreview.find(".flowchart").flowChart();
-                    }
-                }
-
-                $textarea.scroll(function () {
-                    var __this = $(this).get(0),
-                        scrollHeight = __this.scrollHeight,
-                        scrollTop = __this.scrollTop;
-                    var __inner = $innerPreview.get(0),
-                        innerHeight = __inner.scrollHeight;
-                    var top = scrollTop * innerHeight / scrollHeight;
-                    $innerPreview.scrollTop(top);
-                });
+                $innerPreview.html(_this.parseContent($textarea.val()));
+                this.showDiagrams($innerPreview);
                 //up by wpl
                 if (preview) {
                     preview.remove();
                 }
-                if (previewButton) {
+                if (previewButton.length) {
                     previewButton.hide();
                 }
             } else {
@@ -582,36 +572,64 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
             this.bindDropUpload();
 
+            // marked parse
+            if (typeof marked === 'function') {
+                //处理流程图和序列图
+                var markedRenderer = new marked.Renderer();
+                markedRenderer.code = function (code, lang) {
+                    var diagramContent = null;
+                    instance.$diagramCache.forEach(function (diagram) {
+                        if (diagram.langTest.test(lang)) {
+                            if (diagram.cache[code]) {
+                                diagramContent = diagram.cache[code];
+                            } else {
+                                diagramContent = '<div class="' + diagram.className + ' diagram-raw">' + code + '</div>';
+                            }
+                        }
+                    });
+
+                    return diagramContent || marked.Renderer.prototype.code.apply(this, arguments);
+                };
+                this.markedParse = function (val) {
+                    return marked(val, { renderer: markedRenderer });
+                };
+            }
+
+            // diagram cache
+            this.$diagramCache = [{
+                langTest: /^flow|flowchart$/i,
+                className: 'flowchart',
+                jqueryFn: 'flowChart',
+                cache: {}
+            }, {
+                langTest: /^seq|sequence$/i,
+                className: 'sequence-diagram',
+                jqueryFn: 'sequenceDiagram',
+                opts: {
+                    theme: 'simple'
+                },
+                cache: {}
+            }];
+
             return this;
         },
 
         parseContent: function parseContent(val) {
-            var content;
+            console.time('parse');
+            var content,
+                _this = this;
 
             // parse with supported markdown parser
             var val = val || this.$textarea.val();
             if ((typeof markdown === 'undefined' ? 'undefined' : _typeof(markdown)) === 'object' && typeof markdown.toHTML === 'function') {
                 content = markdown.toHTML(val);
-            } else if (typeof marked === 'function') {
-                //处理流程图和序列图
-                var markedRenderer = new marked.Renderer();
-                markedRenderer.code = function (code, lang) {
-
-                    if (lang === "seq" || lang === "sequence") {
-                        return "<div class=\"sequence-diagram\">" + code + "</div>";
-                    } else if (lang === "flow") {
-
-                        return "<div class=\"flowchart\">" + code + "</div>";
-                    } else {
-
-                        return marked.Renderer.prototype.code.apply(this, arguments);
-                    }
-                };
-                content = marked(val, { renderer: markedRenderer });
+            } else if (typeof this.markedParse === 'function') {
+                content = this.markedParse(val);
             } else {
                 content = val;
             }
 
+            console.timeEnd('parse');
             return content;
         },
         showUpload: function showUpload(e) {
@@ -751,9 +769,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                     }
                     _this.setImageLink(link.split('\n'));
                     _this.setPercent(0);
-                    if (_this.$isFullscreen) {
-                        _this.$innerPreview.html(marked(_this.$textarea.val()));
-                    }
                     return false;
                 });
 
@@ -1015,7 +1030,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                 instance.setSelection(cursor, cursor + chunk.length);
 
                 if (_this.$isFullscreen) {
-                    _this.$innerPreview.html(marked(_this.$textarea.val()));
+                    _this.$innerPreview.html(_this.parseContent(_this.$textarea.val()));
+                    _this.showDiagrams(_this.$innerPreview);
                 }
             }
         },
@@ -1154,6 +1170,21 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                 }
             }
         },
+        showDiagrams: function showDiagrams($container) {
+            // flow chart, sequence diagram, math expression
+            if (!this.isIE8) {
+                if (this.$options.flowChart) {
+                    this.$diagramCache.forEach(function (diagram) {
+                        $container.find('.' + diagram.className + '.diagram-raw').each(function () {
+                            var $el = $(this),
+                                code = $el.text(),
+                                content = $el[diagram.jqueryFn](diagram.opts).removeClass('diagram-raw').get(0).outerHTML;
+                            diagram.cache[code] = content;
+                        });
+                    });
+                }
+            }
+        },
         showPreview: function showPreview() {
             var options = this.$options,
                 container = this.$textarea,
@@ -1175,11 +1206,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             // Build preview element
             replacementContainer.html(content);
 
-            if (!this.isIE8) {
-                if (this.$options.flowChart) {
-                    replacementContainer.find(".flowchart").flowChart();
-                }
-            }
             if (afterContainer && afterContainer.attr('class') == 'md-footer') {
                 // If there is footer element, insert the preview container before it
                 replacementContainer.insertBefore(afterContainer);
@@ -1187,6 +1213,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                 // Otherwise, just append it after textarea
                 container.parent().append(replacementContainer);
             }
+            this.showDiagrams(replacementContainer);
 
             // Set the preview element dimensions
             replacementContainer.css({
@@ -1231,7 +1258,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
             // Back to the editor
             this.$textarea.show();
-            this.__setListener();
 
             return this;
         },
@@ -1433,7 +1459,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             return isSupported;
         },
 
-        keyup: function keyup(e) {
+        keydown: function keydown(e) {
+            // use keydown event to preventDefault
             var blocked = false;
             switch (e.keyCode) {
                 case 40: // down arrow
@@ -1489,7 +1516,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                 e.stopPropagation();
                 e.preventDefault();
             }
+        },
 
+        keyup: function keyup(e) {
             this.$options.onChange(this);
         },
 
@@ -1655,7 +1684,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                             e.setSelection(selected.start + keywordLength, selected.end + keywordLength);
                             e.hideEmoji();
                             if (fullScreen) {
-                                innerPreview.html(marked(textarea.val()));
+                                innerPreview.html(_this.parseContent(textarea.val()));
+                                _this.showDiagrams(innerPreview);
                             }
                         }
                     }
@@ -2211,7 +2241,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                     glyph: 'gly gly-fullscreen',
                     'fa-3': 'icon-resize-small'
                 }
-            }
+            },
+            debounce: 0
         },
 
         /* Events hook */

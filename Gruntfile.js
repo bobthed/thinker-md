@@ -20,6 +20,12 @@ module.exports = function (grunt) {
                 src: [
                     /*highlight*/
                     '<%= pkg.javascripts.vendor %>highlight/highlight.js',
+                    /*flowchart*/
+                    '<%= pkg.javascripts.vendor %>underscore/underscore-min.js',
+                    '<%= pkg.javascripts.vendor %>raphael/raphael.min.js',
+                    '<%= pkg.javascripts.vendor %>sequence-diagram/sequence-diagram-min.js',
+                    '<%= pkg.javascripts.vendor %>flowchart/flowchart.min.js',
+                    '<%= pkg.javascripts.vendor %>flowchart/jquery.flowchart.min.js',
                     /*markdown*/
                     '<%= pkg.javascripts.vendor %>markdown/he.js',
                     '<%= pkg.javascripts.vendor %>markdown/marked.js',
@@ -51,7 +57,8 @@ module.exports = function (grunt) {
                 // the banner is inserted at the top of the output
                 //不混淆变量名
                 mangle: {
-                    except: ['jquery', 'marked', 'toMarkdown', 'markdown', 'htmlToText', 'hljs', 'Undo']
+                    except: ['jquery', 'marked', 'toMarkdown', 'markdown', 'htmlToText', 'hljs', 'Undo',
+                    '_', '$', 'Raphael', 'sequenceDiagram', 'flowChart', 'flowchart']
                 },
                 preserveComments: false,
                 sourceMap: true,
