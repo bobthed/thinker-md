@@ -11,6 +11,7 @@ Thinker-md是一个支持markdown的在线文档编辑器，在线演示：http:
 - 支持实时预览、图片（跨域）上传；
 - 支持MarkdownToHtml,HtmlToMarkdown双向解析；
 - 支持emoji表情；
+- 支持流程图与序列图；
 - 多语言语法高亮；
 - 可全屏可缩小，全屏编辑体验佳；
 - 国际化支持；
@@ -24,7 +25,7 @@ Thinker-md是一个支持markdown的在线文档编辑器，在线演示：http:
 
 The MIT License.
 
-Copyright (c) 2015 Oschina.net
+Copyright (c) 2016 OSChina.net
 
 ### 我们正在用
 
@@ -147,16 +148,17 @@ _参照/view/index.html和/view/develop.html_
 |`resize`|`string`|禁用或改变 `resize` 属性, 可能的值 `none`,`both`,`horizontal`,`vertical`。 默认 `none` 如果此属性未被禁止, 用户可以预览时改变编辑器高度。|
 |`language`|`string`|本地语言设置。 默认 `zh`|
 |`footer`|`mixed`|编辑器底部栏. 可能的值 `string`,`callback`。 默认为空|
-|`fullscreen`|`object`| `enable` (`bool`)|
+|`fullscreen`|`object`| `enable` (`boolean`)：是否启用全屏；`debounce` (`number`)：全屏状态下由按键触发的解析函数两次执行最小间隔，用来防止快速输入时的卡顿，默认为0，不限制。|
 |`hiddenButtons`|`mixed`|按钮名字数组或字符串。 默认为空字符串|
 |`disabledButtons`|`mixed`|按钮名字数组或字符串。 默认为空字符串|
 |`localStorage`|`string`|HTML5本地存储，全局唯一|
 |`imgurl`|`url`|图像上传地址|
 |`base64url`|`url`|base64编码格式图像上传地址|
+|`flowchart`|`boolean`|是否启用流程图、时序图|
 
 ### 3.2.1 java版上传代码实现
 
-普通/base64图像上传案例(最后的imgFileNames聚合代码要求jdk8, 可自行修改以适应低版本jdk)
+普通/base64图像上传案例(代码要求jdk8, 可自行修改以适应低版本jdk)
 ```java
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;

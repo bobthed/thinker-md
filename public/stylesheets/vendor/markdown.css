@@ -207,7 +207,7 @@
 
 .md-editor > .md-full-preview .md-full-preview-body .md-full-preview-inner * {
     font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
-    font-size: 18px;
+    font-size: 15px; /*改为和预览同样大小的字体.*/
     white-space: pre-wrap;
     word-break: break-all;
     -ms-word-wrap: break-word;
