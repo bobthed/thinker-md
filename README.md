@@ -154,7 +154,7 @@ _参照/view/index.html和/view/develop.html_
 |`localStorage`|`string`|HTML5本地存储，全局唯一|
 |`imgurl`|`url`|图像上传地址|
 |`base64url`|`url`|base64编码格式图像上传地址|
-|`flowchart`|`boolean`|是否启用流程图、时序图|
+|`flowChart`|`boolean`|是否启用流程图、时序图|
 
 ### 3.2.1 java版上传代码实现
 
