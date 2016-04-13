@@ -24,7 +24,7 @@ module.exports = function (grunt) {
                     '<%= pkg.javascripts.vendor %>underscore/underscore-min.js',
                     '<%= pkg.javascripts.vendor %>raphael/raphael.min.js',
                     '<%= pkg.javascripts.vendor %>sequence-diagram/sequence-diagram-min.js',
-                    '<%= pkg.javascripts.vendor %>flowchart/flowchart.min.js',
+                    '<%= pkg.javascripts.vendor %>flowchart/flowchart.js',
                     '<%= pkg.javascripts.vendor %>flowchart/jquery.flowchart.min.js',
                     /*markdown*/
                     '<%= pkg.javascripts.vendor %>markdown/he.js',

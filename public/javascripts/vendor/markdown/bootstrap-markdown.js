@@ -576,7 +576,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             if (typeof marked === 'function') {
                 //处理流程图和序列图
                 var markedRenderer = new marked.Renderer();
-                if (this.$options.flowchart) {
+                if (this.$options.flowChart) {
                     markedRenderer.code = function (code, lang) {
                         var diagramContent = null;
                         instance.$diagramCache.forEach(function (diagram) {
