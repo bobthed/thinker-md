@@ -1,5 +1,6 @@
 # Created by .ignore support plugin (hsz.mobi)
 /node_modules
+/.idea/watcherTasks.xml
 /.idea/workspace.xml
 /.idea/compiler.xml
 /.idea/codeStyleSettings.xml
