@@ -5,7 +5,7 @@
     <title>基本用例</title>
 </head>
 <body>
-<textarea name="content" data-provide="markdown" rows="10" placeholder="这里输入内容,支持Markdown语法."></textarea>
+<textarea name="content" rows="10" placeholder="这里输入内容,支持Markdown语法."></textarea>
 <style type="text/css">
     @import "../public/stylesheets/vendor/font.css";
     @import "../public/stylesheets/vendor/markdown.css";
@@ -31,7 +31,7 @@
 <script type="text/javascript" charset="utf-8"
         src="../public/javascripts/vendor/markdown/locale/bootstrap-markdown.zh.js"></script>
 <script>
-    $("textarea[data-provide='markdown']").markdown({
+    $("textarea").markdown({
         language: 'zh',
         fullscreen: {
             enable: true
