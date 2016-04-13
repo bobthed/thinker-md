@@ -584,20 +584,21 @@
             if (typeof marked === 'function') {
                 //处理流程图和序列图
                 var markedRenderer = new marked.Renderer();
-                markedRenderer.code = function (code, lang) {
-                    let diagramContent = null;
-                    instance.$diagramCache.forEach(diagram => {
-                        if (diagram.langTest.test(lang)) {
-                            if (diagram.cache[code]) {
-                                diagramContent = diagram.cache[code];
-                            } else {
-                                diagramContent = `<div class="${diagram.className} diagram-raw">${code}</div>`;
+                if (this.$options.flowchart) {
+                    markedRenderer.code = function (code, lang) {
+                        let diagramContent = null;
+                        instance.$diagramCache.forEach(diagram => {
+                            if (diagram.langTest.test(lang)) {
+                                if (diagram.cache[code]) {
+                                    diagramContent = diagram.cache[code];
+                                } else {
+                                    diagramContent = `<div class="${diagram.className} diagram-raw">${code}</div>`;
+                                }
                             }
-                        }
-                    });
-
-                    return diagramContent || marked.Renderer.prototype.code.apply(this, arguments);
-                };
+                        });
+                        return diagramContent || marked.Renderer.prototype.code.apply(this, arguments);
+                    };
+                }
                 this.markedParse = function (val) {
                     return marked(val, {renderer: markedRenderer})
                 }
@@ -623,7 +624,6 @@
         }
 
         , parseContent: function (val) {
-            console.time('parse');
             var content, _this = this;
 
             // parse with supported markdown parser
@@ -636,7 +636,6 @@
                 content = val;
             }
 
-            console.timeEnd('parse');
             return content;
         }
         , showUpload: function (e) {

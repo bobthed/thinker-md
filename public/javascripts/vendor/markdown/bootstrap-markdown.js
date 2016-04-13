@@ -576,20 +576,21 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             if (typeof marked === 'function') {
                 //处理流程图和序列图
                 var markedRenderer = new marked.Renderer();
-                markedRenderer.code = function (code, lang) {
-                    var diagramContent = null;
-                    instance.$diagramCache.forEach(function (diagram) {
-                        if (diagram.langTest.test(lang)) {
-                            if (diagram.cache[code]) {
-                                diagramContent = diagram.cache[code];
-                            } else {
-                                diagramContent = '<div class="' + diagram.className + ' diagram-raw">' + code + '</div>';
+                if (this.$options.flowchart) {
+                    markedRenderer.code = function (code, lang) {
+                        var diagramContent = null;
+                        instance.$diagramCache.forEach(function (diagram) {
+                            if (diagram.langTest.test(lang)) {
+                                if (diagram.cache[code]) {
+                                    diagramContent = diagram.cache[code];
+                                } else {
+                                    diagramContent = '<div class="' + diagram.className + ' diagram-raw">' + code + '</div>';
+                                }
                             }
-                        }
-                    });
-
-                    return diagramContent || marked.Renderer.prototype.code.apply(this, arguments);
-                };
+                        });
+                        return diagramContent || marked.Renderer.prototype.code.apply(this, arguments);
+                    };
+                }
                 this.markedParse = function (val) {
                     return marked(val, { renderer: markedRenderer });
                 };
@@ -615,7 +616,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         },
 
         parseContent: function parseContent(val) {
-            console.time('parse');
             var content,
                 _this = this;
 
@@ -629,7 +629,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                 content = val;
             }
 
-            console.timeEnd('parse');
             return content;
         },
         showUpload: function showUpload(e) {
