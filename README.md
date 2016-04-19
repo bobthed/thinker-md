@@ -1,5 +1,10 @@
 ![logo](http://static.oschina.net/uploads/space/2015/0410/192411_CgHK_1028150.jpg)
 
+### Thinker-md数学公式测试版
+加入了数学公式的支持，使用[MathJax](www.mathjax.org)库来实现，支持LaTeX，MathML和AsciiMath语法。
+
+_注：这是一个不太成熟的版本，界面以及功能均有待改善，还请多多包涵。_
+
 ### Thinker-md是什么
 
 Thinker-md是一个支持markdown的在线文档编辑器，在线演示：http://thinkermd.oschina.mopaas.com/produce.html
@@ -155,6 +160,7 @@ _参照/view/index.html和/view/develop.html_
 |`imgurl`|`url`|图像上传地址|
 |`base64url`|`url`|base64编码格式图像上传地址|
 |`flowChart`|`boolean`|是否启用流程图、时序图|
+|`math`|`boolean`|是否启用数学公式支持|
 
 ### 3.2.1 java版上传代码实现
 
