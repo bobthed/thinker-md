@@ -584,22 +584,23 @@
             if (typeof marked === 'function') {
                 //处理流程图和序列图
                 var markedRenderer = new marked.Renderer();
-                if (this.$options.flowChart) {
+                this.markedParse = function (val) {
                     markedRenderer.code = function (code, lang) {
                         let diagramContent = null;
-                        instance.$diagramCache.forEach(diagram => {
-                            if (diagram.langTest.test(lang)) {
-                                if (diagram.cache[code]) {
-                                    diagramContent = diagram.cache[code];
-                                } else {
-                                    diagramContent = `<div class="${diagram.className} diagram-raw">${code}</div>`;
+                        if (instance.$options.flowChart || instance.$options.math) {
+                            instance.$diagramCache.forEach(diagram => {
+                                if (diagram.langTest.test(lang)) {
+                                    let codeHash = code.hashCode();
+                                    if (diagram.cache[codeHash]) {
+                                        diagramContent = diagram.cache[codeHash];
+                                    } else {
+                                        diagramContent = `<div class="${diagram.className} diagram-raw" data-hash="${codeHash}">${code}</div>`;
+                                    }
                                 }
-                            }
-                        });
+                            });
+                        }
                         return diagramContent || marked.Renderer.prototype.code.apply(this, arguments);
-                    };
-                }
-                this.markedParse = function (val) {
+                    }
                     return marked(val, {renderer: markedRenderer})
                 }
             }
@@ -617,6 +618,12 @@
                 opts: {
                     theme: 'simple'
                 },
+                cache: {}
+            }, {
+                langTest: /^mathml$/i,
+                className: 'math-diagram',
+                isMath: true,
+                // jqueryFn: 'sequenceDiagram',
                 cache: {}
             }];
 
@@ -1172,13 +1179,18 @@
         }
         , showDiagrams($container) { // flow chart, sequence diagram, math expression
             if (!this.isIE8) {
-                if (this.$options.flowChart) {
+                if (this.$options.flowChart || this.$options.math) {
                     this.$diagramCache.forEach(diagram => {
                         $container.find(`.${diagram.className}.diagram-raw`).each(function () {
-                            var $el = $(this), code = $el.text(),
-                                content = $el[diagram.jqueryFn](diagram.opts).removeClass('diagram-raw').get(0).outerHTML;
-                            diagram.cache[code] = content;
-                        })
+                            let $el = $(this), codeHash = $el.data('hash');
+                            if (!diagram.isMath) {
+                                diagram.cache[codeHash] = $el[diagram.jqueryFn](diagram.opts).removeClass('diagram-raw').get(0).outerHTML;
+                            } else {
+                                MathJax.Hub.Queue(['Typeset', MathJax.Hub, this, () => {
+                                    diagram.cache[codeHash] = $el.removeClass('diagram-raw').get(0).outerHTML;
+                                }]);
+                            }
+                        });
                     })
                 }
             }

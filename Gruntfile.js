@@ -58,7 +58,7 @@ module.exports = function (grunt) {
                 //不混淆变量名
                 mangle: {
                     except: ['jquery', 'marked', 'toMarkdown', 'markdown', 'htmlToText', 'hljs', 'Undo',
-                    '_', '$', 'Raphael', 'sequenceDiagram', 'flowChart', 'flowchart']
+                    '_', '$', 'Raphael', 'sequenceDiagram', 'flowChart', 'flowchart', 'MathJax']
                 },
                 preserveComments: false,
                 sourceMap: true,
@@ -118,6 +118,15 @@ module.exports = function (grunt) {
             }
         },
         copy: {
+            math: {
+                expand: true,
+                cwd: '<%= pkg.javascripts.vendor %>MathJax/',
+                src: [
+                    '*.js',
+                    '**/*.js',
+                ],
+                dest: 'dist/javascripts/MathJax/'
+            },
             lib: {
                 expand: true,
                 cwd: '<%= pkg.javascripts.vendor %>jquery/',
