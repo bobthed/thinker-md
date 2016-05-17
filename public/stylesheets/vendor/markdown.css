@@ -170,6 +170,7 @@
 .md-editor > .md-full-preview .md-full-preview-body .md-full-preview-inner blockquote {
     border-left: 5px solid rgba(0, 0, 0, .4);
     background-color: rgba(128, 128, 128, 0.05);
+    padding-left: 25px;
 }
 
 .md-editor > .md-full-preview .md-full-preview-body .md-full-preview-inner blockquote p {
@@ -310,6 +311,7 @@
 
 .md-editor > .md-preview blockquote {
     border-left: 5px solid rgba(0, 0, 0, .4);
+    padding-left: 25px;
 }
 
 .md-editor > textarea {
@@ -781,7 +783,6 @@ upload*/
     padding: 0;
     width: 38px;
     height: 36px;
-    background-size: 24px 24px !important;
     border-left: 1px solid #ddd;
     cursor: pointer;
 }
@@ -856,7 +857,6 @@ emoji[data-emoji~=emoji] {
     display: inline-block;
     width: 24px;
     height: 24px;
-    background-size: contain;
 }
 
 .btn {

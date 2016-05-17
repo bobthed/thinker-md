@@ -2,6 +2,7 @@
  * Created by ling on 2015/3/3.
  */
 hljs.configure({useBR: false});
+hljs.configure({tabReplace: '    '});
 hljs.initHighlightingOnLoad();
 
 marked.setOptions({

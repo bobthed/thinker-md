@@ -76,6 +76,14 @@ module.exports = function (grunt) {
                     unused: false
                 }
             },
+            jquery: {
+                files: [{
+                  expand: true,
+                  cwd: "<%= pkg.javascripts.vendor%>jquery",
+                  src: "jquery-*.*.*.js",
+                  dest: 'dist/javascripts/'
+                }]
+            },
             vendor: {
                 options: {
                     sourceMapName: "dist/javascripts/<%= pkg.name %>.vendor.min.map"
@@ -155,7 +163,7 @@ module.exports = function (grunt) {
                             '**/*.*',
                             '**/**/*.*'
                         ],
-                        dest: 'dist/imgs/'
+                        dest: 'dist/images/'
                     }
                 ]
             },
@@ -235,7 +243,7 @@ module.exports = function (grunt) {
 
     grunt.registerTask('resource', ['copy']);
     grunt.registerTask('css', ['cssmin:vendor', 'cssmin:user']);
-    grunt.registerTask('js', ['concat:vendor', 'concat:user', 'uglify:vendor', 'uglify:user']);
+    grunt.registerTask('js', ['concat:vendor', 'concat:user', 'uglify:vendor', 'uglify:user', 'uglify:jquery']);
     // the default task can be run just by typing "grunt" on the command line
     grunt.registerTask('default', ['babel:dev', 'copy', 'css', 'js']);
 

@@ -1485,13 +1485,13 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                         /*// The next tab memory contains nothing...
                         // check the cursor position to determine tab action
                         var cursor = this.getSelection();
-                          if (cursor.start == cursor.end && cursor.end == this.getContent().length) {
+                         if (cursor.start == cursor.end && cursor.end == this.getContent().length) {
                             // The cursor already reach the end of the content
                             blocked = false;
                         } else {
                             // Put the cursor to the end
                             this.setSelection(this.getContent().length, this.getContent().length);
-                              blocked = true;
+                             blocked = true;
                         }*/
                     }
 

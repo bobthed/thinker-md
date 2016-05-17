@@ -21,7 +21,7 @@
   "stylesheets": {
     "emoji": "public/stylesheets/emoji/",
     "fonts": "public/stylesheets/fonts/",
-    "imgs": "public/stylesheets/imgs/",
+    "imgs": "public/stylesheets/images/",
     "user": "public/stylesheets/user/",
     "vendor": "public/stylesheets/vendor/"
   },
