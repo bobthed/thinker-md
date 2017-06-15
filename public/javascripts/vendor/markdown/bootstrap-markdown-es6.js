@@ -144,7 +144,7 @@
                             buttonHandler = ns + '-' + button.name,
                             buttonIcon = this.__getIcon(button.icon),
                             btnText = button.btnText ? button.btnText : '',
-                        //btnClass = button.btnClass ? button.btnClass : 'btn',
+                            //btnClass = button.btnClass ? button.btnClass : 'btn',
                             tabIndex = button.tabIndex ? button.tabIndex : '-1',
                             hotkey = typeof button.hotkey !== 'undefined' ? button.hotkey : '',
                             hotkeyCaption = typeof jQuery.hotkeys !== 'undefined' && hotkey !== '' ? ' (' + hotkey + ')' : '';
@@ -206,7 +206,7 @@
             if (this.eventSupported('keydown')) {
                 this.$textarea.on('keydown', $.proxy(this.keydown, this));
             }
-            
+
             if (this.$options.fullscreen.enable) {
                 this.$textarea.keyup(_.debounce(function () {
                     if (_this.$isFullscreen) {
@@ -276,9 +276,9 @@
             var $editor = this.$editor,
                 $textarea = this.$textarea,
                 $innerPreview = this.$innerPreview,
-            //小预览窗口
+                //小预览窗口
                 preview = $('div[data-provider="markdown-preview"]'),
-            //预览按钮
+                //预览按钮
                 previewButton = $('button[data-handler="bootstrap-markdown-cmdPreview"]'),
                 _this = this;
             if (mode) {
@@ -642,7 +642,7 @@
             var _this = this,
                 uploadPanel = this.$uploadPanel,
                 editor = this.$editor,
-            //upload panel
+                //upload panel
                 mdUpload = null,
                 mdDialog = null,
                 mdContent = null,
@@ -837,7 +837,7 @@
                 _this.setState(_this.__localize('UploadPathTip'));
                 return;
             }
-            
+
             if (inputFile.length > 0 && inputFile[0].files && inputFile[0].files.length > 0) {
                 var _typeTip = [], _sizeTip = [], state = '';
                 Array.prototype.forEach.call(inputFile[0].files, file => {
@@ -953,58 +953,58 @@
                         return false;
                     })
                     .bind("drop", function(e){
-                    var fileList = e.originalEvent.dataTransfer.files;
-                    formData.delete('img');
-                    if (fileList.length) { // file drop
-                        Array.prototype.forEach.call(fileList, file => {
-                            if (file.type.indexOf('text') != -1) {
-                                if (file.size > _this.$fileSize) {
-                                    alert(_this.__localize('FileSizeTip'));
-                                    return;
-                                }
-                                reader.readAsText(file);
-                            } else {
-                                if (null === imgUrl || '' === imgUrl) {
-                                    alert(_this.__localize('UploadPathTip'));
-                                    return;
-                                }
+                        var fileList = e.originalEvent.dataTransfer.files;
+                        formData.delete('img');
+                        if (fileList.length) { // file drop
+                            Array.prototype.forEach.call(fileList, file => {
+                                if (file.type.indexOf('text') != -1) {
+                                    if (file.size > _this.$fileSize) {
+                                        alert(_this.__localize('FileSizeTip'));
+                                        return;
+                                    }
+                                    reader.readAsText(file);
+                                } else {
+                                    if (null === imgUrl || '' === imgUrl) {
+                                        alert(_this.__localize('UploadPathTip'));
+                                        return;
+                                    }
 
-                                if (!file.name.match(_suffixReg)) {
-                                    alert(`${_this.__localize('SupportTypeTip')}: ${file.name}`);
-                                    return;
+                                    if (!file.name.match(_suffixReg)) {
+                                        alert(`${_this.__localize('SupportTypeTip')}: ${file.name}`);
+                                        return;
+                                    }
+
+                                    if (file.size > maxFileSize) {
+                                        alert(`${_this.__localize('FileSizeTip')}: ${file.name}`);
+                                        return;
+                                    }
+                                    formData.append('img', file);
                                 }
+                            });
 
-                                if (file.size > maxFileSize) {
-                                    alert(`${_this.__localize('FileSizeTip')}: ${file.name}`);
-                                    return;
-                                }
-                                formData.append('img', file);
-                            }
-                        });
-
-                        if (formData.has('img')) {
-                            xhr.upload.onerror = function () {
-                                _this.hideLoading(--loadingCount);
-                                alert(_this.__localize('UploadEooroTip'));
-                            };
-
-                            xhr.onreadystatechange = function () {
-                                if (xhr.readyState === 4 && xhr.status === 200) {
+                            if (formData.has('img')) {
+                                xhr.upload.onerror = function () {
                                     _this.hideLoading(--loadingCount);
-                                    _this.setImageLink(xhr.responseText.split('\n'));
-                                }
-                            };
+                                    alert(_this.__localize('UploadEooroTip'));
+                                };
 
-                            xhr.open('POST', imgUrl, true);
-                            xhr.setRequestHeader("Cache-Control", "no-cache");
-                            xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
-                            _this.hideLoading(++loadingCount);
-                            xhr.send(formData);
+                                xhr.onreadystatechange = function () {
+                                    if (xhr.readyState === 4 && xhr.status === 200) {
+                                        _this.hideLoading(--loadingCount);
+                                        _this.setImageLink(xhr.responseText.split('\n'));
+                                    }
+                                };
+
+                                xhr.open('POST', imgUrl, true);
+                                xhr.setRequestHeader("Cache-Control", "no-cache");
+                                xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+                                _this.hideLoading(++loadingCount);
+                                xhr.send(formData);
+                            }
+
+                            return false;
                         }
-
-                        return false;
-                    }
-                });
+                    });
             }
         }
         , setImageLink: function (link) {
@@ -1020,13 +1020,13 @@
             }
 
             var linkContents = _links.filter( _link => _link !== null && _link !== '' && _link !== 'http://'
-                && (_link.substr(0, 4) === 'http' || _link.substr(0, 21) === 'data:image/png;base64'))
-            .map(_link => {
-                var sanitizedLink = $('<div>' + _link + '</div>').text();
+            && (_link.substr(0, 4) === 'http' || _link.substr(0, 21) === 'data:image/png;base64'))
+                .map(_link => {
+                    var sanitizedLink = $('<div>' + _link + '</div>').text();
 
-                // transform selection and set the cursor into chunked text
-                return `![${chunk}](${sanitizedLink} "${instance.__localize('enter image title here')}")`;
-            }).join('\n');
+                    // transform selection and set the cursor into chunked text
+                    return `![${chunk}](${sanitizedLink} "${instance.__localize('enter image title here')}")`;
+                }).join('\n');
             if (linkContents.length) {
                 instance.replaceSelection(linkContents);
                 // Set the cursor and then set selection
@@ -1182,6 +1182,9 @@
                     })
                 }
             }
+            if (typeof MathJax !== 'undefined') {
+                    MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+            }
         }
         , showPreview: function () {
             var options = this.$options,
@@ -1297,20 +1300,20 @@
 
             return (
 
-            ('selectionStart' in e && function () {
-                var l = e.selectionEnd - e.selectionStart;
-                return {
-                    start: e.selectionStart,
-                    end: e.selectionEnd,
-                    length: l,
-                    text: e.value.substr(e.selectionStart, l)
-                };
-            }) ||
+                ('selectionStart' in e && function () {
+                    var l = e.selectionEnd - e.selectionStart;
+                    return {
+                        start: e.selectionStart,
+                        end: e.selectionEnd,
+                        length: l,
+                        text: e.value.substr(e.selectionStart, l)
+                    };
+                }) ||
 
                 /* browser not supported */
-            function () {
-                return null;
-            }
+                function () {
+                    return null;
+                }
 
             )();
 
@@ -1322,16 +1325,16 @@
 
             return (
 
-            ('selectionStart' in e && function () {
-                e.selectionStart = start;
-                e.selectionEnd = end;
-                return;
-            }) ||
+                ('selectionStart' in e && function () {
+                    e.selectionStart = start;
+                    e.selectionEnd = end;
+                    return;
+                }) ||
 
                 /* browser not supported */
-            function () {
-                return null;
-            }
+                function () {
+                    return null;
+                }
 
             )();
 
@@ -1343,19 +1346,19 @@
 
             return (
 
-            ('selectionStart' in e && function () {
-                var start = e.selectionStart + text.length;
-                e.value = e.value.substr(0, e.selectionStart) + text + e.value.substr(e.selectionEnd, e.value.length);
+                ('selectionStart' in e && function () {
+                    var start = e.selectionStart + text.length;
+                    e.value = e.value.substr(0, e.selectionStart) + text + e.value.substr(e.selectionEnd, e.value.length);
 
-                // Set cursor to the last replacement end
-                e.selectionStart = e.selectionEnd = start;
-                return this;
-            }) ||
-            /* browser not supported */
-            function () {
-                e.value += text;
-                return jQuery(e);
-            }
+                    // Set cursor to the last replacement end
+                    e.selectionStart = e.selectionEnd = start;
+                    return this;
+                }) ||
+                /* browser not supported */
+                function () {
+                    e.value += text;
+                    return jQuery(e);
+                }
 
             )();
         }
@@ -1491,18 +1494,18 @@
                         blocked = true;
                     } else { // just output tabs
                         /*// The next tab memory contains nothing...
-                        // check the cursor position to determine tab action
-                        var cursor = this.getSelection();
+                         // check the cursor position to determine tab action
+                         var cursor = this.getSelection();
 
-                        if (cursor.start == cursor.end && cursor.end == this.getContent().length) {
-                            // The cursor already reach the end of the content
-                            blocked = false;
-                        } else {
-                            // Put the cursor to the end
-                            this.setSelection(this.getContent().length, this.getContent().length);
+                         if (cursor.start == cursor.end && cursor.end == this.getContent().length) {
+                         // The cursor already reach the end of the content
+                         blocked = false;
+                         } else {
+                         // Put the cursor to the end
+                         this.setSelection(this.getContent().length, this.getContent().length);
 
-                            blocked = true;
-                        }*/
+                         blocked = true;
+                         }*/
                     }
 
                     break;
@@ -1604,7 +1607,7 @@
                 emojiPanel = this.$emojiPanel,
                 emojiElements = this.$emojiElements,
                 editor = this.$editor,
-            //emojiPanel panel
+                //emojiPanel panel
                 mdEmoji = null,
                 mdDialog = null,
                 mdContent = null,
