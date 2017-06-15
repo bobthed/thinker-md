@@ -30,7 +30,7 @@ MathJax.Hub.Config({
     }
   },
   "HTML-CSS": {
-    availableFonts: ["Gyre-Pagella","Asana-Math","STIX","TeX"],
+    availableFonts: ["STIX","TeX"],
     showMathMenu: false //关闭右击菜单显示
   },
   extensions: ["tex2jax.js","mml2jax.js","asciimath2jax.js","MathEvents.js","MathZoom.js","MathMenu.js","toMathML.js","TeX/noErrors.js","TeX/noUndefined.js","TeX/AMSmath.js","TeX/AMSsymbols.js","fast-preview.js","AssistiveMML.js","[Contrib]/a11y/accessibility-menu.js"],
