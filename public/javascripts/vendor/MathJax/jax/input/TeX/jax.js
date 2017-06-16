@@ -199,6 +199,9 @@
     toString: function () {return "over["+this.num+" / "+this.data.join("; ")+"]"}
   });
 
+  
+  
+  
   STACKITEM.left = STACKITEM.Subclass({
     type: "left", isOpen: true, delim: '(',
     stopError: /*_()*/ ["ExtraLeftMissingRight", "Extra \\left or missing \\right"],
