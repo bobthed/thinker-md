@@ -1,6 +1,6 @@
 'use strict';
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 /* ===================================================
  * bootstrap-markdown.js v2.8.0
@@ -1183,6 +1183,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                     });
                 }
             }
+            if (typeof MathJax !== 'undefined') {
+                MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+            }
         },
         showPreview: function showPreview() {
             var options = this.$options,
@@ -1483,16 +1486,16 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                         blocked = true;
                     } else {// just output tabs
                         /*// The next tab memory contains nothing...
-                        // check the cursor position to determine tab action
-                        var cursor = this.getSelection();
-                         if (cursor.start == cursor.end && cursor.end == this.getContent().length) {
-                            // The cursor already reach the end of the content
-                            blocked = false;
-                        } else {
-                            // Put the cursor to the end
-                            this.setSelection(this.getContent().length, this.getContent().length);
-                             blocked = true;
-                        }*/
+                         // check the cursor position to determine tab action
+                         var cursor = this.getSelection();
+                          if (cursor.start == cursor.end && cursor.end == this.getContent().length) {
+                         // The cursor already reach the end of the content
+                         blocked = false;
+                         } else {
+                         // Put the cursor to the end
+                         this.setSelection(this.getContent().length, this.getContent().length);
+                          blocked = true;
+                         }*/
                     }
 
                     break;

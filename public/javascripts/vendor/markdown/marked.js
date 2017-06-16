@@ -440,7 +440,8 @@
      */
 
     var inline = {
-        escape: /^\\([\\`*{}\[\]()#+\-.!_>])/,
+        // escape: /^\\([\\`*{}\[\]()#+\-.!_>])/,
+        escape: /^\\([`*\[\]()# +\-.!_>])/,
         autolink: /^<([^ >]+(@|:\/)[^ >]+)>/,
         url: noop,
         tag: /^<!--[\s\S]*?-->|^<\/?\w+(?:"[^"]*"|'[^']*'|[^'">])*?>/,
@@ -905,7 +906,8 @@
     };
 
     Renderer.prototype.em = function (text) {
-        return '<em>' + text + '</em>';
+        // return '<em>' + text + '</em>';
+        return '_' + text + '_';
     };
 
     Renderer.prototype.codespan = function (text) {

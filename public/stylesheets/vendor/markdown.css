@@ -206,7 +206,7 @@
     border: 1px solid rgba(0, 0, 0, .4);
 }
 
-.md-editor > .md-full-preview .md-full-preview-body .md-full-preview-inner * {
+.md-editor > .md-full-preview .md-full-preview-body .md-full-preview-inner{
     font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
     font-size: 15px; /*改为和预览同样大小的字体.*/
     white-space: pre-wrap;
@@ -895,7 +895,11 @@ i.md-loading {
     bottom: 5px;
     display: none;
 }
-
+.MathJax,.MathJax:hover{outline:none;}
+.MathJax_Display{overflow-x:auto;overflow-y:hidden;}
+.MJXc-display {
+    white-space: nowrap!important;
+}
 /*
 ::-webkit-scrollbar {
     -webkit-appearance: none;
