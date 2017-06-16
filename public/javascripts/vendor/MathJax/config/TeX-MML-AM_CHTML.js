@@ -12,7 +12,6 @@
  *
  *      http://www.apache.org/licenses/LICENSE-2.0
  */
-
 MathJax.Hub.Config({
   showProcessingMessages: false, //关闭js加载过程信息
   messageStyle: "none", //不显示信息
